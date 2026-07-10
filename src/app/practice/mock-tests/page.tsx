@@ -27,8 +27,12 @@ export default async function MockTestsPage({
     getUserHasFullAccess(session.user.id),
   ]);
 
-  const completedTests = Object.values(allProgress).filter(
-    (p) => Object.keys(p.answers).length === QUESTIONS_PER_TEST
+  // Pass Guarantee eligibility requires passing (not just completing) every
+  // test. Unattempted or failed tests don't count, even if all 17 have been
+  // attempted.
+  const PASS_THRESHOLD_SCORE = Math.ceil(QUESTIONS_PER_TEST * 0.75); // 18 of 24
+  const passedTests = Object.values(allProgress).filter(
+    (p) => (p.score ?? 0) >= PASS_THRESHOLD_SCORE
   ).length;
 
   return (
@@ -62,18 +66,19 @@ export default async function MockTestsPage({
       )}
 
       <div className="mb-8 flex flex-col items-center gap-6 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:flex-row sm:p-8">
-        <RadialProgress value={completedTests} max={TOTAL_TESTS} />
+        <RadialProgress value={passedTests} max={TOTAL_TESTS} />
         <div className="flex-1 text-center sm:text-left">
           <div className="flex items-center justify-center gap-2 sm:justify-start">
             <ShieldCheck size={18} className="text-primary" />
             <h2 className="font-semibold">Pass Guarantee Progress</h2>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            {completedTests}/{TOTAL_TESTS} mock tests completed
+            {passedTests} of {TOTAL_TESTS} mock tests passed
           </p>
           <p className="mt-3 max-w-md text-sm text-muted-foreground">
-            Progress towards your Pass Guarantee. Complete all {TOTAL_TESTS} mock tests to reach
-            100%.
+            {passedTests === TOTAL_TESTS
+              ? "🎉 Congratulations! You've earned the Pass Guarantee."
+              : `You must pass all ${TOTAL_TESTS} mock tests (${PASS_THRESHOLD_SCORE}/${QUESTIONS_PER_TEST} or higher) to qualify for the Pass Guarantee.`}
           </p>
         </div>
         <Link
