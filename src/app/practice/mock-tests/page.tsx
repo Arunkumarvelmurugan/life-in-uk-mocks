@@ -42,7 +42,7 @@ export default async function MockTestsPage({
       {purchase === "success" && (
         <div className="mb-8 flex items-center gap-2 rounded-2xl border border-success-border bg-success-bg px-6 py-4 text-sm font-medium text-success">
           <PartyPopper size={18} className="shrink-0" />
-          Payment successful — Full Access unlocked. Good luck!
+          Payment successful - Full Access unlocked. Good luck!
         </div>
       )}
 

@@ -43,7 +43,7 @@ export function TestTakingClient({
         const result = await submitAnswer(test.id, currentIndex, optionIndex);
         setAnswers(result.answers);
       } catch {
-        setError("Couldn't save your answer — please try again.");
+        setError("Couldn't save your answer - please try again.");
       }
     });
   }
@@ -63,7 +63,7 @@ export function TestTakingClient({
         setAnswers({});
         setCurrentIndex(0);
       } catch {
-        setError("Couldn't reset progress — please try again.");
+        setError("Couldn't reset progress - please try again.");
       }
     });
   }
@@ -241,7 +241,7 @@ function ResultsPanel({
           passed ? "bg-success-bg text-success" : "bg-danger-bg text-danger"
         )}
       >
-        {passed ? "Pass — above the 75% threshold" : "Below pass mark — try again"}
+        {passed ? "Pass - above the 75% threshold" : "Below pass mark - try again"}
       </p>
       <div className="mt-9 flex gap-3">
         <button

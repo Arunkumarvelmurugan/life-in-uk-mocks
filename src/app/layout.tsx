@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Life in UK Mocks — Practice Tests for the Life in the UK Test",
+  title: "Life in UK Mocks - Practice Tests for the Life in the UK Test",
   description:
     "Practice the official Life in the UK test format with instant feedback, explanations, and a pass guarantee.",
 };

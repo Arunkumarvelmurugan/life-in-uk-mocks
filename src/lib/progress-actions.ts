@@ -21,7 +21,7 @@ async function requireUserId(): Promise<string> {
 
 /**
  * Every read/write for a specific test goes through here, not just
- * requireUserId — this is what actually stops a signed-in-but-unpaid user
+ * requireUserId - this is what actually stops a signed-in-but-unpaid user
  * from reading or writing progress for a paid test by calling the Server
  * Action directly, bypassing the page-level redirect.
  */
@@ -70,7 +70,7 @@ export async function getAllProgress(): Promise<Record<number, TestProgressRow>>
 /**
  * Records a single answer and, server-side only, computes whether the test
  * is now complete and what the score is. The client never sends a score or
- * a correctness flag — only which option was picked.
+ * a correctness flag - only which option was picked.
  */
 export async function submitAnswer(testId: number, questionIndex: number, selectedOption: number) {
   const userId = await requireTestAccess(testId);

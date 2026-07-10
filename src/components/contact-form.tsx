@@ -26,7 +26,7 @@ export function ContactForm({
 }) {
   // Remounting via key gives a fresh useActionState instance, so "Send
   // another message" actually resets the form instead of being stuck on
-  // the success screen (which persists otherwise — clicking "Contact" in
+  // the success screen (which persists otherwise - clicking "Contact" in
   // the header while already on /contact doesn't remount the page).
   const [formKey, setFormKey] = useState(0);
 
@@ -57,7 +57,7 @@ function ContactFormInner({
         <CheckCircle2 size={32} className="text-success" />
         <p className="text-lg font-semibold text-success">Message sent</p>
         <p className="text-sm text-muted-foreground">
-          Thanks for reaching out — we&apos;ll get back to you as soon as we can.
+          Thanks for reaching out - we&apos;ll get back to you as soon as we can.
         </p>
         <button
           onClick={onSendAnother}

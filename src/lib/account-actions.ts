@@ -34,7 +34,7 @@ export async function updateDisplayName(
     .eq("id", session.user.id);
 
   if (error) {
-    return { status: "error", message: "Couldn't save your name — please try again." };
+    return { status: "error", message: "Couldn't save your name - please try again." };
   }
 
   revalidatePath("/account");

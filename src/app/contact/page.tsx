@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { ContactForm } from "@/components/contact-form";
 
 export const metadata = {
-  title: "Contact us — Life in UK Mocks",
+  title: "Contact us - Life in UK Mocks",
 };
 
 export default async function ContactPage() {

@@ -38,7 +38,7 @@ export async function createCheckoutSession() {
           currency: "gbp",
           unit_amount: FULL_ACCESS_PRICE_GBP_PENCE,
           product_data: {
-            name: "Life in UK Mocks — Full Access",
+            name: "Life in UK Mocks - Full Access",
             description: "All 17 mock tests, unlimited retakes, and the Pass Guarantee.",
           },
         },

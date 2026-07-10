@@ -5,7 +5,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 /**
  * Shared by both the webhook (durable, authoritative path) and the
  * success-redirect Route Handler (fast path so the UI updates immediately
- * without waiting on webhook delivery). Idempotent — safe to call twice for
+ * without waiting on webhook delivery). Idempotent - safe to call twice for
  * the same checkout session, e.g. if both paths fire for the same payment.
  */
 export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Session) {

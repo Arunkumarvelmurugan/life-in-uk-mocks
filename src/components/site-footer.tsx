@@ -13,7 +13,7 @@ export function SiteFooter() {
           </Link>
         </div>
         <p>
-          © {new Date().getFullYear()} Life in UK Mocks. Independent practice resource — not
+          © {new Date().getFullYear()} Life in UK Mocks. Independent practice resource - not
           affiliated with the UK government.
         </p>
       </div>

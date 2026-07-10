@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
 
   // Only fulfil if this checkout session actually belongs to the signed-in
-  // user — stops someone else's session_id being replayed against your account.
+  // user - stops someone else's session_id being replayed against your account.
   if (checkoutSession.client_reference_id === session.user.id) {
     await fulfillCheckoutSession(checkoutSession);
   }

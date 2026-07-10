@@ -60,7 +60,7 @@ export async function submitContactMessage(
     if (!countError && (count ?? 0) >= RATE_LIMIT_MAX) {
       return {
         status: "error",
-        message: "You've sent a few messages already — please wait a bit before sending another.",
+        message: "You've sent a few messages already - please wait a bit before sending another.",
       };
     }
   }
@@ -83,7 +83,7 @@ export async function submitContactMessage(
     };
   }
 
-  // The message is already saved above — that's the source of truth. Email
+  // The message is already saved above - that's the source of truth. Email
   // notification is best-effort; a Resend outage shouldn't fail the form.
   try {
     await resend.emails.send({

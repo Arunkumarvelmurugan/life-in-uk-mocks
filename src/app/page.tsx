@@ -63,7 +63,7 @@ const plans = [
       `All ${TOTAL_TESTS} mock tests`,
       "Progress tracking across every test",
       "Unlimited retakes",
-      "Pass guarantee — money back if you fail",
+      "Pass guarantee - money back if you fail",
     ],
     cta: "Get full access",
   },

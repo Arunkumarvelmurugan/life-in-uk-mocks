@@ -36,7 +36,7 @@ const sections: Section[] = [
   {
     heading: "4. Intellectual Property",
     blocks: [
-      p(`Unless otherwise stated, all content on the Service — including but not limited to mock test questions, explanations, software, website design, graphics, logos, databases, source code, text, and functionality — is owned by or licensed to us and is protected by copyright, trade mark, and other intellectual property laws. No ownership rights are transferred to users.`),
+      p(`Unless otherwise stated, all content on the Service - including but not limited to mock test questions, explanations, software, website design, graphics, logos, databases, source code, text, and functionality - is owned by or licensed to us and is protected by copyright, trade mark, and other intellectual property laws. No ownership rights are transferred to users.`),
     ],
   },
   {
@@ -70,7 +70,7 @@ const sections: Section[] = [
   {
     heading: "7. Your Answers and Usage Data",
     blocks: [
-      p(`We store information necessary to operate the Service, including your account details, mock test attempts, and progress. By using the Service, you grant us a worldwide, royalty-free, perpetual licence to use this data in aggregated and anonymised form — for example, to identify which questions are most commonly answered incorrectly, to improve our content, or to publish general statistics or insights. We will not publish this data in a way that identifies you personally without your consent. Your personal information is processed in accordance with our Privacy Policy.`),
+      p(`We store information necessary to operate the Service, including your account details, mock test attempts, and progress. By using the Service, you grant us a worldwide, royalty-free, perpetual licence to use this data in aggregated and anonymised form - for example, to identify which questions are most commonly answered incorrectly, to improve our content, or to publish general statistics or insights. We will not publish this data in a way that identifies you personally without your consent. Your personal information is processed in accordance with our Privacy Policy.`),
     ],
   },
   {
@@ -99,7 +99,7 @@ const sections: Section[] = [
   {
     heading: "10. Subscription Renewal and Cancellation",
     blocks: [
-      p(`Subscriptions renew automatically for successive billing periods unless cancelled before the renewal date. You may cancel at any time via your account settings or the payment provider's billing portal. Cancellation stops future renewals but does not refund payments already made, and does not entitle you to a partial refund for the current billing period — you will retain access until the end of the period already paid for.`),
+      p(`Subscriptions renew automatically for successive billing periods unless cancelled before the renewal date. You may cancel at any time via your account settings or the payment provider's billing portal. Cancellation stops future renewals but does not refund payments already made, and does not entitle you to a partial refund for the current billing period - you will retain access until the end of the period already paid for.`),
     ],
   },
   {
@@ -180,7 +180,7 @@ const sections: Section[] = [
 ];
 
 export const metadata = {
-  title: "Terms and Conditions — Life in UK Mocks",
+  title: "Terms and Conditions - Life in UK Mocks",
 };
 
 export default function TermsPage() {
