@@ -21,7 +21,7 @@ export function UserMenu({
     <div className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 rounded-lg border border-card-border bg-card py-1 pl-1 pr-2.5 text-sm font-medium transition-colors hover:border-primary/40"
+        className="flex cursor-pointer items-center gap-2 rounded-lg border border-card-border bg-card py-1 pl-1 pr-2.5 text-sm font-medium transition-colors hover:border-primary/40"
       >
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element -- external Google avatar, not worth next/image config for this
@@ -50,7 +50,7 @@ export function UserMenu({
             <form action={signOutAction}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-muted"
+                className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-muted"
               >
                 <LogOut size={14} />
                 Sign out

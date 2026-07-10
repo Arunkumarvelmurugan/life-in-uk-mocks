@@ -85,7 +85,7 @@ export default async function AccountPage() {
             <form action={createCheckoutSession}>
               <button
                 type="submit"
-                className="shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+                className="shrink-0 cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
               >
                 Get Full Access
               </button>
@@ -144,7 +144,7 @@ export default async function AccountPage() {
       <form action={signOutAction}>
         <button
           type="submit"
-          className="flex items-center gap-2 rounded-lg border border-card-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+          className="flex cursor-pointer items-center gap-2 rounded-lg border border-card-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
         >
           <LogOut size={16} />
           Sign out

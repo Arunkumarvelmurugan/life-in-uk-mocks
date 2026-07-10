@@ -7,6 +7,7 @@ import { createCheckoutSession } from "@/lib/checkout-actions";
 import { getPaymentHistory } from "@/lib/payments-actions";
 import { getAllProgress } from "@/lib/progress-actions";
 import { ProgressBar } from "@/components/progress-bar";
+import { CleanSearchParams } from "@/components/clean-search-params";
 
 const features = [
   {
@@ -120,13 +121,16 @@ export default async function Home({
 
   return (
     <div>
-      {signin === "required" && (
+      {(signin === "required" || upgrade === "required") && (
+        <CleanSearchParams params={["signin", "upgrade"]} />
+      )}
+      {signin === "required" && !isSignedIn && (
         <div className="flex items-center justify-center gap-2 bg-primary px-6 py-2.5 text-center text-sm font-medium text-primary-foreground">
           <LogIn size={15} />
           Sign in with Google to access Mock Tests.
         </div>
       )}
-      {upgrade === "required" && (
+      {upgrade === "required" && !hasFullAccess && (
         <div className="flex items-center justify-center gap-2 bg-primary px-6 py-2.5 text-center text-sm font-medium text-primary-foreground">
           <Lock size={15} />
           Upgrade to Full Access to unlock all {TOTAL_TESTS} mock tests.
@@ -266,7 +270,7 @@ export default async function Home({
                     <form action={createCheckoutSession}>
                       <button
                         type="submit"
-                        className="mt-8 block w-full rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
+                        className="mt-8 block w-full cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
                       >
                         {plan.cta}
                       </button>

@@ -89,7 +89,7 @@ export function ContactForm({
       <button
         type="submit"
         disabled={pending}
-        className="flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
       >
         <Send size={16} />
         {pending ? "Sending..." : "Send message"}

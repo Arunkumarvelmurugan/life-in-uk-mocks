@@ -26,7 +26,7 @@ export function EditNameForm({ currentName }: { currentName: string }) {
         <button
           type="submit"
           disabled={pending}
-          className="shrink-0 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+          className="shrink-0 cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
         >
           {pending ? "Saving..." : "Save"}
         </button>

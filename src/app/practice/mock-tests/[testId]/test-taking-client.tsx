@@ -183,7 +183,7 @@ export function TestTakingClient({
                         );
                         if (firstUnanswered !== -1) setCurrentIndex(firstUnanswered);
                       }}
-                      className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
+                      className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
                     >
                       Answer remaining questions
                       <ArrowRight size={16} />
@@ -191,7 +191,7 @@ export function TestTakingClient({
                   ) : !isLastQuestion ? (
                     <button
                       onClick={goNext}
-                      className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
+                      className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
                     >
                       Next
                       <ArrowRight size={16} />
@@ -246,7 +246,7 @@ function ResultsPanel({
       <div className="mt-9 flex gap-3">
         <button
           onClick={onRetake}
-          className="rounded-xl border border-card-border px-5 py-2.5 font-medium transition-colors hover:bg-muted"
+          className="cursor-pointer rounded-xl border border-card-border px-5 py-2.5 font-medium transition-colors hover:bg-muted"
         >
           Retake test
         </button>

@@ -42,7 +42,7 @@ export async function SiteHeader() {
             <form action={signInWithGoogle}>
               <button
                 type="submit"
-                className="flex items-center gap-2 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium transition-colors hover:border-primary/40"
+                className="flex cursor-pointer items-center gap-2 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium transition-colors hover:border-primary/40"
               >
                 <GoogleIcon />
                 <span className="hidden sm:inline">Sign in</span>
