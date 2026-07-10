@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { auth } from "@/auth";
 import { signInWithGoogle } from "@/lib/auth-actions";
 import { getUserDisplayName, getUserHasFullAccess } from "@/lib/supabase-users";
@@ -13,8 +14,21 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-card-border bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
-        <Link href="/" className="shrink-0 whitespace-nowrap text-lg font-extrabold tracking-tight">
-          Life in UK<span className="text-primary"> Mocks</span>
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2 whitespace-nowrap text-lg font-extrabold tracking-tight"
+        >
+          <Image
+            src="/LifeinUKMocks.jpg"
+            alt=""
+            width={32}
+            height={32}
+            className="rounded-lg"
+            priority
+          />
+          <span className="hidden sm:inline">
+            Life in UK<span className="text-primary"> Mocks</span>
+          </span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium sm:flex">
           <Link href="/practice/mock-tests" className="text-muted-foreground hover:text-foreground">
