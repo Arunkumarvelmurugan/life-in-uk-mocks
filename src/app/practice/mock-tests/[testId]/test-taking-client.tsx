@@ -38,11 +38,20 @@ export function TestTakingClient({
     if (isAnswered || isPending) return;
     setError(null);
 
+    // Show feedback immediately - the correct answer is already in the
+    // client bundle (that's how instant feedback works at all), so there's
+    // no reason to wait on a network round-trip just to *display* it.
+    // Persisting to the database happens in the background; on failure we
+    // roll back to let the user retry.
+    const previousAnswers = answers;
+    setAnswers((prev) => ({ ...prev, [currentIndex]: optionIndex }));
+
     startTransition(async () => {
       try {
         const result = await submitAnswer(test.id, currentIndex, optionIndex);
         setAnswers(result.answers);
       } catch {
+        setAnswers(previousAnswers);
         setError("Couldn't save your answer - please try again.");
       }
     });
