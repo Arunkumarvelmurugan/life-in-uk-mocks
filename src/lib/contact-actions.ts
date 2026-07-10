@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabase";
+import { resend, CONTACT_FROM_EMAIL, CONTACT_NOTIFICATION_EMAIL } from "@/lib/resend";
 
 export interface ContactFormState {
   status: "idle" | "success" | "error";
@@ -80,6 +81,20 @@ export async function submitContactMessage(
       status: "error",
       message: "Something went wrong sending your message. Please try again or email us directly.",
     };
+  }
+
+  // The message is already saved above — that's the source of truth. Email
+  // notification is best-effort; a Resend outage shouldn't fail the form.
+  try {
+    await resend.emails.send({
+      from: CONTACT_FROM_EMAIL,
+      to: CONTACT_NOTIFICATION_EMAIL,
+      replyTo: email,
+      subject: `New contact message: ${topic}`,
+      text: `From: ${name} <${email}>\nTopic: ${topic}\n\n${message}`,
+    });
+  } catch (emailError) {
+    console.error("Failed to send contact notification email:", emailError);
   }
 
   return { status: "success" };

@@ -20,8 +20,8 @@ export default async function ContactPage() {
       <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
         <Mail size={16} className="shrink-0" />
         Or email us directly at{" "}
-        <a href="mailto:support@lifeinukmocks.com" className="font-medium text-primary hover:underline">
-          support@lifeinukmocks.com
+        <a href="mailto:support@lifeinukmocks.co.uk" className="font-medium text-primary hover:underline">
+          support@lifeinukmocks.co.uk
         </a>
       </div>
 

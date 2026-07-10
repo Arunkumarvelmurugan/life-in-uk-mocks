@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState, useActionState } from "react";
 import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { submitContactMessage, type ContactFormState } from "@/lib/contact-actions";
 
@@ -24,6 +24,31 @@ export function ContactForm({
   defaultName?: string;
   defaultEmail?: string;
 }) {
+  // Remounting via key gives a fresh useActionState instance, so "Send
+  // another message" actually resets the form instead of being stuck on
+  // the success screen (which persists otherwise — clicking "Contact" in
+  // the header while already on /contact doesn't remount the page).
+  const [formKey, setFormKey] = useState(0);
+
+  return (
+    <ContactFormInner
+      key={formKey}
+      defaultName={defaultName}
+      defaultEmail={defaultEmail}
+      onSendAnother={() => setFormKey((k) => k + 1)}
+    />
+  );
+}
+
+function ContactFormInner({
+  defaultName,
+  defaultEmail,
+  onSendAnother,
+}: {
+  defaultName?: string;
+  defaultEmail?: string;
+  onSendAnother: () => void;
+}) {
   const [state, formAction, pending] = useActionState(submitContactMessage, initialState);
 
   if (state.status === "success") {
@@ -34,6 +59,12 @@ export function ContactForm({
         <p className="text-sm text-muted-foreground">
           Thanks for reaching out — we&apos;ll get back to you as soon as we can.
         </p>
+        <button
+          onClick={onSendAnother}
+          className="mt-2 cursor-pointer text-sm font-medium text-primary hover:underline"
+        >
+          Send another message
+        </button>
       </div>
     );
   }
