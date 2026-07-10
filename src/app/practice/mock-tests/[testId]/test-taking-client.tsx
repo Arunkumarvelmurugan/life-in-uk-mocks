@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { Check, X, MoreVertical, RotateCcw, Lightbulb, ArrowRight, AlertCircle } from "lucide-react";
+import { Check, X, RotateCcw, Lightbulb, ArrowRight, AlertCircle } from "lucide-react";
 import type { MockTest } from "@/lib/tests";
 import { submitAnswer, resetTestProgress, type TestProgressRow } from "@/lib/progress-actions";
 import { Breadcrumb } from "@/components/breadcrumb";
@@ -23,7 +23,6 @@ export function TestTakingClient({
     const firstUnanswered = test.questions.findIndex((_, i) => initialAnswers[i] === undefined);
     return firstUnanswered === -1 ? test.questions.length - 1 : firstUnanswered;
   });
-  const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -63,7 +62,6 @@ export function TestTakingClient({
         await resetTestProgress(test.id);
         setAnswers({});
         setCurrentIndex(0);
-        setMenuOpen(false);
       } catch {
         setError("Couldn't reset progress — please try again.");
       }
@@ -87,27 +85,14 @@ export function TestTakingClient({
           />
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{test.title}</h1>
         </div>
-        <div className="relative shrink-0">
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            className="flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
-          >
-            <MoreVertical size={16} />
-            <span className="hidden sm:inline">Settings</span>
-          </button>
-          {menuOpen && (
-            <div className="absolute right-0 z-10 mt-2 w-52 rounded-xl border border-card-border bg-card p-1.5 shadow-xl">
-              <button
-                onClick={resetTest}
-                disabled={isPending}
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-muted disabled:opacity-50"
-              >
-                <RotateCcw size={14} />
-                Reset progress
-              </button>
-            </div>
-          )}
-        </div>
+        <button
+          onClick={resetTest}
+          disabled={isPending}
+          className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:opacity-50"
+        >
+          <RotateCcw size={14} />
+          Reset progress
+        </button>
       </div>
 
       {error && (
@@ -310,7 +295,7 @@ function ProgressPanel({
               key={i}
               onClick={() => onJump(i)}
               className={cn(
-                "flex h-8 items-center justify-center rounded-lg border text-xs font-medium transition-colors",
+                "flex h-8 cursor-pointer items-center justify-center rounded-lg border text-xs font-medium transition-colors",
                 isAnswered && isCorrect && "border-success-border bg-success-bg text-success",
                 isAnswered && !isCorrect && "border-danger-border bg-danger-bg text-danger",
                 !isAnswered && !isCurrent && "border-card-border/70 bg-transparent text-muted-foreground",

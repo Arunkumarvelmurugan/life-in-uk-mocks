@@ -2,8 +2,11 @@ import Link from "next/link";
 import { ShieldCheck, CheckCircle2, BarChart3, BookOpenCheck, LogIn, Lock } from "lucide-react";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST, FREE_TEST_ID } from "@/lib/tests";
 import { auth } from "@/auth";
-import { getUserHasFullAccess } from "@/lib/supabase-users";
+import { getUserHasFullAccess, getUserDisplayName } from "@/lib/supabase-users";
 import { createCheckoutSession } from "@/lib/checkout-actions";
+import { getPaymentHistory } from "@/lib/payments-actions";
+import { getAllProgress } from "@/lib/progress-actions";
+import { ProgressBar } from "@/components/progress-bar";
 
 const features = [
   {
@@ -48,7 +51,6 @@ const plans = [
     description: "Try the format before you commit.",
     features: ["Test 1 unlocked", "Instant feedback", "Full explanations"],
     cta: "Start free test",
-    highlighted: false,
   },
   {
     id: "full" as const,
@@ -63,9 +65,14 @@ const plans = [
       "Pass guarantee — money back if you fail",
     ],
     cta: "Get full access",
-    highlighted: true,
   },
 ];
+
+function formatPurchaseDate(iso: string) {
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(
+    new Date(iso)
+  );
+}
 
 export default async function Home({
   searchParams,
@@ -78,6 +85,38 @@ export default async function Home({
   const hasFullAccess = isSignedIn ? await getUserHasFullAccess(session.user.id) : false;
   const freeTestHref = isSignedIn ? "/practice/mock-tests" : `/practice/mock-tests/${FREE_TEST_ID}`;
   const heroCtaLabel = hasFullAccess ? "Go to Mock Tests" : "Start practicing free";
+
+  let membership: {
+    displayName: string | null;
+    purchasedAt: string | null;
+    completedTests: number;
+    nextTestId: number | null;
+  } | null = null;
+
+  if (hasFullAccess && session?.user) {
+    const [displayName, payments, allProgress] = await Promise.all([
+      getUserDisplayName(session.user.id),
+      getPaymentHistory(),
+      getAllProgress(),
+    ]);
+
+    const completedTests = Object.values(allProgress).filter(
+      (p) => Object.keys(p.answers).length === QUESTIONS_PER_TEST
+    ).length;
+
+    let nextTestId: number | null = null;
+    for (let id = 1; id <= TOTAL_TESTS; id++) {
+      const done = allProgress[id] ? Object.keys(allProgress[id].answers).length : 0;
+      if (done < QUESTIONS_PER_TEST) {
+        nextTestId = id;
+        break;
+      }
+    }
+
+    const purchasedAt = payments.length > 0 ? payments[payments.length - 1].createdAt : null;
+
+    membership = { displayName, purchasedAt, completedTests, nextTestId };
+  }
 
   return (
     <div>
@@ -115,12 +154,14 @@ export default async function Home({
           >
             {heroCtaLabel}
           </Link>
-          <Link
-            href="#pricing"
-            className="rounded-lg border border-card-border px-6 py-3 font-medium hover:bg-muted"
-          >
-            See pricing
-          </Link>
+          {!hasFullAccess && (
+            <Link
+              href="#pricing"
+              className="rounded-lg border border-card-border px-6 py-3 font-medium hover:bg-muted"
+            >
+              See pricing
+            </Link>
+          )}
         </div>
       </section>
 
@@ -137,65 +178,112 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="mx-auto max-w-5xl px-6 py-20">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight">Simple pricing</h2>
-          <p className="mt-3 text-muted-foreground">One plan, one payment, no subscriptions.</p>
-        </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {plans.map((plan) => (
-            <div
-              key={plan.name}
-              className={`rounded-2xl border p-8 shadow-sm ${
-                plan.highlighted
-                  ? "border-primary bg-primary/5 ring-1 ring-primary"
-                  : "border-card-border bg-card"
-              }`}
-            >
-              <h3 className="text-lg font-semibold">{plan.name}</h3>
-              <p className="mt-3 flex items-baseline gap-1.5">
-                <span className="text-4xl font-extrabold">{plan.price}</span>
-                {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
+      {/* Pricing / Membership */}
+      <section id="pricing" className={`mx-auto max-w-5xl px-6 ${hasFullAccess ? "py-10" : "py-20"}`}>
+        {hasFullAccess && membership ? (
+          <div className="mx-auto max-w-xl rounded-2xl border border-success-border bg-success-bg p-8 text-center">
+            <div className="mb-1 flex items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-success">
+              <CheckCircle2 size={14} />
+              Premium Membership Active
+            </div>
+            <h2 className="mt-2 text-2xl font-extrabold tracking-tight">
+              Welcome back{membership.displayName ? `, ${membership.displayName.split(" ")[0]}` : ""}{" "}
+              👋
+            </h2>
+            <p className="mt-1 text-muted-foreground">
+              You have Lifetime Access to all {TOTAL_TESTS} mock tests.
+            </p>
+            {membership.purchasedAt && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                Purchased {formatPurchaseDate(membership.purchasedAt)}
               </p>
-              <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
-              <ul className="mt-6 flex flex-col gap-2.5">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm">
-                    <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              {plan.id === "full" ? (
-                hasFullAccess ? (
-                  <Link
-                    href="/practice/mock-tests"
-                    className="mt-8 block rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
-                  >
-                    Go to Mock Tests
-                  </Link>
-                ) : (
-                  <form action={createCheckoutSession}>
-                    <button
-                      type="submit"
-                      className="mt-8 block w-full rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
+            )}
+
+            <div className="mt-6 rounded-xl bg-card p-4 text-left">
+              <div className="mb-1.5 flex items-center justify-between text-sm">
+                <span className="font-medium">Overall Progress</span>
+                <span className="text-muted-foreground">
+                  {membership.completedTests}/{TOTAL_TESTS} tests
+                </span>
+              </div>
+              <ProgressBar value={membership.completedTests} max={TOTAL_TESTS} variant="success" />
+            </div>
+
+            {membership.nextTestId ? (
+              <>
+                <p className="mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Next recommended test
+                </p>
+                <p className="mt-1 text-lg font-semibold">Life in the UK Test {membership.nextTestId}</p>
+                <Link
+                  href={`/practice/mock-tests/${membership.nextTestId}`}
+                  className="mt-4 inline-block rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Continue
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="mt-6 text-sm font-medium text-success">
+                  You&apos;ve completed all {TOTAL_TESTS} mock tests! 🎉
+                </p>
+                <Link
+                  href="/practice/mock-tests"
+                  className="mt-4 inline-block rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Review Mock Tests
+                </Link>
+              </>
+            )}
+          </div>
+        ) : !hasFullAccess ? (
+          <>
+            <div className="mb-10 text-center">
+              <h2 className="text-3xl font-extrabold tracking-tight">Simple pricing</h2>
+              <p className="mt-3 text-muted-foreground">One plan, one payment, no subscriptions.</p>
+            </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {plans.map((plan) => (
+                <div
+                  key={plan.name}
+                  className="rounded-2xl border border-card-border bg-card p-8 shadow-sm"
+                >
+                  <h3 className="text-lg font-semibold">{plan.name}</h3>
+                  <p className="mt-3 flex items-baseline gap-1.5">
+                    <span className="text-4xl font-extrabold">{plan.price}</span>
+                    {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
+                  <ul className="mt-6 flex flex-col gap-2.5">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-sm">
+                        <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.id === "full" ? (
+                    <form action={createCheckoutSession}>
+                      <button
+                        type="submit"
+                        className="mt-8 block w-full rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
+                      >
+                        {plan.cta}
+                      </button>
+                    </form>
+                  ) : (
+                    <Link
+                      href={freeTestHref}
+                      className="mt-8 block rounded-lg border border-card-border px-5 py-2.5 text-center font-medium hover:bg-muted"
                     >
                       {plan.cta}
-                    </button>
-                  </form>
-                )
-              ) : (
-                <Link
-                  href={freeTestHref}
-                  className="mt-8 block rounded-lg border border-card-border px-5 py-2.5 text-center font-medium hover:bg-muted"
-                >
-                  {plan.cta}
-                </Link>
-              )}
+                    </Link>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        ) : null}
       </section>
 
       {/* Guarantee */}

@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import { signInWithGoogle } from "@/lib/auth-actions";
-import { getUserDisplayName } from "@/lib/supabase-users";
+import { getUserDisplayName, getUserHasFullAccess } from "@/lib/supabase-users";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/user-menu";
 
 export async function SiteHeader() {
   const session = await auth();
   const displayName = session?.user ? await getUserDisplayName(session.user.id) : null;
+  const hasFullAccess = session?.user ? await getUserHasFullAccess(session.user.id) : false;
 
   return (
     <header className="sticky top-0 z-20 border-b border-card-border bg-background/80 backdrop-blur">
@@ -20,7 +21,7 @@ export async function SiteHeader() {
             Mock Tests
           </Link>
           <Link href="/#pricing" className="text-muted-foreground hover:text-foreground">
-            Pricing
+            {hasFullAccess ? "Membership" : "Pricing"}
           </Link>
           <Link href="/#guarantee" className="text-muted-foreground hover:text-foreground">
             Pass Guarantee
@@ -31,12 +32,6 @@ export async function SiteHeader() {
         </nav>
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link
-            href="/practice/mock-tests"
-            className="hidden rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 sm:block"
-          >
-            Start practicing
-          </Link>
           {session?.user ? (
             <UserMenu
               name={displayName}
