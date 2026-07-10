@@ -4,9 +4,10 @@ import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabase";
 import { getTestById, FREE_TEST_ID } from "@/lib/tests";
 import { getUserHasFullAccess } from "@/lib/supabase-users";
+import { sameIndexSet } from "@/lib/utils";
 
 export interface TestProgressRow {
-  answers: Record<number, number>;
+  answers: Record<number, number[]>;
   score: number | null;
   completedAt: string | null;
 }
@@ -70,17 +71,27 @@ export async function getAllProgress(): Promise<Record<number, TestProgressRow>>
 /**
  * Records a single answer and, server-side only, computes whether the test
  * is now complete and what the score is. The client never sends a score or
- * a correctness flag - only which option was picked.
+ * a correctness flag - only which option(s) were picked.
  */
-export async function submitAnswer(testId: number, questionIndex: number, selectedOption: number) {
+export async function submitAnswer(
+  testId: number,
+  questionIndex: number,
+  selectedOptions: number[]
+) {
   const userId = await requireTestAccess(testId);
   const test = getTestById(testId);
   if (!test) throw new Error("Invalid test id");
   if (questionIndex < 0 || questionIndex >= test.questions.length) {
     throw new Error("Invalid question index");
   }
-  if (selectedOption < 0 || selectedOption > 3) {
-    throw new Error("Invalid option index");
+  const question = test.questions[questionIndex];
+  const uniqueOptions = new Set(selectedOptions);
+  if (
+    uniqueOptions.size !== selectedOptions.length ||
+    uniqueOptions.size !== question.correctIndexes.length ||
+    selectedOptions.some((opt) => opt < 0 || opt >= question.options.length)
+  ) {
+    throw new Error("Invalid option selection");
   }
 
   const { data: existing, error: fetchError } = await supabaseAdmin
@@ -92,16 +103,16 @@ export async function submitAnswer(testId: number, questionIndex: number, select
 
   if (fetchError) throw new Error(fetchError.message);
 
-  const answers: Record<number, number> = {
+  const answers: Record<number, number[]> = {
     ...(existing?.answers ?? {}),
-    [questionIndex]: selectedOption,
+    [questionIndex]: selectedOptions,
   };
 
   let score: number | null = null;
   let completedAt: string | null = null;
   if (Object.keys(answers).length === test.questions.length) {
     score = test.questions.reduce(
-      (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
+      (acc, q, i) => acc + (sameIndexSet(answers[i], q.correctIndexes) ? 1 : 0),
       0
     );
     completedAt = new Date().toISOString();

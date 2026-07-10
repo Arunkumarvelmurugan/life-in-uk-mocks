@@ -6,7 +6,7 @@ import { Check, X, RotateCcw, Lightbulb, ArrowRight, AlertCircle } from "lucide-
 import type { MockTest } from "@/lib/tests";
 import { submitAnswer, resetTestProgress, type TestProgressRow } from "@/lib/progress-actions";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { cn } from "@/lib/utils";
+import { cn, sameIndexSet } from "@/lib/utils";
 
 const OPTION_LABELS = ["A", "B", "C", "D"];
 
@@ -17,25 +17,38 @@ export function TestTakingClient({
   test: MockTest;
   initialProgress: TestProgressRow | null;
 }) {
-  const [answers, setAnswers] = useState<Record<number, number>>(initialProgress?.answers ?? {});
+  const [answers, setAnswers] = useState<Record<number, number[]>>(
+    initialProgress?.answers ?? {}
+  );
   const [currentIndex, setCurrentIndex] = useState(() => {
     const initialAnswers = initialProgress?.answers ?? {};
     const firstUnanswered = test.questions.findIndex((_, i) => initialAnswers[i] === undefined);
     return firstUnanswered === -1 ? test.questions.length - 1 : firstUnanswered;
   });
+  // Picks for the current question that haven't been submitted yet - only
+  // used for "choose N" questions, which need a Submit step since a single
+  // click can't mean "lock in my answer" the way it does for single-select.
+  // Keyed by question index so navigating to a different question naturally
+  // starts with an empty selection, with no effect needed to reset it.
+  const [pendingPicksState, setPendingPicksState] = useState<{
+    index: number;
+    picks: number[];
+  }>({ index: -1, picks: [] });
+  const pendingPicks = pendingPicksState.index === currentIndex ? pendingPicksState.picks : [];
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const question = test.questions[currentIndex];
-  const answeredIndex = answers[currentIndex];
-  const isAnswered = answeredIndex !== undefined;
+  const requiredPicks = question.correctIndexes.length;
+  const isMultiSelect = requiredPicks > 1;
+  const answeredIndexes = answers[currentIndex];
+  const isAnswered = answeredIndexes !== undefined;
   const answeredCount = Object.keys(answers).length;
   const isLastQuestion = currentIndex === test.questions.length - 1;
   const allAnswered = answeredCount === test.questions.length;
   const showResults = allAnswered && isLastQuestion && isAnswered;
 
-  function selectAnswer(optionIndex: number) {
-    if (isAnswered || isPending) return;
+  function commitAnswer(selected: number[]) {
     setError(null);
 
     // Show feedback immediately - the correct answer is already in the
@@ -44,17 +57,41 @@ export function TestTakingClient({
     // Persisting to the database happens in the background; on failure we
     // roll back to let the user retry.
     const previousAnswers = answers;
-    setAnswers((prev) => ({ ...prev, [currentIndex]: optionIndex }));
+    setAnswers((prev) => ({ ...prev, [currentIndex]: selected }));
 
     startTransition(async () => {
       try {
-        const result = await submitAnswer(test.id, currentIndex, optionIndex);
+        const result = await submitAnswer(test.id, currentIndex, selected);
         setAnswers(result.answers);
       } catch {
         setAnswers(previousAnswers);
         setError("Couldn't save your answer - please try again.");
       }
     });
+  }
+
+  function toggleOption(optionIndex: number) {
+    if (isAnswered || isPending) return;
+
+    if (!isMultiSelect) {
+      commitAnswer([optionIndex]);
+      return;
+    }
+
+    setPendingPicksState((prev) => {
+      const picks = prev.index === currentIndex ? prev.picks : [];
+      const next = picks.includes(optionIndex)
+        ? picks.filter((i) => i !== optionIndex)
+        : picks.length < requiredPicks
+          ? [...picks, optionIndex]
+          : picks;
+      return { index: currentIndex, picks: next };
+    });
+  }
+
+  function submitPendingPicks() {
+    if (pendingPicks.length !== requiredPicks || isPending) return;
+    commitAnswer(pendingPicks);
   }
 
   function goNext() {
@@ -70,6 +107,7 @@ export function TestTakingClient({
       try {
         await resetTestProgress(test.id);
         setAnswers({});
+        setPendingPicksState({ index: -1, picks: [] });
         setCurrentIndex(0);
       } catch {
         setError("Couldn't reset progress - please try again.");
@@ -78,7 +116,7 @@ export function TestTakingClient({
   }
 
   const score = test.questions.reduce(
-    (acc, q, i) => acc + (answers[i] === q.correctIndex ? 1 : 0),
+    (acc, q, i) => acc + (answers[i] && sameIndexSet(answers[i], q.correctIndexes) ? 1 : 0),
     0
   );
 
@@ -119,14 +157,17 @@ export function TestTakingClient({
             <>
               <p className="mb-3 text-sm font-semibold tracking-wide text-primary">
                 Question {currentIndex + 1} of {test.questions.length}
+                {isMultiSelect && !isAnswered && ` - choose ${requiredPicks} answers`}
               </p>
               <p className="mb-8 text-2xl font-semibold leading-snug tracking-tight sm:text-[1.65rem]">
                 {question.question}
               </p>
               <div className="flex flex-col gap-3">
                 {question.options.map((option, idx) => {
-                  const isCorrectOption = idx === question.correctIndex;
-                  const isSelected = idx === answeredIndex;
+                  const isCorrectOption = question.correctIndexes.includes(idx);
+                  const isSelected = isAnswered
+                    ? answeredIndexes!.includes(idx)
+                    : pendingPicks.includes(idx);
 
                   let rowClasses =
                     "border-card-border bg-card hover:-translate-y-0.5 hover:border-primary hover:shadow-md cursor-pointer";
@@ -145,12 +186,15 @@ export function TestTakingClient({
                     } else {
                       rowClasses = "border-card-border/60 bg-card opacity-50";
                     }
+                  } else if (isSelected) {
+                    rowClasses = "border-primary bg-primary/5";
+                    badgeClasses = "bg-primary text-primary-foreground";
                   }
 
                   return (
                     <button
                       key={idx}
-                      onClick={() => selectAnswer(idx)}
+                      onClick={() => toggleOption(idx)}
                       disabled={isAnswered || isPending}
                       className={cn(
                         "flex w-full items-center gap-4 rounded-xl border px-5 py-4 text-left text-base transition-all duration-150 disabled:cursor-default",
@@ -171,6 +215,18 @@ export function TestTakingClient({
                   );
                 })}
               </div>
+
+              {isMultiSelect && !isAnswered && (
+                <div className="mt-6 flex justify-end">
+                  <button
+                    onClick={submitPendingPicks}
+                    disabled={pendingPicks.length !== requiredPicks || isPending}
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md disabled:cursor-default disabled:opacity-50"
+                  >
+                    Submit answer
+                  </button>
+                </div>
+              )}
 
               {isAnswered && (
                 <div className="mt-6 flex gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5">
@@ -216,7 +272,7 @@ export function TestTakingClient({
           total={test.questions.length}
           currentIndex={currentIndex}
           answers={answers}
-          correctIndexes={test.questions.map((q) => q.correctIndex)}
+          correctIndexes={test.questions.map((q) => q.correctIndexes)}
           onJump={setCurrentIndex}
         />
       </div>
@@ -279,8 +335,8 @@ function ProgressPanel({
 }: {
   total: number;
   currentIndex: number;
-  answers: Record<number, number>;
-  correctIndexes: number[];
+  answers: Record<number, number[]>;
+  correctIndexes: number[][];
   onJump: (i: number) => void;
 }) {
   const answeredCount = Object.keys(answers).length;
@@ -296,7 +352,7 @@ function ProgressPanel({
         {Array.from({ length: total }, (_, i) => {
           const answer = answers[i];
           const isAnswered = answer !== undefined;
-          const isCorrect = isAnswered && answer === correctIndexes[i];
+          const isCorrect = isAnswered && sameIndexSet(answer, correctIndexes[i]);
           const isCurrent = i === currentIndex;
 
           return (
