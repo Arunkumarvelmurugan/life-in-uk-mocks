@@ -77,6 +77,7 @@ export default async function Home({
   const isSignedIn = !!session?.user;
   const hasFullAccess = isSignedIn ? await getUserHasFullAccess(session.user.id) : false;
   const freeTestHref = isSignedIn ? "/practice/mock-tests" : `/practice/mock-tests/${FREE_TEST_ID}`;
+  const heroCtaLabel = hasFullAccess ? "Go to Mock Tests" : "Start practicing free";
 
   return (
     <div>
@@ -112,7 +113,7 @@ export default async function Home({
             href={freeTestHref}
             className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
           >
-            Start practicing free
+            {heroCtaLabel}
           </Link>
           <Link
             href="#pricing"
