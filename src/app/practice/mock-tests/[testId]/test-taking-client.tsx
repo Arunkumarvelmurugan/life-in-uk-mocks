@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { Check, X, RotateCcw, Lightbulb, ArrowRight, AlertCircle } from "lucide-react";
+import { Check, X, RotateCcw, Lightbulb, Brain, Sparkles, ArrowRight, AlertCircle } from "lucide-react";
 import type { MockTest } from "@/lib/tests";
 import { submitAnswer, resetTestProgress, type TestProgressRow } from "@/lib/progress-actions";
 import { Breadcrumb } from "@/components/breadcrumb";
@@ -228,8 +228,34 @@ export function TestTakingClient({
                 </div>
               )}
 
+              {isAnswered && question.memoryTip && (
+                <div className="mt-6 flex gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
+                  <Brain size={18} className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
+                  <div>
+                    <p className="mb-1 font-semibold text-amber-600 dark:text-amber-400">Memory Tip</p>
+                    <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/80">
+                      {question.memoryTip}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {isAnswered && question.quickMemoryRule && (
+                <div className="mt-4 flex gap-3 rounded-xl border border-violet-500/20 bg-violet-500/5 p-5">
+                  <Sparkles size={18} className="mt-0.5 shrink-0 text-violet-600 dark:text-violet-400" />
+                  <div>
+                    <p className="mb-1 font-semibold text-violet-600 dark:text-violet-400">
+                      Quick Memory Rule
+                    </p>
+                    <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/80">
+                      {question.quickMemoryRule}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {isAnswered && (
-                <div className="mt-6 flex gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5">
+                <div className="mt-4 flex gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5">
                   <Lightbulb size={18} className="mt-0.5 shrink-0 text-primary" />
                   <div>
                     <p className="mb-1 font-semibold text-primary">Explanation</p>

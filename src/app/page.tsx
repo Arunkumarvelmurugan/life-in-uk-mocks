@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShieldCheck, CheckCircle2, BarChart3, BookOpenCheck, LogIn, Lock } from "lucide-react";
+import { ShieldCheck, CheckCircle2, BarChart3, BookOpenCheck, LogIn, Lock, Brain } from "lucide-react";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST, FREE_TEST_ID } from "@/lib/tests";
 import { auth } from "@/auth";
 import { getUserHasFullAccess, getUserDisplayName } from "@/lib/supabase-users";
@@ -8,6 +8,7 @@ import { getPaymentHistory } from "@/lib/payments-actions";
 import { getAllProgress } from "@/lib/progress-actions";
 import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
+import { DemoQuestionCard } from "@/components/demo-question-card";
 
 const features = [
   {
@@ -29,6 +30,11 @@ const features = [
     icon: ShieldCheck,
     title: "Pass guarantee",
     description: "Follow the study plan and still fail the real test? Get your money back.",
+  },
+  {
+    icon: Brain,
+    title: "Memory Tips & Quick Memory Rules",
+    description: "Reusable memory techniques for facts that come up again and again across different mock tests.",
   },
 ];
 
@@ -171,7 +177,7 @@ export default async function Home({
 
       {/* Features */}
       <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {features.map((f) => (
             <div key={f.title} className="rounded-xl border border-card-border bg-card p-6 shadow-sm">
               <f.icon className="mb-3 text-primary" size={24} />
@@ -179,6 +185,20 @@ export default async function Home({
               <p className="text-sm text-muted-foreground">{f.description}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Demo question */}
+      <section className="border-t border-card-border bg-muted">
+        <div className="mx-auto max-w-4xl px-6 py-14">
+          <div className="mb-6 text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight">See it for yourself</h2>
+            <p className="mt-3 text-muted-foreground">
+              Pick an answer to see the explanation, memory tip and quick memory rule that come
+              with it.
+            </p>
+          </div>
+          <DemoQuestionCard freeTestHref={freeTestHref} />
         </div>
       </section>
 

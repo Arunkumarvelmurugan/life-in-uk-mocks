@@ -6,6 +6,10 @@ export interface TestQuestion {
   /** One index for a single-answer question, two or three for a "choose N" question. */
   correctIndexes: number[];
   explanation: string;
+  /** Optional mnemonic shown alongside the explanation. Not every question has one yet. */
+  memoryTip?: string;
+  /** Optional short recap shown as its own card below the Memory Tip. */
+  quickMemoryRule?: string;
 }
 
 export interface MockTest {
