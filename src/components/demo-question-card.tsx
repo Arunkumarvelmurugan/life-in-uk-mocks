@@ -18,7 +18,7 @@ const DEMO_QUESTION = {
   memoryTip:
     "Learn all four patron saints together:\n\n❌ St David → Patron Saint of Wales (celebrated on 1 March).\n❌ St Patrick → Patron Saint of Northern Ireland (celebrated on 17 March).\n❌ St George → Patron Saint of England (celebrated on 23 April).\n✅ St Andrew → Patron Saint of Scotland (celebrated on 30 November).",
   quickMemoryRule:
-    "England → St George\nScotland → St Andrew\nWales → St David\nNorthern Ireland → St Patrick\nLearn all four together - you'll answer several exam questions with one memory.",
+    "England → St George\nScotland → St Andrew\nWales → St David\nNorthern Ireland → St Patrick\n\nLearn all four together - you'll answer several exam questions with one memory.",
 };
 
 export function DemoQuestionCard({ freeTestHref }: { freeTestHref: string }) {

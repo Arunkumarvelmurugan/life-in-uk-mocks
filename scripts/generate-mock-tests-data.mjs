@@ -92,11 +92,16 @@ function parseFile(file) {
       if (ruleIdx !== -1) {
         // Quick Memory Rule is meant to be a tight, scannable list - drop the
         // blank lines between entries instead of preserving them as
-        // paragraph breaks (unlike memoryTip, which keeps them).
-        quickMemoryRule = tipLines
-          .slice(ruleIdx + 1)
-          .filter((l) => l !== "")
-          .join("\n");
+        // paragraph breaks (unlike memoryTip, which keeps them). A blank
+        // line is kept only where the format switches from an arrow-style
+        // list entry to a closing prose sentence (or vice versa).
+        const ruleLines = tipLines.slice(ruleIdx + 1).filter((l) => l !== "");
+        const out = [];
+        ruleLines.forEach((line, i) => {
+          if (i > 0 && /→/.test(ruleLines[i - 1]) !== /→/.test(line)) out.push("");
+          out.push(line);
+        });
+        quickMemoryRule = out.join("\n");
       }
     }
 
