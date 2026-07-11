@@ -1,5 +1,22 @@
 import Link from "next/link";
-import { ShieldCheck, CheckCircle2, BarChart3, BookOpenCheck, LogIn, Lock, Brain } from "lucide-react";
+import {
+  ShieldCheck,
+  CheckCircle2,
+  BarChart3,
+  BookOpenCheck,
+  LogIn,
+  Lock,
+  Brain,
+  Star,
+  GraduationCap,
+  ArrowRight,
+  Calendar,
+  Target,
+  Sparkles,
+  Award,
+  Lightbulb,
+  Trophy,
+} from "lucide-react";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST, FREE_TEST_ID } from "@/lib/tests";
 import { auth } from "@/auth";
 import { getUserHasFullAccess, getUserDisplayName } from "@/lib/supabase-users";
@@ -143,7 +160,7 @@ export default async function Home({
         </div>
       )}
       {/* Hero */}
-      <section className="mx-auto flex max-w-4xl flex-col items-center px-6 pb-16 pt-20 text-center">
+      <section className="mx-auto flex max-w-4xl flex-col items-center px-6 pb-8 pt-10 text-center">
         <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
           100% Money-Back Pass Guarantee
         </span>
@@ -176,7 +193,7 @@ export default async function Home({
       </section>
 
       {/* Features */}
-      <section className="mx-auto max-w-6xl px-6 py-12">
+      <section className="mx-auto max-w-6xl px-6 pb-12 pt-4">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {features.map((f) => (
             <div key={f.title} className="rounded-xl border border-card-border bg-card p-6 shadow-sm">
@@ -190,75 +207,152 @@ export default async function Home({
 
       {/* Demo question */}
       <section className="border-t border-card-border bg-muted">
-        <div className="mx-auto max-w-4xl px-6 py-14">
+        <div className="mx-auto max-w-4xl px-6 pt-14 pb-8">
           <div className="mb-6 text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight">See it for yourself</h2>
+            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <Star size={12} />
+              Demo experience
+            </span>
+            <h2 className="text-3xl font-extrabold tracking-tight">
+              See How We Help You Remember, Not Just Memorise
+            </h2>
             <p className="mt-3 text-muted-foreground">
-              Pick an answer to see the explanation, memory tip and quick memory rule that come
-              with it.
+              Answer this real exam-style question to see our unique memory technique in action.
             </p>
           </div>
-          <DemoQuestionCard freeTestHref={freeTestHref} />
+
+          <DemoQuestionCard />
+
+          <div className="mt-6 flex flex-col items-center justify-between gap-5 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:flex-row">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <GraduationCap size={22} />
+              </span>
+              <div>
+                <p className="font-semibold">This is just one example.</p>
+                <p className="text-sm text-muted-foreground">
+                  Get full access to {TOTAL_TESTS} mocks with expert explanations, memory tips &
+                  quick rules.
+                </p>
+              </div>
+            </div>
+            <div className="flex shrink-0 flex-col items-center gap-1.5">
+              <Link
+                href={freeTestHref}
+                className="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+              >
+                Start Your First Mock Test
+                <ArrowRight size={16} />
+              </Link>
+              <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                <ShieldCheck size={12} />
+                Pass Guarantee · Lifetime access
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Pricing / Membership */}
-      <section id="pricing" className={`mx-auto max-w-5xl px-6 ${hasFullAccess ? "py-10" : "py-20"}`}>
+      <section id="pricing" className={`mx-auto max-w-5xl px-6 ${hasFullAccess ? "py-10" : "pt-10 pb-10"}`}>
         {hasFullAccess && membership ? (
-          <div className="mx-auto max-w-xl rounded-2xl border border-success-border bg-success-bg p-8 text-center">
-            <div className="mb-1 flex items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-success">
-              <CheckCircle2 size={14} />
-              Premium Membership Active
-            </div>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight">
-              Welcome back{membership.displayName ? `, ${membership.displayName.split(" ")[0]}` : ""}{" "}
-              👋
-            </h2>
-            <p className="mt-1 text-muted-foreground">
-              You have Lifetime Access to all {TOTAL_TESTS} mock tests.
-            </p>
-            {membership.purchasedAt && (
-              <p className="mt-1 text-xs text-muted-foreground">
-                Purchased {formatPurchaseDate(membership.purchasedAt)}
-              </p>
-            )}
-
-            <div className="mt-6 rounded-xl bg-card p-4 text-left">
-              <div className="mb-1.5 flex items-center justify-between text-sm">
-                <span className="font-medium">Overall Progress</span>
-                <span className="text-muted-foreground">
-                  {membership.completedTests}/{TOTAL_TESTS} tests
-                </span>
+          <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-violet-500/10 to-primary/5 p-8 sm:p-10">
+            <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr]">
+              <div className="mx-auto flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-violet-500/20 lg:mx-0">
+                <Trophy size={56} className="text-primary" />
               </div>
-              <ProgressBar value={membership.completedTests} max={TOTAL_TESTS} variant="success" />
-            </div>
 
-            {membership.nextTestId ? (
-              <>
-                <p className="mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Next recommended test
+              <div className="text-center lg:text-left">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary-foreground">
+                  <CheckCircle2 size={14} />
+                  Premium Membership Active
+                </span>
+                <h2 className="mt-3 text-3xl font-extrabold tracking-tight">
+                  Welcome back{membership.displayName ? `, ${membership.displayName.split(" ")[0]}` : ""}{" "}
+                  👋
+                </h2>
+                <p className="mt-2 text-muted-foreground">
+                  You have <span className="font-semibold text-primary">Lifetime Access</span> to all{" "}
+                  {TOTAL_TESTS} mock tests.
                 </p>
-                <p className="mt-1 text-lg font-semibold">Life in the UK Test {membership.nextTestId}</p>
-                <Link
-                  href={`/practice/mock-tests/${membership.nextTestId}`}
-                  className="mt-4 inline-block rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-                >
-                  Continue
-                </Link>
-              </>
-            ) : (
-              <>
-                <p className="mt-6 text-sm font-medium text-success">
-                  You&apos;ve completed all {TOTAL_TESTS} mock tests! 🎉
-                </p>
-                <Link
-                  href="/practice/mock-tests"
-                  className="mt-4 inline-block rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-                >
-                  Review Mock Tests
-                </Link>
-              </>
-            )}
+                {membership.purchasedAt && (
+                  <p className="mt-2 flex items-center justify-center gap-1.5 text-sm text-muted-foreground lg:justify-start">
+                    <Calendar size={14} />
+                    Purchased {formatPurchaseDate(membership.purchasedAt)}
+                  </p>
+                )}
+
+                <div className="mt-6 rounded-xl bg-card p-4 text-left shadow-sm">
+                  <div className="mb-1.5 flex items-center justify-between text-sm">
+                    <span className="font-medium">Overall Progress</span>
+                    <span className="text-muted-foreground">
+                      {membership.completedTests}/{TOTAL_TESTS} tests
+                    </span>
+                  </div>
+                  <ProgressBar value={membership.completedTests} max={TOTAL_TESTS} variant="success" />
+                </div>
+
+                {membership.nextTestId ? (
+                  <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-xl bg-primary/10 p-5 sm:flex-row">
+                    <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-card text-primary shadow-sm">
+                        <Target size={22} />
+                      </span>
+                      <div>
+                        <p className="flex items-center justify-center gap-1 text-xs font-semibold uppercase tracking-wide text-primary sm:justify-start">
+                          <Sparkles size={12} />
+                          Next recommended test
+                        </p>
+                        <p className="text-lg font-semibold">Life in the UK Test {membership.nextTestId}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {membership.nextTestId === FREE_TEST_ID
+                            ? "Start where most learners begin."
+                            : "Pick up where you left off."}
+                        </p>
+                      </div>
+                    </div>
+                    <Link
+                      href={`/practice/mock-tests/${membership.nextTestId}`}
+                      className="flex shrink-0 items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                    >
+                      Continue
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-xl bg-primary/10 p-5 sm:flex-row">
+                    <p className="text-sm font-medium text-success">
+                      You&apos;ve completed all {TOTAL_TESTS} mock tests! 🎉
+                    </p>
+                    <Link
+                      href="/practice/mock-tests"
+                      className="shrink-0 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                    >
+                      Review Mock Tests
+                    </Link>
+                  </div>
+                )}
+
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-primary/10 pt-4 text-sm text-muted-foreground lg:justify-start">
+                  <span className="flex items-center gap-1.5">
+                    <ShieldCheck size={16} className="text-primary" />
+                    Lifetime Access
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Award size={16} className="text-primary" />
+                    All {TOTAL_TESTS} Mock Tests
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <BarChart3 size={16} className="text-primary" />
+                    Track Progress
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Lightbulb size={16} className="text-primary" />
+                    Smart Learning
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         ) : !hasFullAccess ? (
           <>
@@ -312,7 +406,7 @@ export default async function Home({
 
       {/* Guarantee */}
       <section id="guarantee" className="border-t border-card-border bg-muted">
-        <div className="mx-auto max-w-3xl px-6 py-20">
+        <div className="mx-auto max-w-3xl px-6 pt-10 pb-20">
           <div className="text-center">
             <ShieldCheck className="mx-auto mb-4 text-primary" size={36} />
             <h2 className="text-3xl font-extrabold tracking-tight">
