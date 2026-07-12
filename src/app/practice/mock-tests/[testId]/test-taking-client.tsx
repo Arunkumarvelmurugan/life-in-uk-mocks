@@ -457,20 +457,35 @@ function CollapsibleTip({
 // Renders a Quick Memory Rule as a row of compact inline facts rather than a
 // stacked paragraph - a blank line in the source separates the fact list
 // from an optional closing sentence, which still renders as its own line.
+const ARROW_ONLY = /^[↓→⬇➡]+$/;
+
 function QuickMemoryRuleContent({ text }: { text: string }) {
   const [factBlock, ...rest] = text.split("\n\n");
   const closingSentence = rest.join("\n\n");
   const facts = factBlock.split("\n").filter(Boolean);
+  // Some rules are a top-to-bottom sequence ("A" / "↓" / "B") rather than a
+  // list of independent "X → Y" facts. Laying those out as horizontal chips
+  // strands the standalone arrows in the middle of a row with big gaps
+  // either side, so render that style as a vertical stack instead.
+  const isFlow = facts.some((f) => ARROW_ONLY.test(f.trim()));
 
   return (
     <div>
-      <div className="flex flex-wrap gap-x-5 gap-y-1.5">
-        {facts.map((fact) => (
-          <span key={fact} className="whitespace-nowrap">
-            {fact}
-          </span>
-        ))}
-      </div>
+      {isFlow ? (
+        <div className="flex flex-col items-start gap-0.5">
+          {facts.map((fact, i) => (
+            <span key={i}>{fact}</span>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+          {facts.map((fact, i) => (
+            <span key={i} className="whitespace-nowrap">
+              {fact}
+            </span>
+          ))}
+        </div>
+      )}
       {closingSentence && <p className="mt-2 whitespace-pre-line">{closingSentence}</p>}
     </div>
   );
