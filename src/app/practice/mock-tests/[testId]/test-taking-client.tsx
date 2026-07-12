@@ -1,11 +1,24 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import { Check, X, RotateCcw, Lightbulb, Brain, Sparkles, ArrowRight, AlertCircle } from "lucide-react";
+import {
+  Check,
+  X,
+  RotateCcw,
+  Lightbulb,
+  Brain,
+  Sparkles,
+  ArrowRight,
+  ArrowLeft,
+  ChevronDown,
+  ChevronRight,
+  LogOut,
+  AlertCircle,
+  type LucideIcon,
+} from "lucide-react";
 import type { MockTest } from "@/lib/tests";
 import { submitAnswer, resetTestProgress, type TestProgressRow } from "@/lib/progress-actions";
-import { Breadcrumb } from "@/components/breadcrumb";
 import { cn, sameIndexSet } from "@/lib/utils";
 
 const OPTION_LABELS = ["A", "B", "C", "D"];
@@ -36,6 +49,21 @@ export function TestTakingClient({
   }>({ index: -1, picks: [] });
   const pendingPicks = pendingPicksState.index === currentIndex ? pendingPicksState.picks : [];
   const [error, setError] = useState<string | null>(null);
+  const questionCardRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+
+  // Jumping to a new question shouldn't leave the user scrolled down at
+  // wherever the previous question's tip panels happened to end - scroll
+  // the question card back into view so the new question is visible
+  // without a manual scroll. Skipped on mount so the initial page load
+  // doesn't get an unwanted scroll animation.
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    questionCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [currentIndex]);
   const [isPending, startTransition] = useTransition();
 
   const question = test.questions[currentIndex];
@@ -100,6 +128,12 @@ export function TestTakingClient({
     }
   }
 
+  function goPrevious() {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  }
+
   function resetTest() {
     setError(null);
 
@@ -122,24 +156,25 @@ export function TestTakingClient({
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-10">
-      <div className="mb-2 flex items-start justify-between">
-        <div>
-          <Breadcrumb
-            items={[
-              { label: "Mock Tests", href: "/practice/mock-tests" },
-              { label: `Test ${test.id}` },
-            ]}
-          />
-          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{test.title}</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <span className="rounded-lg bg-muted px-3 py-1.5 text-sm font-semibold">Test {test.id}</span>
+        <div className="flex shrink-0 items-center gap-2">
+          <Link
+            href="/practice/mock-tests"
+            className="flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+          >
+            <LogOut size={14} />
+            Exit Test
+          </Link>
+          <button
+            onClick={resetTest}
+            disabled={isPending}
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:opacity-50"
+          >
+            <RotateCcw size={14} />
+            Reset progress
+          </button>
         </div>
-        <button
-          onClick={resetTest}
-          disabled={isPending}
-          className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:opacity-50"
-        >
-          <RotateCcw size={14} />
-          Reset progress
-        </button>
       </div>
 
       {error && (
@@ -149,158 +184,167 @@ export function TestTakingClient({
         </div>
       )}
 
-      <div className="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_280px]">
-        <div className="rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:p-10">
-          {showResults ? (
-            <ResultsPanel score={score} total={test.questions.length} onRetake={resetTest} />
-          ) : (
-            <>
-              <p className="mb-3 text-sm font-semibold tracking-wide text-primary">
-                Question {currentIndex + 1} of {test.questions.length}
-                {isMultiSelect && !isAnswered && ` - choose ${requiredPicks} answers`}
-              </p>
-              <p className="mb-8 text-2xl font-semibold leading-snug tracking-tight sm:text-[1.65rem]">
-                {question.question}
-              </p>
-              <div className="flex flex-col gap-3">
-                {question.options.map((option, idx) => {
-                  const isCorrectOption = question.correctIndexes.includes(idx);
-                  const isSelected = isAnswered
-                    ? answeredIndexes!.includes(idx)
-                    : pendingPicks.includes(idx);
+      <ProgressBarPanel
+        total={test.questions.length}
+        currentIndex={currentIndex}
+        answers={answers}
+        correctIndexes={test.questions.map((q) => q.correctIndexes)}
+        onJump={setCurrentIndex}
+      />
 
-                  let rowClasses =
-                    "border-card-border bg-card hover:-translate-y-0.5 hover:border-primary hover:shadow-md cursor-pointer";
-                  let badgeClasses = "bg-muted text-muted-foreground";
-                  let icon: React.ReactNode = null;
+      <div
+        ref={questionCardRef}
+        className="mt-6 scroll-mt-24 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:p-10"
+      >
+        {showResults ? (
+          <ResultsPanel score={score} total={test.questions.length} onRetake={resetTest} />
+        ) : (
+          <>
+            <p className="mb-3 text-sm font-semibold tracking-wide text-primary">
+              Question {currentIndex + 1} of {test.questions.length}
+              {isMultiSelect && !isAnswered && ` - choose ${requiredPicks} answers`}
+            </p>
+            <p className="mb-8 text-2xl font-semibold leading-snug tracking-tight sm:text-[1.65rem]">
+              {question.question}
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {question.options.map((option, idx) => {
+                const isCorrectOption = question.correctIndexes.includes(idx);
+                const isSelected = isAnswered
+                  ? answeredIndexes!.includes(idx)
+                  : pendingPicks.includes(idx);
 
-                  if (isAnswered) {
-                    if (isCorrectOption) {
-                      rowClasses = "border-success-border bg-success-bg";
-                      badgeClasses = "bg-success text-white";
-                      icon = <Check size={16} className="shrink-0 text-success" />;
-                    } else if (isSelected) {
-                      rowClasses = "border-danger-border bg-danger-bg";
-                      badgeClasses = "bg-danger text-white";
-                      icon = <X size={16} className="shrink-0 text-danger" />;
-                    } else {
-                      rowClasses = "border-card-border/60 bg-card opacity-50";
-                    }
+                let rowClasses =
+                  "border-card-border bg-card hover:-translate-y-0.5 hover:border-primary hover:shadow-md cursor-pointer";
+                let badgeClasses = "bg-muted text-muted-foreground";
+                let icon: React.ReactNode = null;
+
+                if (isAnswered) {
+                  if (isCorrectOption) {
+                    rowClasses = "border-success-border bg-success-bg";
+                    badgeClasses = "bg-success text-white";
+                    icon = <Check size={16} className="shrink-0 text-success" />;
                   } else if (isSelected) {
-                    rowClasses = "border-primary bg-primary/5";
-                    badgeClasses = "bg-primary text-primary-foreground";
+                    rowClasses = "border-danger-border bg-danger-bg";
+                    badgeClasses = "bg-danger text-white";
+                    icon = <X size={16} className="shrink-0 text-danger" />;
+                  } else {
+                    rowClasses = "border-card-border/60 bg-card opacity-50";
                   }
+                } else if (isSelected) {
+                  rowClasses = "border-primary bg-primary/5";
+                  badgeClasses = "bg-primary text-primary-foreground";
+                }
 
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => toggleOption(idx)}
-                      disabled={isAnswered || isPending}
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => toggleOption(idx)}
+                    disabled={isAnswered || isPending}
+                    className={cn(
+                      "flex w-full items-center gap-4 rounded-xl border px-5 py-4 text-left text-base transition-all duration-150 disabled:cursor-default",
+                      rowClasses
+                    )}
+                  >
+                    <span
                       className={cn(
-                        "flex w-full items-center gap-4 rounded-xl border px-5 py-4 text-left text-base transition-all duration-150 disabled:cursor-default",
-                        rowClasses
+                        "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-semibold transition-colors",
+                        badgeClasses
                       )}
                     >
-                      <span
-                        className={cn(
-                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-semibold transition-colors",
-                          badgeClasses
-                        )}
-                      >
-                        {OPTION_LABELS[idx]}
-                      </span>
-                      <span className="flex-1">{option}</span>
-                      {icon}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {isMultiSelect && !isAnswered && (
-                <div className="mt-6 flex justify-end">
-                  <button
-                    onClick={submitPendingPicks}
-                    disabled={pendingPicks.length !== requiredPicks || isPending}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md disabled:cursor-default disabled:opacity-50"
-                  >
-                    Submit answer
+                      {OPTION_LABELS[idx]}
+                    </span>
+                    <span className="flex-1">{option}</span>
+                    {icon}
                   </button>
-                </div>
-              )}
+                );
+              })}
+            </div>
 
-              {isAnswered && question.memoryTip && (
-                <div className="mt-6 flex gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
-                  <Brain size={18} className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
-                  <div>
-                    <p className="mb-1 font-semibold text-amber-600 dark:text-amber-400">Memory Tip</p>
-                    <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/80">
-                      {question.memoryTip}
-                    </p>
-                  </div>
-                </div>
-              )}
+            {isMultiSelect && !isAnswered && (
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={submitPendingPicks}
+                  disabled={pendingPicks.length !== requiredPicks || isPending}
+                  className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md disabled:cursor-default disabled:opacity-50"
+                >
+                  Submit answer
+                </button>
+              </div>
+            )}
 
-              {isAnswered && question.quickMemoryRule && (
-                <div className="mt-4 flex gap-3 rounded-xl border border-violet-500/20 bg-violet-500/5 p-5">
-                  <Sparkles size={18} className="mt-0.5 shrink-0 text-violet-600 dark:text-violet-400" />
-                  <div>
-                    <p className="mb-1 font-semibold text-violet-600 dark:text-violet-400">
-                      Quick Memory Rule
-                    </p>
-                    <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/80">
-                      {question.quickMemoryRule}
-                    </p>
-                  </div>
-                </div>
-              )}
+            {isAnswered && question.memoryTip && (
+              <CollapsibleTip
+                key={`memory-${currentIndex}`}
+                icon={Brain}
+                title="Memory Tip"
+                accentClass="text-amber-600 dark:text-amber-400"
+                containerClass="mt-6 border-amber-500/20 bg-amber-500/5"
+              >
+                <p className="whitespace-pre-line">{question.memoryTip}</p>
+              </CollapsibleTip>
+            )}
 
-              {isAnswered && (
-                <div className="mt-4 flex gap-3 rounded-xl border border-primary/20 bg-primary/5 p-5">
-                  <Lightbulb size={18} className="mt-0.5 shrink-0 text-primary" />
-                  <div>
-                    <p className="mb-1 font-semibold text-primary">Explanation</p>
-                    <p className="text-sm leading-relaxed text-foreground/80">{question.explanation}</p>
-                  </div>
-                </div>
-              )}
+            {isAnswered && question.quickMemoryRule && (
+              <CollapsibleTip
+                key={`quick-${currentIndex}`}
+                icon={Sparkles}
+                title="Quick Memory Rule"
+                accentClass="text-violet-600 dark:text-violet-400"
+                containerClass="mt-4 border-violet-500/20 bg-violet-500/5"
+              >
+                <QuickMemoryRuleContent text={question.quickMemoryRule} />
+              </CollapsibleTip>
+            )}
 
-              {isAnswered && (
-                <div className="mt-8 flex justify-end">
-                  {isLastQuestion && !allAnswered ? (
-                    <button
-                      onClick={() => {
-                        const firstUnanswered = test.questions.findIndex(
-                          (_, i) => answers[i] === undefined
-                        );
-                        if (firstUnanswered !== -1) setCurrentIndex(firstUnanswered);
-                      }}
-                      className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
-                    >
-                      Answer remaining questions
-                      <ArrowRight size={16} />
-                    </button>
-                  ) : !isLastQuestion ? (
-                    <button
-                      onClick={goNext}
-                      className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
-                    >
-                      Next
-                      <ArrowRight size={16} />
-                    </button>
-                  ) : null}
-                </div>
-              )}
-            </>
-          )}
-        </div>
+            {isAnswered && (
+              <CollapsibleTip
+                key={`explanation-${currentIndex}`}
+                icon={Lightbulb}
+                title="Explanation"
+                accentClass="text-primary"
+                containerClass="mt-4 border-primary/20 bg-primary/5"
+              >
+                <p>{question.explanation}</p>
+              </CollapsibleTip>
+            )}
 
-        <ProgressPanel
-          total={test.questions.length}
-          currentIndex={currentIndex}
-          answers={answers}
-          correctIndexes={test.questions.map((q) => q.correctIndexes)}
-          onJump={setCurrentIndex}
-        />
+            <div className="mt-8 flex items-center justify-between">
+              <button
+                onClick={goPrevious}
+                disabled={currentIndex === 0}
+                className="flex cursor-pointer items-center gap-2 rounded-xl border border-card-border px-6 py-3 font-medium text-foreground/80 transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <ArrowLeft size={16} />
+                Previous
+              </button>
+
+              {isAnswered &&
+                (isLastQuestion && !allAnswered ? (
+                  <button
+                    onClick={() => {
+                      const firstUnanswered = test.questions.findIndex(
+                        (_, i) => answers[i] === undefined
+                      );
+                      if (firstUnanswered !== -1) setCurrentIndex(firstUnanswered);
+                    }}
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
+                  >
+                    Answer remaining questions
+                    <ArrowRight size={16} />
+                  </button>
+                ) : !isLastQuestion ? (
+                  <button
+                    onClick={goNext}
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
+                  >
+                    Next
+                    <ArrowRight size={16} />
+                  </button>
+                ) : null)}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -352,7 +396,67 @@ function ResultsPanel({
   );
 }
 
-function ProgressPanel({
+function CollapsibleTip({
+  icon: Icon,
+  title,
+  accentClass,
+  containerClass,
+  children,
+}: {
+  icon: LucideIcon;
+  title: string;
+  accentClass: string;
+  containerClass: string;
+  children: React.ReactNode;
+}) {
+  const [expanded, setExpanded] = useState(true);
+  return (
+    <div className={cn("rounded-xl border p-5", containerClass)}>
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="flex w-full cursor-pointer items-center justify-between gap-3"
+      >
+        <span className={cn("flex items-center gap-2 font-semibold", accentClass)}>
+          <Icon size={18} className="shrink-0" />
+          {title}
+        </span>
+        {expanded ? (
+          <ChevronDown size={16} className={cn("shrink-0", accentClass)} />
+        ) : (
+          <ChevronRight size={16} className={cn("shrink-0", accentClass)} />
+        )}
+      </button>
+      {expanded && (
+        <div className="mt-2 text-sm leading-relaxed text-foreground/80">{children}</div>
+      )}
+    </div>
+  );
+}
+
+// Renders a Quick Memory Rule as a row of compact inline facts rather than a
+// stacked paragraph - a blank line in the source separates the fact list
+// from an optional closing sentence, which still renders as its own line.
+function QuickMemoryRuleContent({ text }: { text: string }) {
+  const [factBlock, ...rest] = text.split("\n\n");
+  const closingSentence = rest.join("\n\n");
+  const facts = factBlock.split("\n").filter(Boolean);
+
+  return (
+    <div>
+      <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+        {facts.map((fact) => (
+          <span key={fact} className="whitespace-nowrap">
+            {fact}
+          </span>
+        ))}
+      </div>
+      {closingSentence && <p className="mt-2 whitespace-pre-line">{closingSentence}</p>}
+    </div>
+  );
+}
+
+function ProgressBarPanel({
   total,
   currentIndex,
   answers,
@@ -366,16 +470,16 @@ function ProgressPanel({
   onJump: (i: number) => void;
 }) {
   const answeredCount = Object.keys(answers).length;
+  const correctCount = Object.entries(answers).filter(([i, answer]) =>
+    sameIndexSet(answer, correctIndexes[Number(i)])
+  ).length;
+  const wrongCount = answeredCount - correctCount;
+
   return (
-    <div className="sticky top-24 h-fit rounded-2xl border border-card-border bg-card p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <p className="font-semibold">Progress</p>
-        <span className="text-sm text-muted-foreground">
-          {answeredCount}/{total}
-        </span>
-      </div>
-      <div className="grid grid-cols-6 gap-1.5 lg:grid-cols-5">
-        {Array.from({ length: total }, (_, i) => {
+    <div className="rounded-2xl border border-card-border bg-card p-4 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap gap-1.5">
+          {Array.from({ length: total }, (_, i) => {
           const answer = answers[i];
           const isAnswered = answer !== undefined;
           const isCorrect = isAnswered && sameIndexSet(answer, correctIndexes[i]);
@@ -386,7 +490,7 @@ function ProgressPanel({
               key={i}
               onClick={() => onJump(i)}
               className={cn(
-                "flex h-8 cursor-pointer items-center justify-center rounded-lg border text-xs font-medium transition-colors",
+                "flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg border text-xs font-medium transition-colors",
                 isAnswered && isCorrect && "border-success-border bg-success-bg text-success",
                 isAnswered && !isCorrect && "border-danger-border bg-danger-bg text-danger",
                 !isAnswered && !isCurrent && "border-card-border/70 bg-transparent text-muted-foreground",
@@ -396,16 +500,25 @@ function ProgressPanel({
               {i + 1}
             </button>
           );
-        })}
-      </div>
-      <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-success" />
-          Correct
+          })}
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-danger" />
-          Wrong
+
+        <div className="ml-auto flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-success" />
+            Correct <strong className="text-foreground">{correctCount}</strong>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-danger" />
+            Wrong <strong className="text-foreground">{wrongCount}</strong>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full border-2 border-primary" />
+            Current <strong className="text-foreground">1</strong>
+          </span>
+          <span className="font-medium text-foreground">
+            {answeredCount} / {total} answered
+          </span>
         </div>
       </div>
     </div>

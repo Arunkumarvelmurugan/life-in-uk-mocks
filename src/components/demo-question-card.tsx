@@ -55,12 +55,22 @@ const UNLOCK_COLOR_CLASSES: Record<string, string> = {
   violet: "border-violet-500/20 bg-violet-500/5 text-violet-600 dark:text-violet-400",
 };
 
+// Splits a Quick Memory Rule string into its short "X → Y" facts (rendered
+// as inline chips) and the trailing prose sentence (rendered as a normal
+// paragraph below them).
+function splitQuickMemoryRule(text: string) {
+  const lines = text.split("\n").filter((l) => l.trim() !== "");
+  const facts = lines.filter((l) => l.includes("→"));
+  const closing = lines.filter((l) => !l.includes("→")).join(" ");
+  return { facts, closing };
+}
+
 export function DemoQuestionCard() {
   const [selected, setSelected] = useState<number | null>(null);
   const isAnswered = selected !== null;
 
   return (
-    <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 rounded-2xl border border-card-border bg-card p-5 shadow-sm sm:p-6 lg:grid-cols-2">
+    <div className="mx-auto flex max-w-2xl flex-col gap-6 rounded-2xl border border-card-border bg-card p-5 shadow-sm sm:p-6">
       <div>
         <div className="mb-3 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -76,19 +86,17 @@ export function DemoQuestionCard() {
           </span>
         </div>
 
-        <p className="mb-1.5 text-xl font-semibold leading-snug tracking-tight">
+        <p className="mb-8 text-2xl font-semibold leading-snug tracking-tight sm:text-[1.65rem]">
           {DEMO_QUESTION.question}
         </p>
-        <p className="mb-4 text-sm text-muted-foreground">
-          Pick an answer to see the explanation, memory tip and quick memory rule.
-        </p>
 
-        <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {DEMO_QUESTION.options.map((option, idx) => {
             const isCorrectOption = idx === DEMO_QUESTION.correctIndex;
             const isSelected = idx === selected;
 
-            let rowClasses = "border-card-border bg-background";
+            let rowClasses =
+              "border-card-border bg-card hover:-translate-y-0.5 hover:border-primary hover:shadow-md cursor-pointer";
             let badgeClasses = "bg-muted text-muted-foreground";
             let icon: React.ReactNode = null;
 
@@ -102,7 +110,7 @@ export function DemoQuestionCard() {
                 badgeClasses = "bg-danger text-white";
                 icon = <X size={16} className="shrink-0 text-danger" />;
               } else {
-                rowClasses = "border-card-border/60 bg-background opacity-50";
+                rowClasses = "border-card-border/60 bg-card opacity-50";
               }
             }
 
@@ -113,7 +121,7 @@ export function DemoQuestionCard() {
                 onClick={() => !isAnswered && setSelected(idx)}
                 disabled={isAnswered}
                 className={cn(
-                  "flex w-full cursor-pointer items-center gap-4 rounded-xl border px-5 py-3 text-left text-base transition-all duration-150 disabled:cursor-default",
+                  "flex w-full items-center gap-4 rounded-xl border px-5 py-4 text-left text-base transition-all duration-150 disabled:cursor-default",
                   rowClasses
                 )}
               >
@@ -164,21 +172,6 @@ export function DemoQuestionCard() {
       <div>
         {isAnswered ? (
           <div className="flex flex-col gap-3">
-            <div className="rounded-xl border border-card-border bg-muted p-4">
-              <p className="mb-3 flex items-center justify-center gap-1.5 text-center text-xs font-semibold text-muted-foreground">
-                <Trophy size={13} className="text-primary" />
-                Every question includes:
-              </p>
-              <div className="flex items-start justify-between gap-1">
-                {INCLUDES.map((item) => (
-                  <div key={item.label} className="flex flex-1 flex-col items-center gap-1.5 text-center">
-                    <item.icon size={16} className="text-primary" />
-                    <p className="text-xs leading-tight text-muted-foreground">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="flex gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
               <Brain size={18} className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
               <div>
@@ -195,9 +188,36 @@ export function DemoQuestionCard() {
                 <p className="mb-1 font-semibold text-violet-600 dark:text-violet-400">
                   Quick Memory Rule
                 </p>
-                <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/80">
-                  {DEMO_QUESTION.quickMemoryRule}
-                </p>
+                {(() => {
+                  const { facts, closing } = splitQuickMemoryRule(DEMO_QUESTION.quickMemoryRule);
+                  return (
+                    <>
+                      <div className="flex flex-wrap gap-x-6 gap-y-1.5 text-sm text-foreground/80">
+                        {facts.map((fact) => (
+                          <span key={fact}>{fact}</span>
+                        ))}
+                      </div>
+                      {closing && (
+                        <p className="mt-2 text-sm leading-relaxed text-foreground/80">{closing}</p>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-card-border bg-muted p-4">
+              <p className="mb-3 flex items-center justify-center gap-1.5 text-center text-xs font-semibold text-muted-foreground">
+                <Trophy size={13} className="text-primary" />
+                Every question includes:
+              </p>
+              <div className="flex items-start justify-between gap-1">
+                {INCLUDES.map((item) => (
+                  <div key={item.label} className="flex flex-1 flex-col items-center gap-1.5 text-center">
+                    <item.icon size={16} className="text-primary" />
+                    <p className="text-xs leading-tight text-muted-foreground">{item.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
