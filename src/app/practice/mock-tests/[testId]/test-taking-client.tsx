@@ -48,6 +48,17 @@ export function TestTakingClient({
     picks: number[];
   }>({ index: -1, picks: [] });
   const pendingPicks = pendingPicksState.index === currentIndex ? pendingPicksState.picks : [];
+  // True once the user has explicitly asked to see their results - not just
+  // whenever the last question happens to get answered. Without this gate,
+  // answering question 24 would immediately swap the whole screen to the
+  // results panel, so the user never gets to see feedback for that last
+  // question. Defaults to true only if the test was already fully answered
+  // on a previous visit (so returning to a finished test shows the score
+  // right away, as expected).
+  const [wantsResults, setWantsResults] = useState(() => {
+    const initialAnswers = initialProgress?.answers ?? {};
+    return Object.keys(initialAnswers).length === test.questions.length;
+  });
   const [error, setError] = useState<string | null>(null);
   const questionCardRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
@@ -74,7 +85,7 @@ export function TestTakingClient({
   const answeredCount = Object.keys(answers).length;
   const isLastQuestion = currentIndex === test.questions.length - 1;
   const allAnswered = answeredCount === test.questions.length;
-  const showResults = allAnswered && isLastQuestion && isAnswered;
+  const showResults = wantsResults && allAnswered;
 
   function commitAnswer(selected: number[]) {
     setError(null);
@@ -142,6 +153,7 @@ export function TestTakingClient({
         await resetTestProgress(test.id);
         setAnswers({});
         setPendingPicksState({ index: -1, picks: [] });
+        setWantsResults(false);
         setCurrentIndex(0);
       } catch {
         setError("Couldn't reset progress - please try again.");
@@ -331,6 +343,14 @@ export function TestTakingClient({
                     className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
                   >
                     Answer remaining questions
+                    <ArrowRight size={16} />
+                  </button>
+                ) : isLastQuestion && allAnswered ? (
+                  <button
+                    onClick={() => setWantsResults(true)}
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
+                  >
+                    See Results
                     <ArrowRight size={16} />
                   </button>
                 ) : !isLastQuestion ? (

@@ -205,53 +205,55 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Demo question */}
-      <section className="border-t border-card-border bg-muted">
-        <div className="mx-auto max-w-4xl px-6 pt-14 pb-8">
-          <div className="mb-6 text-center">
-            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              <Star size={12} />
-              Demo experience
-            </span>
-            <h2 className="text-3xl font-extrabold tracking-tight">
-              See How We Help You Remember, Not Just Memorise
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Answer this real exam-style question to see our unique memory technique in action.
-            </p>
-          </div>
-
-          <DemoQuestionCard />
-
-          <div className="mt-6 flex flex-col items-center justify-between gap-5 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:flex-row">
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <GraduationCap size={22} />
+      {/* Demo question - only for visitors who haven't bought Full Access yet */}
+      {!hasFullAccess && (
+        <section className="border-t border-card-border bg-muted">
+          <div className="mx-auto max-w-4xl px-6 pt-14 pb-8">
+            <div className="mb-6 text-center">
+              <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                <Star size={12} />
+                Demo experience
               </span>
-              <div>
-                <p className="font-semibold">This is just one example.</p>
-                <p className="text-sm text-muted-foreground">
-                  Get full access to {TOTAL_TESTS} mocks with expert explanations, memory tips &
-                  quick rules.
+              <h2 className="text-3xl font-extrabold tracking-tight">
+                See How We Help You Remember, Not Just Memorise
+              </h2>
+              <p className="mt-3 text-muted-foreground">
+                Answer this real exam-style question to see our unique memory technique in action.
+              </p>
+            </div>
+
+            <DemoQuestionCard />
+
+            <div className="mt-6 flex flex-col items-center justify-between gap-5 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:flex-row">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <GraduationCap size={22} />
+                </span>
+                <div>
+                  <p className="font-semibold">This is just one example.</p>
+                  <p className="text-sm text-muted-foreground">
+                    Get full access to {TOTAL_TESTS} mocks with expert explanations, memory tips &
+                    quick rules.
+                  </p>
+                </div>
+              </div>
+              <div className="flex shrink-0 flex-col items-center gap-1.5">
+                <Link
+                  href={freeTestHref}
+                  className="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                >
+                  Start Your First Mock Test
+                  <ArrowRight size={16} />
+                </Link>
+                <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <ShieldCheck size={12} />
+                  Pass Guarantee · Lifetime access
                 </p>
               </div>
             </div>
-            <div className="flex shrink-0 flex-col items-center gap-1.5">
-              <Link
-                href={freeTestHref}
-                className="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-              >
-                Start Your First Mock Test
-                <ArrowRight size={16} />
-              </Link>
-              <p className="flex items-center gap-1 text-xs text-muted-foreground">
-                <ShieldCheck size={12} />
-                Pass Guarantee · Lifetime access
-              </p>
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Pricing / Membership */}
       <section id="pricing" className={`mx-auto max-w-5xl px-6 ${hasFullAccess ? "py-10" : "pt-10 pb-10"}`}>
