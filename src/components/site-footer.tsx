@@ -11,6 +11,9 @@ export function SiteFooter() {
           <Link href="/terms" className="font-medium text-primary hover:underline">
             Terms and Conditions
           </Link>
+          <Link href="/privacy-policy" className="font-medium text-primary hover:underline">
+            Privacy Policy
+          </Link>
         </div>
         <p>
           © {new Date().getFullYear()} Life in UK Mocks. Independent practice resource - not

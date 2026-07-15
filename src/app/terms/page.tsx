@@ -1,7 +1,10 @@
-type Block = { type: "p"; text: string } | { type: "ul"; items: string[] };
+import type { ReactNode } from "react";
+import Link from "next/link";
+
+type Block = { type: "p"; text: ReactNode } | { type: "ul"; items: string[] };
 type Section = { heading: string; blocks: Block[] };
 
-const p = (text: string): Block => ({ type: "p", text });
+const p = (text: ReactNode): Block => ({ type: "p", text });
 const ul = (items: string[]): Block => ({ type: "ul", items });
 
 const sections: Section[] = [
@@ -10,7 +13,17 @@ const sections: Section[] = [
     blocks: [
       p(`Welcome to Life in UK Mocks ("Life in UK Mocks", "we", "us", "our", "Company").`),
       p(`These Terms and Conditions ("Terms") govern your access to and use of the Life in UK Mocks website and all related services (collectively, the "Service"). The Service is currently accessible via our website only; no mobile application is available at this time. If we launch a mobile app in future, these Terms will apply to it as well unless replaced by an updated version.`),
-      p(`By accessing or using the Service, creating an account, or purchasing any paid plan, you ("User", "you") confirm that you have read, understood, and agree to be legally bound by these Terms and our Privacy Policy. If you do not agree, you must not use the Service.`),
+      p(
+        <>
+          By accessing or using the Service, creating an account, or purchasing any paid plan,
+          you (&quot;User&quot;, &quot;you&quot;) confirm that you have read, understood, and agree
+          to be legally bound by these Terms and our{" "}
+          <Link href="/privacy-policy" className="font-medium text-primary hover:underline">
+            Privacy Policy
+          </Link>
+          . If you do not agree, you must not use the Service.
+        </>
+      ),
     ],
   },
   {
@@ -57,7 +70,7 @@ const sections: Section[] = [
   {
     heading: "6. Accounts",
     blocks: [
-      p(`To access certain features you may need to register an account, for example using an email and password, or a supported third-party sign-in option such as Google Sign-In (where offered). You are responsible for:`),
+      p(`To access certain features you need to register an account. Registration is currently only available via Google Sign-In; we do not offer a separate email-and-password login. If we add other sign-in methods in future, these Terms will apply to them as well. You are responsible for:`),
       ul([
         "providing accurate and current information when registering;",
         "keeping your login credentials confidential and secure;",
@@ -70,7 +83,21 @@ const sections: Section[] = [
   {
     heading: "7. Your Answers and Usage Data",
     blocks: [
-      p(`We store information necessary to operate the Service, including your account details, mock test attempts, and progress. By using the Service, you grant us a worldwide, royalty-free, perpetual licence to use this data in aggregated and anonymised form - for example, to identify which questions are most commonly answered incorrectly, to improve our content, or to publish general statistics or insights. We will not publish this data in a way that identifies you personally without your consent. Your personal information is processed in accordance with our Privacy Policy.`),
+      p(
+        <>
+          We store information necessary to operate the Service, including your account details,
+          mock test attempts, and progress. We may analyse this data in aggregated and anonymised
+          form - for example, to identify which questions are most commonly answered incorrectly,
+          to improve our content, or to publish general statistics or insights. We will not
+          publish this data in a way that identifies you personally without your consent, and we
+          do not sell it to third parties. Full details of how we collect, use, and protect your
+          personal data are set out in our{" "}
+          <Link href="/privacy-policy" className="font-medium text-primary hover:underline">
+            Privacy Policy
+          </Link>
+          .
+        </>
+      ),
     ],
   },
   {
@@ -111,7 +138,7 @@ const sections: Section[] = [
   {
     heading: "12. Third-Party Services",
     blocks: [
-      p(`Our website may use third-party services, including payment processing (e.g. Stripe), authentication providers, analytics providers, and email service providers. We are not responsible for the availability, security, or policies of these third-party services. Your use of them is subject to their own terms and privacy policies.`),
+      p(`Our website uses third-party services, including payment processing (Stripe), authentication (Google Sign-In), and transactional email delivery (Resend). We are not responsible for the availability, security, or policies of these third-party services. Your use of them is subject to their own terms and privacy policies.`),
     ],
   },
   {
@@ -172,9 +199,29 @@ const sections: Section[] = [
     ],
   },
   {
-    heading: "21. Contact Us",
+    heading: "21. Who We Are and How to Contact Us",
     blocks: [
-      p(`If you have questions about these Terms, please contact us via the Contact Us page or the support email address published on our website.`),
+      p(`Life in UK Mocks is operated by Arunkumar Velmurugan, trading as Life in UK Mocks.`),
+      p(
+        <>
+          If you have any questions about these Terms or our{" "}
+          <Link href="/privacy-policy" className="font-medium text-primary hover:underline">
+            Privacy Policy
+          </Link>
+          , please contact us via our{" "}
+          <Link href="/contact" className="font-medium text-primary hover:underline">
+            Contact Us
+          </Link>{" "}
+          page or by email at{" "}
+          <a
+            href="mailto:support@lifeinukmocks.co.uk"
+            className="font-medium text-primary hover:underline"
+          >
+            support@lifeinukmocks.co.uk
+          </a>
+          .
+        </>
+      ),
     ],
   },
 ];

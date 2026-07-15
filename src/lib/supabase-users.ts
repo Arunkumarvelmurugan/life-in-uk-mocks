@@ -14,29 +14,70 @@ interface UpsertUserInput {
 /**
  * Called on every sign-in (see auth.ts jwt callback). Keeps the `users` row
  * in sync with the Google profile and returns its stable Supabase uuid,
- * which is what mock_test_progress rows are actually keyed on.
+ * which is what mock_test_progress rows are actually keyed on. Also reports
+ * whether this row was just created, so the caller can send a welcome email
+ * only on a genuine first sign-up rather than every returning sign-in.
  */
-export async function upsertUser({ googleSub, email, name, avatarUrl }: UpsertUserInput) {
-  const { data, error } = await supabaseAdmin
+export async function upsertUser({
+  googleSub,
+  email,
+  name,
+  avatarUrl,
+}: UpsertUserInput): Promise<{ userId: string; isNewUser: boolean }> {
+  const { data: existing, error: lookupError } = await supabaseAdmin
     .from("users")
-    .upsert(
-      {
-        google_sub: googleSub,
+    .select("id")
+    .eq("google_sub", googleSub)
+    .maybeSingle();
+  if (lookupError) throw new Error(`Failed to look up user: ${lookupError.message}`);
+
+  if (existing) {
+    const { error } = await supabaseAdmin
+      .from("users")
+      .update({
         email,
         name: name ?? null,
         avatar_url: avatarUrl ?? null,
         updated_at: new Date().toISOString(),
-      },
-      { onConflict: "google_sub" }
-    )
+      })
+      .eq("id", existing.id);
+    if (error) throw new Error(`Failed to update user: ${error.message}`);
+    return { userId: existing.id as string, isNewUser: false };
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from("users")
+    .insert({
+      google_sub: googleSub,
+      email,
+      name: name ?? null,
+      avatar_url: avatarUrl ?? null,
+    })
     .select("id")
     .single();
 
-  if (error || !data) {
-    throw new Error(`Failed to upsert user: ${error?.message}`);
+  if (error) {
+    // Unique-violation on google_sub means a concurrent sign-in request
+    // (e.g. a double-click) already inserted this user a moment ago -
+    // treat it as an existing user rather than surfacing a spurious error.
+    if (error.code === "23505") {
+      const { data: raceWinner, error: refetchError } = await supabaseAdmin
+        .from("users")
+        .select("id")
+        .eq("google_sub", googleSub)
+        .single();
+      if (refetchError || !raceWinner) {
+        throw new Error(`Failed to create user: ${error.message}`);
+      }
+      return { userId: raceWinner.id as string, isNewUser: false };
+    }
+    throw new Error(`Failed to create user: ${error.message}`);
+  }
+  if (!data) {
+    throw new Error("Failed to create user: no row returned");
   }
 
-  return data.id as string;
+  return { userId: data.id as string, isNewUser: true };
 }
 
 export interface UserAccess {

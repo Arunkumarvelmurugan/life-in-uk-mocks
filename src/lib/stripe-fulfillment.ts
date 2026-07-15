@@ -2,6 +2,7 @@ import "server-only";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase";
+import { sendPaymentConfirmationEmail } from "@/lib/transactional-emails";
 
 const ACCESS_GRANTING_STATUSES = ["active", "trialing", "past_due"];
 
@@ -20,6 +21,54 @@ async function findUserIdBySubscriptionId(subscriptionId: string): Promise<strin
     .maybeSingle();
   if (error) throw new Error(error.message);
   return data?.id ?? null;
+}
+
+/**
+ * Upserts a payments row and reports whether it was newly created. Both the
+ * webhook and the fast-path redirect route can call the same fulfillment
+ * function for the same payment, so this is what lets the caller send a
+ * confirmation email exactly once instead of on every duplicate call.
+ */
+async function recordPayment(
+  conflictColumn: "stripe_checkout_session_id" | "stripe_invoice_id",
+  row: Record<string, unknown>
+): Promise<{ isNew: boolean }> {
+  const conflictValue = row[conflictColumn];
+  const { data: existing } = await supabaseAdmin
+    .from("payments")
+    .select("id")
+    .eq(conflictColumn, conflictValue as string)
+    .maybeSingle();
+
+  const { error } = await supabaseAdmin
+    .from("payments")
+    .upsert(row, { onConflict: conflictColumn, ignoreDuplicates: false });
+  if (error) throw new Error(`Failed to record payment: ${error.message}`);
+
+  return { isNew: !existing };
+}
+
+/** Best-effort confirmation email - looks up the user's email/name by id. */
+async function sendPaymentConfirmationForUser(
+  userId: string,
+  plan: "premium" | "lifetime",
+  amountPence: number,
+  currency: string
+) {
+  const { data: user, error } = await supabaseAdmin
+    .from("users")
+    .select("email, name, display_name")
+    .eq("id", userId)
+    .maybeSingle();
+  if (error || !user?.email) return;
+
+  await sendPaymentConfirmationEmail({
+    email: user.email,
+    name: user.display_name ?? user.name,
+    plan,
+    amountPence,
+    currency,
+  });
 }
 
 /**
@@ -85,21 +134,22 @@ export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Se
     const invoiceField = checkoutSession.invoice;
     const invoiceId = typeof invoiceField === "string" ? invoiceField : (invoiceField?.id ?? null);
 
-    const { error: paymentError } = await supabaseAdmin.from("payments").upsert(
-      {
-        user_id: userId,
-        plan: "lifetime",
-        stripe_checkout_session_id: checkoutSession.id,
-        stripe_payment_intent_id:
-          typeof checkoutSession.payment_intent === "string" ? checkoutSession.payment_intent : null,
-        stripe_invoice_id: invoiceId,
-        amount: checkoutSession.amount_total ?? 0,
-        currency: checkoutSession.currency ?? "gbp",
-        status: "paid",
-      },
-      { onConflict: "stripe_checkout_session_id", ignoreDuplicates: false }
-    );
-    if (paymentError) throw new Error(`Failed to record payment: ${paymentError.message}`);
+    const amountTotal = checkoutSession.amount_total ?? 0;
+    const currency = checkoutSession.currency ?? "gbp";
+    const { isNew } = await recordPayment("stripe_checkout_session_id", {
+      user_id: userId,
+      plan: "lifetime",
+      stripe_checkout_session_id: checkoutSession.id,
+      stripe_payment_intent_id:
+        typeof checkoutSession.payment_intent === "string" ? checkoutSession.payment_intent : null,
+      stripe_invoice_id: invoiceId,
+      amount: amountTotal,
+      currency,
+      status: "paid",
+    });
+    if (isNew) {
+      await sendPaymentConfirmationForUser(userId, "lifetime", amountTotal, currency);
+    }
 
     // If they were an active Premium subscriber, upgrading to Lifetime
     // cancels the subscription so they aren't charged again.
@@ -143,19 +193,20 @@ export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Se
   const invoiceField = checkoutSession.invoice;
   const invoiceId = typeof invoiceField === "string" ? invoiceField : (invoiceField?.id ?? null);
 
-  const { error: paymentError } = await supabaseAdmin.from("payments").upsert(
-    {
-      user_id: userId,
-      plan: "premium",
-      stripe_invoice_id: invoiceId,
-      stripe_subscription_id: subscription.id,
-      amount: checkoutSession.amount_total ?? 0,
-      currency: checkoutSession.currency ?? "gbp",
-      status: "paid",
-    },
-    { onConflict: "stripe_invoice_id", ignoreDuplicates: false }
-  );
-  if (paymentError) throw new Error(`Failed to record payment: ${paymentError.message}`);
+  const subAmountTotal = checkoutSession.amount_total ?? 0;
+  const subCurrency = checkoutSession.currency ?? "gbp";
+  const { isNew: isNewSubPayment } = await recordPayment("stripe_invoice_id", {
+    user_id: userId,
+    plan: "premium",
+    stripe_invoice_id: invoiceId,
+    stripe_subscription_id: subscription.id,
+    amount: subAmountTotal,
+    currency: subCurrency,
+    status: "paid",
+  });
+  if (isNewSubPayment) {
+    await sendPaymentConfirmationForUser(userId, "premium", subAmountTotal, subCurrency);
+  }
 
   await applySubscriptionToUser(userId, subscription);
 }
@@ -168,19 +219,20 @@ export async function fulfillInvoicePayment(invoice: Stripe.Invoice) {
   const userId = await findUserIdBySubscriptionId(subscriptionId);
   if (!userId) return;
 
-  const { error: paymentError } = await supabaseAdmin.from("payments").upsert(
-    {
-      user_id: userId,
-      plan: "premium",
-      stripe_invoice_id: invoice.id,
-      stripe_subscription_id: subscriptionId,
-      amount: invoice.amount_paid ?? 0,
-      currency: invoice.currency ?? "gbp",
-      status: "paid",
-    },
-    { onConflict: "stripe_invoice_id", ignoreDuplicates: false }
-  );
-  if (paymentError) throw new Error(`Failed to record payment: ${paymentError.message}`);
+  const invoiceAmount = invoice.amount_paid ?? 0;
+  const invoiceCurrency = invoice.currency ?? "gbp";
+  const { isNew } = await recordPayment("stripe_invoice_id", {
+    user_id: userId,
+    plan: "premium",
+    stripe_invoice_id: invoice.id,
+    stripe_subscription_id: subscriptionId,
+    amount: invoiceAmount,
+    currency: invoiceCurrency,
+    status: "paid",
+  });
+  if (isNew) {
+    await sendPaymentConfirmationForUser(userId, "premium", invoiceAmount, invoiceCurrency);
+  }
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
   await applySubscriptionToUser(userId, subscription);
