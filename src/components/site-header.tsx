@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { auth } from "@/auth";
 import { signInWithGoogle } from "@/lib/auth-actions";
 import { getUserDisplayName, getUserAccess } from "@/lib/supabase-users";
@@ -14,14 +13,17 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-card-border bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
-        <Link
-          href="/"
-          className="flex shrink-0 items-center gap-2 whitespace-nowrap text-lg font-extrabold tracking-tight"
-        >
-          <Image src="/logo-header.png" alt="" width={40} height={40} priority />
-          <span className="hidden sm:inline">
-            Life in UK<span className="text-primary"> Mocks</span>
-          </span>
+        <Link href="/" className="flex shrink-0 items-center whitespace-nowrap">
+          {/* eslint-disable-next-line @next/next/no-img-element -- SVG logo, no
+              benefit from Next's raster pipeline and this keeps it perfectly
+              sharp at any zoom/pixel density */}
+          <img src="/logo-header.svg" alt="Life in UK Mocks" className="h-10 w-auto dark:hidden" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- see above */}
+          <img
+            src="/logo-header-dark.svg"
+            alt="Life in UK Mocks"
+            className="hidden h-10 w-auto dark:block"
+          />
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium sm:flex">
           <Link href="/practice/mock-tests" className="text-muted-foreground hover:text-foreground">
