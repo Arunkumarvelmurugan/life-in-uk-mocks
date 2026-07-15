@@ -17,6 +17,9 @@
   --danger: #dc2626;
   --danger-bg: #fef2f2;
   --danger-border: #fca5a5;
+  --warning: #b45309;
+  --warning-bg: #fffbeb;
+  --warning-border: #fcd34d;
 }
 
 .dark {
@@ -34,6 +37,9 @@
   --danger: #f87171;
   --danger-bg: #2a1315;
   --danger-border: #7f1d1d;
+  --warning: #fbbf24;
+  --warning-bg: #2a2110;
+  --warning-border: #78350f;
 }
 
 @theme inline {
@@ -51,6 +57,9 @@
   --color-danger: var(--danger);
   --color-danger-bg: var(--danger-bg);
   --color-danger-border: var(--danger-border);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

@@ -8,6 +8,7 @@ import {
   Lock,
   Brain,
   Star,
+  Zap,
   GraduationCap,
   ArrowRight,
   Calendar,
@@ -16,11 +17,18 @@ import {
   Award,
   Lightbulb,
   Trophy,
+  Settings,
+  AlertTriangle,
+  Tag,
+  Gift,
+  Gem,
+  Crown,
 } from "lucide-react";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST, FREE_TEST_ID } from "@/lib/tests";
 import { auth } from "@/auth";
-import { getUserHasFullAccess, getUserDisplayName } from "@/lib/supabase-users";
-import { createCheckoutSession } from "@/lib/checkout-actions";
+import { getUserAccess, getUserDisplayName } from "@/lib/supabase-users";
+import { createPremiumCheckoutSession, createLifetimeCheckoutSession } from "@/lib/checkout-actions";
+import { createBillingPortalSession } from "@/lib/billing-portal-actions";
 import { getPaymentHistory } from "@/lib/payments-actions";
 import { getAllProgress } from "@/lib/progress-actions";
 import { ProgressBar } from "@/components/progress-bar";
@@ -56,6 +64,7 @@ const features = [
 ];
 
 const guaranteeConditions = [
+  "Have Lifetime Access (the Pass Guarantee isn't included with Premium).",
   `Complete all ${TOTAL_TESTS} mock tests.`,
   "Achieve a score of 75% or higher on each mock test.",
   "Take your official Life in the UK Test within 60 days of completing the mock tests.",
@@ -77,20 +86,50 @@ const plans = [
     cta: "Start free test",
   },
   {
-    id: "full" as const,
-    name: "Full Access",
-    price: "£19.99",
+    id: "premium" as const,
+    name: "Premium",
+    badge: "Most Popular",
+    price: "£7.99",
+    period: "for 30 days",
+    description: "Full access, renews automatically.",
+    features: [
+      `All ${TOTAL_TESTS} mock tests`,
+      "Progress tracking across every test",
+      "Unlimited retakes",
+      "Auto-renews every 30 days - cancel anytime",
+    ],
+    cta: "Get Premium",
+  },
+  {
+    id: "lifetime" as const,
+    name: "Lifetime Access",
+    price: "£12.99",
     period: "one-time",
-    description: "Everything you need to pass first time.",
+    description: "Pay once, keep access forever.",
     features: [
       `All ${TOTAL_TESTS} mock tests`,
       "Progress tracking across every test",
       "Unlimited retakes",
       "Pass guarantee - money back if you fail",
     ],
-    cta: "Get full access",
+    cta: "Get Lifetime Access",
   },
 ];
+
+const PLAN_VISUALS = {
+  free: {
+    Icon: Gift,
+    iconClasses: "bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
+  },
+  premium: {
+    Icon: Gem,
+    iconClasses: "bg-primary/10 text-primary",
+  },
+  lifetime: {
+    Icon: Crown,
+    iconClasses: "bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
+  },
+} as const;
 
 function formatPurchaseDate(iso: string) {
   return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(
@@ -106,26 +145,31 @@ export default async function Home({
   const { signin, upgrade } = await searchParams;
   const session = await auth();
   const isSignedIn = !!session?.user;
-  const hasFullAccess = isSignedIn ? await getUserHasFullAccess(session.user.id) : false;
+  const access = isSignedIn ? await getUserAccess(session.user.id) : null;
+  const hasFullAccess = access?.hasAccess ?? false;
   const freeTestHref = isSignedIn ? "/practice/mock-tests" : `/practice/mock-tests/${FREE_TEST_ID}`;
   const heroCtaLabel = hasFullAccess ? "Go to Mock Tests" : "Start practicing free";
 
   let membership: {
+    plan: "premium" | "lifetime";
     displayName: string | null;
     purchasedAt: string | null;
-    completedTests: number;
+    passedTests: number;
     nextTestId: number | null;
+    premiumCurrentPeriodEnd: string | null;
+    premiumCancelAtPeriodEnd: boolean;
   } | null = null;
 
-  if (hasFullAccess && session?.user) {
+  if (hasFullAccess && access && (access.plan === "premium" || access.plan === "lifetime") && session?.user) {
     const [displayName, payments, allProgress] = await Promise.all([
       getUserDisplayName(session.user.id),
       getPaymentHistory(),
       getAllProgress(),
     ]);
 
-    const completedTests = Object.values(allProgress).filter(
-      (p) => Object.keys(p.answers).length === QUESTIONS_PER_TEST
+    const PASS_THRESHOLD_SCORE = Math.ceil(QUESTIONS_PER_TEST * 0.75);
+    const passedTests = Object.values(allProgress).filter(
+      (p) => (p.score ?? 0) >= PASS_THRESHOLD_SCORE
     ).length;
 
     let nextTestId: number | null = null;
@@ -139,7 +183,15 @@ export default async function Home({
 
     const purchasedAt = payments.length > 0 ? payments[payments.length - 1].createdAt : null;
 
-    membership = { displayName, purchasedAt, completedTests, nextTestId };
+    membership = {
+      plan: access.plan,
+      displayName,
+      purchasedAt,
+      passedTests,
+      nextTestId,
+      premiumCurrentPeriodEnd: access.premiumCurrentPeriodEnd,
+      premiumCancelAtPeriodEnd: access.premiumCancelAtPeriodEnd,
+    };
   }
 
   return (
@@ -156,7 +208,7 @@ export default async function Home({
       {upgrade === "required" && !hasFullAccess && (
         <div className="flex items-center justify-center gap-2 bg-primary px-6 py-2.5 text-center text-sm font-medium text-primary-foreground">
           <Lock size={15} />
-          Upgrade to Full Access to unlock all {TOTAL_TESTS} mock tests.
+          Upgrade to unlock all {TOTAL_TESTS} mock tests.
         </div>
       )}
       {/* Hero */}
@@ -232,8 +284,8 @@ export default async function Home({
                 <div>
                   <p className="font-semibold">This is just one example.</p>
                   <p className="text-sm text-muted-foreground">
-                    Get full access to {TOTAL_TESTS} mocks with expert explanations, memory tips &
-                    quick rules.
+                    Unlock all {TOTAL_TESTS} mocks with expert explanations, memory tips & quick
+                    rules.
                   </p>
                 </div>
               </div>
@@ -247,7 +299,7 @@ export default async function Home({
                 </Link>
                 <p className="flex items-center gap-1 text-xs text-muted-foreground">
                   <ShieldCheck size={12} />
-                  Pass Guarantee · Lifetime access
+                  From £7.99 · Pass Guarantee with Lifetime Access
                 </p>
               </div>
             </div>
@@ -261,37 +313,75 @@ export default async function Home({
           <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-violet-500/10 to-primary/5 p-8 sm:p-10">
             <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr]">
               <div className="mx-auto flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-violet-500/20 lg:mx-0">
-                <Trophy size={56} className="text-primary" />
+                {membership.plan === "lifetime" ? (
+                  <Trophy size={56} className="text-primary" />
+                ) : (
+                  <Zap size={56} className="text-primary" />
+                )}
               </div>
 
               <div className="text-center lg:text-left">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary-foreground">
                   <CheckCircle2 size={14} />
-                  Premium Membership Active
+                  {membership.plan === "lifetime" ? "Lifetime Member" : "Premium Member"}
                 </span>
                 <h2 className="mt-3 text-3xl font-extrabold tracking-tight">
                   Welcome back{membership.displayName ? `, ${membership.displayName.split(" ")[0]}` : ""}{" "}
                   👋
                 </h2>
                 <p className="mt-2 text-muted-foreground">
-                  You have <span className="font-semibold text-primary">Lifetime Access</span> to all{" "}
-                  {TOTAL_TESTS} mock tests.
+                  You have{" "}
+                  <span className="font-semibold text-primary">
+                    {membership.plan === "lifetime" ? "Lifetime Access" : "Premium Access"}
+                  </span>{" "}
+                  to all {TOTAL_TESTS} mock tests.
                 </p>
-                {membership.purchasedAt && (
+                {membership.plan === "lifetime" && membership.purchasedAt && (
                   <p className="mt-2 flex items-center justify-center gap-1.5 text-sm text-muted-foreground lg:justify-start">
                     <Calendar size={14} />
                     Purchased {formatPurchaseDate(membership.purchasedAt)}
                   </p>
+                )}
+                {membership.plan === "premium" && (
+                  <div className="mt-3 flex flex-col items-center gap-2 sm:flex-row sm:justify-center lg:justify-start">
+                    {membership.premiumCurrentPeriodEnd && (
+                      <p
+                        className={
+                          membership.premiumCancelAtPeriodEnd
+                            ? "flex items-center gap-1.5 text-sm text-warning"
+                            : "flex items-center gap-1.5 text-sm text-muted-foreground"
+                        }
+                      >
+                        {membership.premiumCancelAtPeriodEnd ? (
+                          <AlertTriangle size={14} />
+                        ) : (
+                          <Calendar size={14} />
+                        )}
+                        {membership.premiumCancelAtPeriodEnd
+                          ? `Subscription canceled - you'll keep access until ${formatPurchaseDate(membership.premiumCurrentPeriodEnd)}`
+                          : `Renews ${formatPurchaseDate(membership.premiumCurrentPeriodEnd)}`}
+                      </p>
+                    )}
+                    <form action={createBillingPortalSession}>
+                      <button
+                        type="submit"
+                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-primary/40"
+                      >
+                        <Settings size={14} />
+                        Manage subscription
+                      </button>
+                    </form>
+                  </div>
                 )}
 
                 <div className="mt-6 rounded-xl bg-card p-4 text-left shadow-sm">
                   <div className="mb-1.5 flex items-center justify-between text-sm">
                     <span className="font-medium">Overall Progress</span>
                     <span className="text-muted-foreground">
-                      {membership.completedTests}/{TOTAL_TESTS} tests
+                      {membership.passedTests}/{TOTAL_TESTS} tests
                     </span>
                   </div>
-                  <ProgressBar value={membership.completedTests} max={TOTAL_TESTS} variant="success" />
+                  <ProgressBar value={membership.passedTests} max={TOTAL_TESTS} variant="success" />
                 </div>
 
                 {membership.nextTestId ? (
@@ -338,7 +428,7 @@ export default async function Home({
                 <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-primary/10 pt-4 text-sm text-muted-foreground lg:justify-start">
                   <span className="flex items-center gap-1.5">
                     <ShieldCheck size={16} className="text-primary" />
-                    Lifetime Access
+                    {membership.plan === "lifetime" ? "Lifetime Access" : "Pass Guarantee not included"}
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Award size={16} className="text-primary" />
@@ -359,21 +449,63 @@ export default async function Home({
         ) : !hasFullAccess ? (
           <>
             <div className="mb-10 text-center">
-              <h2 className="text-3xl font-extrabold tracking-tight">Simple pricing</h2>
-              <p className="mt-3 text-muted-foreground">One plan, one payment, no subscriptions.</p>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+                <Tag size={14} />
+                Find the plan that fits your journey
+              </span>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Choose{" "}
+                <span className="relative inline-block">
+                  your plan
+                  <svg
+                    className="absolute -bottom-1.5 left-0 w-full text-primary/40"
+                    viewBox="0 0 200 12"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M2 9C40 2 100 2 198 9"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      fill="none"
+                    />
+                  </svg>
+                </span>
+              </h2>
+              <p className="mt-3 text-muted-foreground">
+                Try it free, subscribe for a month, or pay once and keep access forever.
+              </p>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {plans.map((plan) => (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {plans.map((plan) => {
+                const { Icon, iconClasses } = PLAN_VISUALS[plan.id];
+                return (
                 <div
                   key={plan.name}
-                  className="rounded-2xl border border-card-border bg-card p-8 shadow-sm"
+                  className={`relative rounded-2xl border p-8 shadow-sm ${
+                    plan.badge ? "border-primary shadow-md" : "border-card-border bg-card"
+                  }`}
                 >
-                  <h3 className="text-lg font-semibold">{plan.name}</h3>
-                  <p className="mt-3 flex items-baseline gap-1.5">
+                  {plan.badge && (
+                    <span className="absolute -top-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-gradient-to-r from-primary to-violet-500 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary-foreground shadow-sm">
+                      <Star size={12} className="fill-current" />
+                      {plan.badge}
+                    </span>
+                  )}
+                  <div className="flex items-center gap-3">
+                    <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${iconClasses}`}>
+                      <Icon size={22} />
+                    </span>
+                    <div>
+                      <h3 className="text-lg font-semibold">{plan.name}</h3>
+                      <p className="text-sm text-muted-foreground">{plan.description}</p>
+                    </div>
+                  </div>
+                  <p className="mt-5 flex items-baseline gap-1.5">
                     <span className="text-4xl font-extrabold">{plan.price}</span>
                     {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
                   </p>
-                  <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
                   <ul className="mt-6 flex flex-col gap-2.5">
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-2 text-sm">
@@ -382,8 +514,17 @@ export default async function Home({
                       </li>
                     ))}
                   </ul>
-                  {plan.id === "full" ? (
-                    <form action={createCheckoutSession}>
+                  {plan.id === "premium" ? (
+                    <form action={createPremiumCheckoutSession}>
+                      <button
+                        type="submit"
+                        className="mt-8 block w-full cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
+                      >
+                        {plan.cta}
+                      </button>
+                    </form>
+                  ) : plan.id === "lifetime" ? (
+                    <form action={createLifetimeCheckoutSession}>
                       <button
                         type="submit"
                         className="mt-8 block w-full cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
@@ -400,7 +541,8 @@ export default async function Home({
                     </Link>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </>
         ) : null}
@@ -416,7 +558,7 @@ export default async function Home({
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
               We&apos;re confident our course will help you pass the Life in the UK Test. If you
-              don&apos;t, you get a 100% refund of your Full Access payment.
+              don&apos;t, you get a 100% refund of your Lifetime Access payment.
             </p>
           </div>
 
@@ -433,8 +575,8 @@ export default async function Home({
 
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
               If you meet these conditions and still don&apos;t pass, simply send us your official
-              Life in the UK Test result email or result letter, and we&apos;ll refund your Full
-              Access payment in full.
+              Life in the UK Test result email or result letter, and we&apos;ll refund your
+              Lifetime Access payment in full.
             </p>
             <p className="mt-3 text-sm font-medium">
               No hidden terms. No small-print surprises. Just a genuine safety net.

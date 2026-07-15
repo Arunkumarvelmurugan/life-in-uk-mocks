@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { getTestById, FREE_TEST_ID } from "@/lib/tests";
 import { getProgressForTest } from "@/lib/progress-actions";
-import { getUserHasFullAccess } from "@/lib/supabase-users";
+import { getUserAccess } from "@/lib/supabase-users";
 import { TestTakingClient } from "./test-taking-client";
 
 export default async function TestPage({
@@ -32,8 +32,8 @@ export default async function TestPage({
 
   const isFreeTest = test.id === FREE_TEST_ID;
   if (!isFreeTest) {
-    const hasFullAccess = await getUserHasFullAccess(session.user.id);
-    if (!hasFullAccess) {
+    const { hasAccess } = await getUserAccess(session.user.id);
+    if (!hasAccess) {
       redirect("/?upgrade=required");
     }
   }

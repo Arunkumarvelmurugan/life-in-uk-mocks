@@ -2,14 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/auth";
 import { signInWithGoogle } from "@/lib/auth-actions";
-import { getUserDisplayName, getUserHasFullAccess } from "@/lib/supabase-users";
+import { getUserDisplayName, getUserAccess } from "@/lib/supabase-users";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/user-menu";
 
 export async function SiteHeader() {
   const session = await auth();
   const displayName = session?.user ? await getUserDisplayName(session.user.id) : null;
-  const hasFullAccess = session?.user ? await getUserHasFullAccess(session.user.id) : false;
+  const hasFullAccess = session?.user ? (await getUserAccess(session.user.id)).hasAccess : false;
 
   return (
     <header className="sticky top-0 z-20 border-b border-card-border bg-background/80 backdrop-blur">

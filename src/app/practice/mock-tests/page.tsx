@@ -14,7 +14,7 @@ import {
 import { auth } from "@/auth";
 import { mockTests, QUESTIONS_PER_TEST, TOTAL_TESTS, FREE_TEST_ID } from "@/lib/tests";
 import { getAllProgress } from "@/lib/progress-actions";
-import { getUserHasFullAccess } from "@/lib/supabase-users";
+import { getUserAccess } from "@/lib/supabase-users";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { ProgressBar } from "@/components/progress-bar";
 import { RadialProgress } from "@/components/radial-progress";
@@ -39,10 +39,11 @@ export default async function MockTestsPage({
 
   const { purchase, filter = "all" } = await searchParams;
 
-  const [allProgress, hasFullAccess] = await Promise.all([
+  const [allProgress, access] = await Promise.all([
     getAllProgress(),
-    getUserHasFullAccess(session.user.id),
+    getUserAccess(session.user.id),
   ]);
+  const { hasAccess: hasFullAccess, qualifiesForPassGuarantee } = access;
 
   // Pass Guarantee eligibility requires passing (not just completing) every
   // test. Unattempted or failed tests don't count, even if all 17 have been
@@ -92,21 +93,21 @@ export default async function MockTestsPage({
       {purchase === "success" && (
         <div className="mb-8 flex items-center gap-2 rounded-2xl border border-success-border bg-success-bg px-6 py-4 text-sm font-medium text-success">
           <PartyPopper size={18} className="shrink-0" />
-          Payment successful - Full Access unlocked. Good luck!
+          Payment successful - all mock tests unlocked. Good luck!
         </div>
       )}
 
       {!hasFullAccess && (
         <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-4 text-sm">
           <span className="text-foreground/80">
-            You have free access to Test {FREE_TEST_ID}. Upgrade to Full Access to unlock all{" "}
-            {TOTAL_TESTS} mock tests.
+            You have free access to Test {FREE_TEST_ID}. Upgrade to unlock all {TOTAL_TESTS} mock
+            tests.
           </span>
           <Link
             href="/#pricing"
             className="shrink-0 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground hover:opacity-90"
           >
-            Get Full Access
+            See plans
           </Link>
         </div>
       )}
@@ -123,9 +124,11 @@ export default async function MockTestsPage({
               {passedTests} of {TOTAL_TESTS} mock tests passed
             </p>
             <p className="mt-3 max-w-md text-sm text-muted-foreground">
-              {passedTests === TOTAL_TESTS
-                ? "🎉 Congratulations! You've earned the Pass Guarantee."
-                : `You must pass all ${TOTAL_TESTS} mock tests (${PASS_THRESHOLD_SCORE}/${QUESTIONS_PER_TEST} or higher) to qualify for the Pass Guarantee.`}
+              {!qualifiesForPassGuarantee
+                ? "The Pass Guarantee is exclusive to Lifetime Access members - upgrade to become eligible."
+                : passedTests === TOTAL_TESTS
+                  ? "🎉 Congratulations! You've earned the Pass Guarantee."
+                  : `You must pass all ${TOTAL_TESTS} mock tests (${PASS_THRESHOLD_SCORE}/${QUESTIONS_PER_TEST} or higher) to qualify for the Pass Guarantee.`}
             </p>
           </div>
 

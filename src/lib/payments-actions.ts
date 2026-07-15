@@ -7,6 +7,7 @@ export interface PaymentRecord {
   amount: number;
   currency: string;
   status: string;
+  plan: "premium" | "lifetime" | null;
   createdAt: string;
 }
 
@@ -16,7 +17,7 @@ export async function getPaymentHistory(): Promise<PaymentRecord[]> {
 
   const { data, error } = await supabaseAdmin
     .from("payments")
-    .select("id, amount, currency, status, created_at")
+    .select("id, amount, currency, status, plan, created_at")
     .eq("user_id", session.user.id)
     .order("created_at", { ascending: false });
 
@@ -27,6 +28,7 @@ export async function getPaymentHistory(): Promise<PaymentRecord[]> {
     amount: row.amount,
     currency: row.currency,
     status: row.status,
+    plan: row.plan,
     createdAt: row.created_at,
   }));
 }

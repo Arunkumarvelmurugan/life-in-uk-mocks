@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
-import { fulfillCheckoutSession } from "@/lib/stripe-fulfillment";
+import {
+  fulfillCheckoutSession,
+  fulfillInvoicePayment,
+  handleInvoicePaymentFailed,
+  syncSubscriptionState,
+  handleSubscriptionDeleted,
+} from "@/lib/stripe-fulfillment";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -19,9 +25,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: `Invalid signature: ${message}` }, { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
-    const checkoutSession = event.data.object as Stripe.Checkout.Session;
-    await fulfillCheckoutSession(checkoutSession);
+  switch (event.type) {
+    case "checkout.session.completed":
+      await fulfillCheckoutSession(event.data.object as Stripe.Checkout.Session);
+      break;
+    case "invoice.paid":
+      await fulfillInvoicePayment(event.data.object as Stripe.Invoice);
+      break;
+    case "invoice.payment_failed":
+      await handleInvoicePaymentFailed(event.data.object as Stripe.Invoice);
+      break;
+    case "customer.subscription.updated":
+      await syncSubscriptionState(event.data.object as Stripe.Subscription);
+      break;
+    case "customer.subscription.deleted":
+      await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
+      break;
   }
 
   return NextResponse.json({ received: true });

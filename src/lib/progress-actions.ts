@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { supabaseAdmin } from "@/lib/supabase";
 import { getTestById, FREE_TEST_ID } from "@/lib/tests";
-import { getUserHasFullAccess } from "@/lib/supabase-users";
+import { getUserAccess } from "@/lib/supabase-users";
 import { sameIndexSet } from "@/lib/utils";
 
 export interface TestProgressRow {
@@ -29,9 +29,9 @@ async function requireUserId(): Promise<string> {
 async function requireTestAccess(testId: number): Promise<string> {
   const userId = await requireUserId();
   if (testId !== FREE_TEST_ID) {
-    const hasFullAccess = await getUserHasFullAccess(userId);
-    if (!hasFullAccess) {
-      throw new Error("Full Access required for this test");
+    const { hasAccess } = await getUserAccess(userId);
+    if (!hasAccess) {
+      throw new Error("Premium or Lifetime Access required for this test");
     }
   }
   return userId;

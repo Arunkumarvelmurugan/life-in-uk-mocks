@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CheckCircle2, LogOut, Receipt, ShieldCheck } from "lucide-react";
+import { CheckCircle2, LogOut, Receipt, ShieldCheck, Calendar, AlertTriangle, Settings } from "lucide-react";
 import { auth } from "@/auth";
 import { signOutAction } from "@/lib/auth-actions";
-import { createCheckoutSession } from "@/lib/checkout-actions";
-import { getUserHasFullAccess, getUserDisplayName } from "@/lib/supabase-users";
+import { createBillingPortalSession } from "@/lib/billing-portal-actions";
+import { getUserAccess, getUserDisplayName } from "@/lib/supabase-users";
 import { getPaymentHistory } from "@/lib/payments-actions";
 import { getAllProgress } from "@/lib/progress-actions";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST } from "@/lib/tests";
@@ -22,14 +22,25 @@ function formatDate(iso: string) {
   return new Intl.DateTimeFormat("en-GB", { dateStyle: "medium" }).format(new Date(iso));
 }
 
+const PLAN_LABELS = {
+  free: "Free plan",
+  premium: "Premium",
+  lifetime: "Lifetime Access",
+} as const;
+
+const PAYMENT_PLAN_LABELS: Record<string, string> = {
+  premium: "Premium",
+  lifetime: "Lifetime Access",
+};
+
 export default async function AccountPage() {
   const session = await auth();
   if (!session?.user) {
     redirect("/?signin=required");
   }
 
-  const [hasFullAccess, payments, allProgress, displayName] = await Promise.all([
-    getUserHasFullAccess(session.user.id),
+  const [access, payments, allProgress, displayName] = await Promise.all([
+    getUserAccess(session.user.id),
     getPaymentHistory(),
     getAllProgress(),
     getUserDisplayName(session.user.id),
@@ -71,27 +82,53 @@ export default async function AccountPage() {
       <div className="mb-6 rounded-2xl border border-card-border bg-card p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <ShieldCheck size={22} className={hasFullAccess ? "text-success" : "text-muted-foreground"} />
+            <ShieldCheck size={22} className={access.hasAccess ? "text-success" : "text-muted-foreground"} />
             <div>
-              <p className="font-semibold">{hasFullAccess ? "Full Access" : "Free plan"}</p>
+              <p className="font-semibold">{PLAN_LABELS[access.plan]}</p>
               <p className="text-sm text-muted-foreground">
-                {hasFullAccess
-                  ? "All 17 mock tests unlocked, backed by the Pass Guarantee."
-                  : "Only the free test is unlocked."}
+                {access.plan === "lifetime"
+                  ? `All ${TOTAL_TESTS} mock tests unlocked, backed by the Pass Guarantee.`
+                  : access.plan === "premium"
+                    ? `All ${TOTAL_TESTS} mock tests unlocked. Pass Guarantee not included.`
+                    : "Only the free test is unlocked."}
               </p>
             </div>
           </div>
-          {!hasFullAccess && (
-            <form action={createCheckoutSession}>
+          {access.plan === "free" && (
+            <Link
+              href="/#pricing"
+              className="shrink-0 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+            >
+              See plans
+            </Link>
+          )}
+          {access.plan === "premium" && (
+            <form action={createBillingPortalSession}>
               <button
                 type="submit"
-                className="shrink-0 cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+                className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-card-border px-4 py-2 text-sm font-medium transition-colors hover:border-primary/40"
               >
-                Get Full Access
+                <Settings size={14} />
+                Manage subscription
               </button>
             </form>
           )}
         </div>
+
+        {access.plan === "premium" && access.premiumCurrentPeriodEnd && (
+          <p
+            className={
+              access.premiumCancelAtPeriodEnd
+                ? "mt-4 flex items-center gap-1.5 rounded-xl bg-warning-bg px-4 py-3 text-sm text-warning"
+                : "mt-4 flex items-center gap-1.5 rounded-xl bg-muted px-4 py-3 text-sm text-muted-foreground"
+            }
+          >
+            {access.premiumCancelAtPeriodEnd ? <AlertTriangle size={14} /> : <Calendar size={14} />}
+            {access.premiumCancelAtPeriodEnd
+              ? `Subscription canceled - you'll keep access until ${formatDate(access.premiumCurrentPeriodEnd)}`
+              : `Renews ${formatDate(access.premiumCurrentPeriodEnd)}`}
+          </p>
+        )}
 
         <div className="mt-5 flex items-center justify-between rounded-xl bg-muted px-4 py-3 text-sm">
           <span className="text-muted-foreground">Mock tests completed</span>
@@ -124,7 +161,9 @@ export default async function AccountPage() {
                 className="flex items-center justify-between gap-3 border-b border-card-border pb-3 text-sm last:border-0 last:pb-0"
               >
                 <div>
-                  <p className="font-medium">Full Access</p>
+                  <p className="font-medium">
+                    {payment.plan ? PAYMENT_PLAN_LABELS[payment.plan] : "Payment"}
+                  </p>
                   <p className="text-muted-foreground">{formatDate(payment.createdAt)}</p>
                 </div>
                 <div className="flex items-center gap-2">

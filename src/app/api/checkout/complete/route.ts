@@ -16,7 +16,9 @@ export async function GET(req: Request) {
     return NextResponse.redirect(new URL("/?signin=required", origin));
   }
 
-  const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
+  const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
+    expand: ["subscription"],
+  });
 
   // Only fulfil if this checkout session actually belongs to the signed-in
   // user - stops someone else's session_id being replayed against your account.
