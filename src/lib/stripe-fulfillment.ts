@@ -82,6 +82,9 @@ export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Se
   if (checkoutSession.mode === "payment") {
     if (checkoutSession.payment_status !== "paid") return;
 
+    const invoiceField = checkoutSession.invoice;
+    const invoiceId = typeof invoiceField === "string" ? invoiceField : (invoiceField?.id ?? null);
+
     const { error: paymentError } = await supabaseAdmin.from("payments").upsert(
       {
         user_id: userId,
@@ -89,6 +92,7 @@ export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Se
         stripe_checkout_session_id: checkoutSession.id,
         stripe_payment_intent_id:
           typeof checkoutSession.payment_intent === "string" ? checkoutSession.payment_intent : null,
+        stripe_invoice_id: invoiceId,
         amount: checkoutSession.amount_total ?? 0,
         currency: checkoutSession.currency ?? "gbp",
         status: "paid",

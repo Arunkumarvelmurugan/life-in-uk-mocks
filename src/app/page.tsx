@@ -249,8 +249,10 @@ export default async function Home({
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {features.map((f) => (
             <div key={f.title} className="rounded-xl border border-card-border bg-card p-6 shadow-sm">
-              <f.icon className="mb-3 text-primary" size={24} />
-              <h3 className="mb-1.5 font-semibold">{f.title}</h3>
+              <div className="mb-1.5 flex items-center gap-2">
+                <f.icon className="shrink-0 text-primary" size={22} />
+                <h3 className="font-semibold">{f.title}</h3>
+              </div>
               <p className="text-sm text-muted-foreground">{f.description}</p>
             </div>
           ))}
@@ -445,6 +447,31 @@ export default async function Home({
                 </div>
               </div>
             </div>
+
+            {membership.plan === "premium" && (
+              <div className="mt-6 flex flex-col items-center justify-between gap-4 rounded-2xl bg-card p-6 shadow-sm sm:flex-row">
+                <div className="flex items-center gap-4 text-center sm:text-left">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
+                    <Crown size={22} />
+                  </span>
+                  <div>
+                    <p className="font-semibold">Want the Pass Guarantee, and to stop worrying about renewals?</p>
+                    <p className="text-sm text-muted-foreground">
+                      Upgrade to Lifetime Access for a one-time £12.99 - your Premium subscription
+                      is cancelled automatically.
+                    </p>
+                  </div>
+                </div>
+                <form action={createLifetimeCheckoutSession}>
+                  <button
+                    type="submit"
+                    className="shrink-0 cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
+                  >
+                    Get Lifetime Access
+                  </button>
+                </form>
+              </div>
+            )}
           </div>
         ) : !hasFullAccess ? (
           <>

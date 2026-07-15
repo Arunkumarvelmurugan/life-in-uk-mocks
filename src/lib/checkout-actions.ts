@@ -41,6 +41,10 @@ async function createCheckoutSessionForTier(tier: Extract<Plan, "premium" | "lif
           customer_email: session.user.email ?? undefined,
           metadata: { userId: session.user.id, plan: "lifetime" },
           line_items: [{ price: STRIPE_PRICE_LIFETIME, quantity: 1 }],
+          // One-time "payment" mode sessions don't get an invoice unless
+          // explicitly requested - without this, Lifetime purchases would
+          // have no downloadable receipt to show in payment history.
+          invoice_creation: { enabled: true },
           success_url: `${origin}/api/checkout/complete?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${origin}/#pricing`,
         }

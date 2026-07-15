@@ -18,14 +18,7 @@ export async function SiteHeader() {
           href="/"
           className="flex shrink-0 items-center gap-2 whitespace-nowrap text-lg font-extrabold tracking-tight"
         >
-          <Image
-            src="/LifeinUKMocks.jpg"
-            alt=""
-            width={32}
-            height={32}
-            className="rounded-lg"
-            priority
-          />
+          <Image src="/logo-header.png" alt="" width={40} height={40} priority />
           <span className="hidden sm:inline">
             Life in UK<span className="text-primary"> Mocks</span>
           </span>
