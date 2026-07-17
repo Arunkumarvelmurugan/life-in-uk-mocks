@@ -140,9 +140,9 @@ function formatPurchaseDate(iso: string) {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ signin?: string; upgrade?: string }>;
+  searchParams: Promise<{ signin?: string; upgrade?: string; checkout_failed?: string }>;
 }) {
-  const { signin, upgrade } = await searchParams;
+  const { signin, upgrade, checkout_failed } = await searchParams;
   const session = await auth();
   const isSignedIn = !!session?.user;
   const access = isSignedIn ? await getUserAccess(session.user.id) : null;
@@ -196,8 +196,8 @@ export default async function Home({
 
   return (
     <div>
-      {(signin === "required" || upgrade === "required") && (
-        <CleanSearchParams params={["signin", "upgrade"]} />
+      {(signin === "required" || upgrade === "required" || checkout_failed === "1") && (
+        <CleanSearchParams params={["signin", "upgrade", "checkout_failed"]} />
       )}
       {signin === "required" && !isSignedIn && (
         <div className="flex items-center justify-center gap-2 bg-primary px-6 py-2.5 text-center text-sm font-medium text-primary-foreground">
@@ -209,6 +209,12 @@ export default async function Home({
         <div className="flex items-center justify-center gap-2 bg-primary px-6 py-2.5 text-center text-sm font-medium text-primary-foreground">
           <Lock size={15} />
           Upgrade to unlock all {TOTAL_TESTS} mock tests.
+        </div>
+      )}
+      {checkout_failed === "1" && (
+        <div className="flex items-center justify-center gap-2 bg-warning px-6 py-2.5 text-center text-sm font-medium text-white">
+          <AlertTriangle size={15} />
+          We couldn&apos;t start checkout - please try again, or contact us if it keeps happening.
         </div>
       )}
       {/* Hero */}

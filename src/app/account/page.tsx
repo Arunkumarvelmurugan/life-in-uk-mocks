@@ -23,6 +23,7 @@ import { TOTAL_TESTS, QUESTIONS_PER_TEST } from "@/lib/tests";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { EditNameForm } from "@/components/edit-name-form";
 import { ProgressBar } from "@/components/progress-bar";
+import { CleanSearchParams } from "@/components/clean-search-params";
 
 function formatAmount(amountPence: number, currency: string) {
   return new Intl.NumberFormat("en-GB", {
@@ -46,7 +47,12 @@ const PAYMENT_PLAN_LABELS: Record<string, string> = {
   lifetime: "Lifetime Access",
 };
 
-export default async function AccountPage() {
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ portal_failed?: string }>;
+}) {
+  const { portal_failed } = await searchParams;
   const session = await auth();
   if (!session?.user) {
     redirect("/?signin=required");
@@ -92,9 +98,18 @@ export default async function AccountPage() {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-10">
+      {portal_failed === "1" && <CleanSearchParams params={["portal_failed"]} />}
       <Breadcrumb items={[{ label: "My Account" }]} />
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">My Account</h1>
       <p className="mt-2 mb-8 text-muted-foreground">Manage your profile, subscription and test progress.</p>
+
+      {portal_failed === "1" && (
+        <div className="mb-6 flex items-center gap-2 rounded-xl bg-warning-bg px-4 py-3 text-sm font-medium text-warning">
+          <AlertTriangle size={16} className="shrink-0" />
+          We couldn&apos;t open subscription management - please try again, or contact us if it
+          keeps happening.
+        </div>
+      )}
 
       {/* Profile */}
       <div className="mb-6 flex items-center justify-between gap-4 rounded-2xl border border-card-border bg-card p-6 shadow-sm">

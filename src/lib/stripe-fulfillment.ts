@@ -94,6 +94,19 @@ function getInvoiceSubscriptionId(invoice: Stripe.Invoice): string | undefined {
  * drift out of sync with each other.
  */
 async function applySubscriptionToUser(userId: string, subscription: Stripe.Subscription) {
+  // Lifetime is terminal - once granted, no subscription-lifecycle event
+  // (including a stale/orphaned subscription from before the upgrade,
+  // which still carries this user's id in its metadata) should ever
+  // downgrade or relabel it. Mirrors the same guard in
+  // handleSubscriptionDeleted below.
+  const { data: existing, error: fetchError } = await supabaseAdmin
+    .from("users")
+    .select("plan")
+    .eq("id", userId)
+    .maybeSingle();
+  if (fetchError) throw new Error(fetchError.message);
+  if (existing?.plan === "lifetime") return;
+
   const currentPeriodEnd = new Date(getSubscriptionPeriodEnd(subscription) * 1000).toISOString();
   const hasAccess = ACCESS_GRANTING_STATUSES.includes(subscription.status);
   // The Billing Portal's cancel action sets `cancel_at` (and

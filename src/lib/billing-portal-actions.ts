@@ -32,10 +32,17 @@ export async function createBillingPortalSession() {
 
   const origin = await getOrigin();
 
-  const portalSession = await stripe.billingPortal.sessions.create({
-    customer: access.stripeCustomerId,
-    return_url: `${origin}/api/billing-portal/complete`,
-  });
+  let portalUrl: string;
+  try {
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: access.stripeCustomerId,
+      return_url: `${origin}/api/billing-portal/complete`,
+    });
+    portalUrl = portalSession.url;
+  } catch (error) {
+    console.error("Failed to create Stripe billing portal session:", error);
+    redirect("/account?portal_failed=1");
+  }
 
-  redirect(portalSession.url);
+  redirect(portalUrl);
 }
