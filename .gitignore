@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# database exports (scripts/export-db.mjs) - contain real user PII, never commit
+/backups/
+
 # claude code local settings (personal permission allowlist)
 .claude/settings.local.json
 
