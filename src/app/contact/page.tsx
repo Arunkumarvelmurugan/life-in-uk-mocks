@@ -4,6 +4,11 @@ import { ContactForm } from "@/components/contact-form";
 
 export const metadata = {
   title: "Contact us - Life in UK Mocks",
+  description:
+    "Get in touch about mock tests, your Pass Guarantee claim, billing, or anything else - we usually reply within one business day.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default async function ContactPage() {

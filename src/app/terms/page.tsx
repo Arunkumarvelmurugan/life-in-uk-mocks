@@ -228,6 +228,11 @@ const sections: Section[] = [
 
 export const metadata = {
   title: "Terms and Conditions - Life in UK Mocks",
+  description:
+    "The terms and conditions governing your use of Life in UK Mocks, including plans, payments, refunds, and account rules.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {

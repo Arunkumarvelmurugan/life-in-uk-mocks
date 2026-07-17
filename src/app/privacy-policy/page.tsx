@@ -130,6 +130,11 @@ const sections: Section[] = [
 
 export const metadata = {
   title: "Privacy Policy - Life in UK Mocks",
+  description:
+    "How Life in UK Mocks collects, uses, and protects your personal data, and your rights under UK GDPR.",
+  alternates: {
+    canonical: "/privacy-policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {

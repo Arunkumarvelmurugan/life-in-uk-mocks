@@ -15,10 +15,31 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
+const TITLE = "Life in UK Mocks - Practice Tests for the Life in the UK Test";
+const DESCRIPTION =
+  "Practice the official Life in the UK test format with instant feedback, explanations, and a pass guarantee.";
+
 export const metadata: Metadata = {
-  title: "Life in UK Mocks - Practice Tests for the Life in the UK Test",
-  description:
-    "Practice the official Life in the UK test format with instant feedback, explanations, and a pass guarantee.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/",
+    siteName: "Life in UK Mocks",
+    locale: "en_GB",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
