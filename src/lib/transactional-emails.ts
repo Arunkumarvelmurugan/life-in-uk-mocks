@@ -11,6 +11,18 @@ function siteUrl(path: string) {
   return `${base}${path}`;
 }
 
+// display_name is free-text set by the user (src/lib/account-actions.ts) and
+// gets interpolated into raw HTML here, unlike JSX which auto-escapes - must
+// encode it manually before it reaches the template.
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function emailShell(preheader: string, bodyHtml: string) {
   return `<!doctype html>
 <html>
@@ -62,7 +74,7 @@ function fallbackLink(href: string) {
 }
 
 export async function sendWelcomeEmail({ email, name }: { email: string; name?: string | null }) {
-  const firstName = name?.split(" ")[0];
+  const firstName = name?.split(" ")[0] ? escapeHtml(name.split(" ")[0]) : undefined;
   const mockTestsUrl = siteUrl("/practice/mock-tests");
   try {
     await resend.emails.send({
@@ -137,7 +149,7 @@ export async function sendPaymentConfirmationEmail({
   amountPence: number;
   currency: string;
 }) {
-  const firstName = name?.split(" ")[0];
+  const firstName = name?.split(" ")[0] ? escapeHtml(name.split(" ")[0]) : undefined;
   const amount = formatAmount(amountPence, currency);
   const detailsHeading = plan === "premium" ? "Subscription Details" : "Purchase Details";
   try {
@@ -203,7 +215,7 @@ export async function sendRenewalReminderEmail({
   amountPence: number;
   currency: string;
 }) {
-  const firstName = name?.split(" ")[0];
+  const firstName = name?.split(" ")[0] ? escapeHtml(name.split(" ")[0]) : undefined;
   const amount = formatAmount(amountPence, currency);
   const date = formatDate(renewalDate);
   try {
