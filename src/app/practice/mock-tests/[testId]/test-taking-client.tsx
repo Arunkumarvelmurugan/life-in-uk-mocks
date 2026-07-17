@@ -386,11 +386,23 @@ function WhatYouLearnedPanel({ facts }: { facts: string[] }) {
         strengthen your knowledge before taking another mock test.
       </p>
       <ul className="mt-5 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
-        {facts.map((fact, i) => (
-          <li key={i} className="text-sm leading-relaxed text-foreground/90">
-            {fact}
-          </li>
-        ))}
+        {facts.map((fact, i) => {
+          const arrowIndex = fact.indexOf("→");
+          if (arrowIndex === -1) {
+            return (
+              <li key={i} className="text-sm leading-relaxed text-foreground/90">
+                {fact}
+              </li>
+            );
+          }
+          const label = fact.slice(0, arrowIndex).trim();
+          const rest = fact.slice(arrowIndex);
+          return (
+            <li key={i} className="text-sm leading-relaxed text-foreground/90">
+              <strong className="font-semibold">{label}</strong> {rest}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
