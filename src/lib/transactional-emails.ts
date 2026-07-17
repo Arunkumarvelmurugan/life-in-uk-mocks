@@ -1,10 +1,10 @@
 import "server-only";
-import { resend, CONTACT_FROM_EMAIL } from "@/lib/resend";
+import { resend, TRANSACTIONAL_FROM_EMAIL } from "@/lib/resend";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST } from "@/lib/tests";
 
 const APP_NAME = "Life in UK Mocks";
 const BRAND_COLOR = "#4f46e5";
-const FROM = `${APP_NAME} <${CONTACT_FROM_EMAIL}>`;
+const FROM = `${APP_NAME} <${TRANSACTIONAL_FROM_EMAIL}>`;
 
 function siteUrl(path: string) {
   const base = process.env.SITE_URL ?? "http://localhost:3000";
