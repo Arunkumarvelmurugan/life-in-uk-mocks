@@ -374,6 +374,25 @@ export function TestTakingClient({
   );
 }
 
+// mocks-source *_What You Learned.txt files mark key terms with **bold** and
+// occasional *italic* spans - render those instead of just showing asterisks.
+function renderInlineMarkdown(text: string): React.ReactNode {
+  const tokens = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).filter((t) => t !== "");
+  return tokens.map((token, i) => {
+    if (token.startsWith("**") && token.endsWith("**")) {
+      return (
+        <strong key={i} className="font-semibold">
+          {token.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (token.startsWith("*") && token.endsWith("*")) {
+      return <em key={i}>{token.slice(1, -1)}</em>;
+    }
+    return token;
+  });
+}
+
 function WhatYouLearnedPanel({ facts }: { facts: string[] }) {
   return (
     <div className="mt-6 rounded-2xl border border-primary/20 bg-primary/5 p-6 shadow-sm sm:p-8">
@@ -386,23 +405,11 @@ function WhatYouLearnedPanel({ facts }: { facts: string[] }) {
         strengthen your knowledge before taking another mock test.
       </p>
       <ul className="mt-5 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
-        {facts.map((fact, i) => {
-          const arrowIndex = fact.indexOf("→");
-          if (arrowIndex === -1) {
-            return (
-              <li key={i} className="text-sm leading-relaxed text-foreground/90">
-                {fact}
-              </li>
-            );
-          }
-          const label = fact.slice(0, arrowIndex).trim();
-          const rest = fact.slice(arrowIndex);
-          return (
-            <li key={i} className="text-sm leading-relaxed text-foreground/90">
-              <strong className="font-semibold">{label}</strong> {rest}
-            </li>
-          );
-        })}
+        {facts.map((fact, i) => (
+          <li key={i} className="text-sm leading-relaxed text-foreground/90">
+            {renderInlineMarkdown(fact)}
+          </li>
+        ))}
       </ul>
     </div>
   );

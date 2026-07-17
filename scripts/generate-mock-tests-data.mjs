@@ -28,7 +28,8 @@ function parseWhatYouLearned(file) {
   return raw
     .split(/\r?\n/)
     .map((l) => l.trim())
-    .filter((l) => l.includes("→")); // only the "emoji Label -> fact" lines
+    .filter((l) => l.startsWith("*") && l.includes("→")) // only the "* emoji **Term** -> fact" lines
+    .map((l) => l.replace(/^\*\s+/, "")); // strip the markdown bullet marker, keep **bold**/*italic* spans
 }
 
 function collapseBlankRuns(lines) {
