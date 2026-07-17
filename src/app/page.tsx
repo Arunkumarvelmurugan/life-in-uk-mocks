@@ -295,15 +295,20 @@ export default async function Home({
               {heroCtaLabel}
             </Link>
           ) : (
-            <form action={signInWithGoogle}>
-              <button
-                type="submit"
-                className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-              >
-                <GoogleIcon />
-                Continue with Google
-              </button>
-            </form>
+            // The feature banner above already has its own "Continue with
+            // Google" CTA when signin=required - a second identical button
+            // right below it would be a duplicate, not reinforcement.
+            signin !== "required" && (
+              <form action={signInWithGoogle}>
+                <button
+                  type="submit"
+                  className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                >
+                  <GoogleIcon />
+                  Continue with Google
+                </button>
+              </form>
+            )
           )}
           {!hasFullAccess && (
             <Link
