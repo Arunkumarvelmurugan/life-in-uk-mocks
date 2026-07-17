@@ -38,8 +38,8 @@ function emailShell(preheader: string, bodyHtml: string) {
                   src="${siteUrl("/email-logo.png")}"
                   alt="${APP_NAME}"
                   width="176"
-                  height="29"
-                  style="display:block;width:176px;height:29px;border:0;"
+                  height="32"
+                  style="display:block;width:176px;height:32px;border:0;"
                 />
               </td>
             </tr>
