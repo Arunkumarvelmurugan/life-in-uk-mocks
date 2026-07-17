@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -19,6 +20,13 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { ProgressBar } from "@/components/progress-bar";
 import { RadialProgress } from "@/components/radial-progress";
 import { cn } from "@/lib/utils";
+
+// Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
+// is a page-level belt-and-braces signal in case either of those is ever
+// bypassed (e.g. crawled via a referring link before the redirect fires).
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const FILTERS = [
   { value: "all", label: "All Tests" },

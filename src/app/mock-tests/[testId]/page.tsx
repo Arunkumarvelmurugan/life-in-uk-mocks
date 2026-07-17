@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
@@ -5,6 +6,14 @@ import { getTestById, FREE_TEST_ID } from "@/lib/tests";
 import { getProgressForTest } from "@/lib/progress-actions";
 import { getUserAccess } from "@/lib/supabase-users";
 import { TestTakingClient } from "./test-taking-client";
+
+// Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
+// is a page-level belt-and-braces signal in case either of those is ever
+// bypassed (e.g. crawled via a referring link before the redirect fires).
+// Applies even to the free test - it's still behind sign-in.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function TestPage({
   params,
