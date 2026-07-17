@@ -16,6 +16,8 @@ export interface MockTest {
   id: number;
   title: string;
   questions: TestQuestion[];
+  /** Optional recap of key facts shown below the results panel once the test is complete. */
+  whatYouLearned?: string[];
 }
 
 export const TOTAL_TESTS = 17;

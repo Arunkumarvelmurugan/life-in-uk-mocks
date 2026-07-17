@@ -15,6 +15,22 @@ function sourceFileFor(testId) {
   return existsSync(updated) ? updated : original;
 }
 
+// Optional per-test recap shown below the results panel. Not every test has
+// one yet - drop a "Mock TestN_What You Learned.txt" file in mocks-source/
+// and re-run this script to pick it up for that test only.
+function whatYouLearnedFileFor(testId) {
+  const file = `${dir}/Mock Test${testId}_What You Learned.txt`;
+  return existsSync(file) ? file : null;
+}
+
+function parseWhatYouLearned(file) {
+  const raw = readFileSync(file, "utf-8");
+  return raw
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter((l) => l.includes("→")); // only the "emoji Label -> fact" lines
+}
+
 function collapseBlankRuns(lines) {
   const out = [];
   for (const l of lines) {
@@ -134,7 +150,9 @@ const allTests = [];
 for (let testId = 1; testId <= TOTAL_TESTS; testId++) {
   const file = sourceFileFor(testId);
   const questions = parseFile(file);
-  allTests.push({ id: testId, file, questions });
+  const wylFile = whatYouLearnedFileFor(testId);
+  const whatYouLearned = wylFile ? parseWhatYouLearned(wylFile) : [];
+  allTests.push({ id: testId, file, questions, whatYouLearned });
 }
 
 console.log(
@@ -143,6 +161,8 @@ console.log(
 allTests.forEach((t) => {
   const withTip = t.questions.filter((q) => q.memoryTip).length;
   if (withTip > 0) console.log(`  Test ${t.id} (${t.file}): ${withTip}/24 questions have a Memory Tip`);
+  if (t.whatYouLearned.length > 0)
+    console.log(`  Test ${t.id}: ${t.whatYouLearned.length} What You Learned facts`);
 });
 
 function esc(s) {
@@ -158,7 +178,10 @@ function emitTest(t) {
       return `    { question: "${esc(q.question)}", options: [${opts}], correctIndexes: [${q.correctIndexes.join(", ")}], explanation: "${esc(q.explanation)}"${tipPart}${rulePart} }`;
     })
     .join(",\n");
-  return `  {\n    id: ${t.id},\n    title: "Life in the UK Test ${t.id}",\n    questions: [\n${qs},\n    ],\n  }`;
+  const wylPart = t.whatYouLearned.length
+    ? `,\n    whatYouLearned: [${t.whatYouLearned.map((f) => `"${esc(f)}"`).join(", ")}]`
+    : "";
+  return `  {\n    id: ${t.id},\n    title: "Life in the UK Test ${t.id}",\n    questions: [\n${qs},\n    ]${wylPart},\n  }`;
 }
 
 const header = `// Generated from mocks-source/*.txt by scripts/generate-mock-tests-data.mjs.

@@ -366,6 +366,32 @@ export function TestTakingClient({
           </>
         )}
       </div>
+
+      {showResults && test.whatYouLearned && test.whatYouLearned.length > 0 && (
+        <WhatYouLearnedPanel facts={test.whatYouLearned} />
+      )}
+    </div>
+  );
+}
+
+function WhatYouLearnedPanel({ facts }: { facts: string[] }) {
+  return (
+    <div className="mt-6 rounded-2xl border border-primary/20 bg-primary/5 p-6 shadow-sm sm:p-8">
+      <div className="flex items-center gap-2 text-lg font-semibold text-primary">
+        <Brain size={20} className="shrink-0" />
+        What You Learned
+      </div>
+      <p className="mt-2 text-sm text-muted-foreground">
+        These are the key facts and topics reinforced in this mock test. Review them to
+        strengthen your knowledge before taking another mock test.
+      </p>
+      <ul className="mt-5 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+        {facts.map((fact, i) => (
+          <li key={i} className="text-sm leading-relaxed text-foreground/90">
+            {fact}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
