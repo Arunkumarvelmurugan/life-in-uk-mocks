@@ -23,7 +23,7 @@ async function createCheckoutSessionForTier(tier: Extract<Plan, "premium" | "lif
 
   // Lifetime access is permanent - nothing left to sell them.
   if (access.plan === "lifetime") {
-    redirect("/practice/mock-tests");
+    redirect("/mock-tests");
   }
   // Already an active Premium subscriber buying Premium again would create
   // a second subscription - send them to manage the one they have instead.

@@ -148,7 +148,7 @@ export default async function Home({
   const isSignedIn = !!session?.user;
   const access = isSignedIn ? await getUserAccess(session.user.id) : null;
   const hasFullAccess = access?.hasAccess ?? false;
-  const freeTestHref = isSignedIn ? "/practice/mock-tests" : `/practice/mock-tests/${FREE_TEST_ID}`;
+  const freeTestHref = isSignedIn ? "/mock-tests" : `/mock-tests/${FREE_TEST_ID}`;
   const heroCtaLabel = hasFullAccess ? "Go to Mock Tests" : "Start practicing free";
 
   let membership: {
@@ -484,7 +484,7 @@ export default async function Home({
                       </div>
                     </div>
                     <Link
-                      href={`/practice/mock-tests/${membership.nextTestId}`}
+                      href={`/mock-tests/${membership.nextTestId}`}
                       className="flex shrink-0 items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
                     >
                       Continue
@@ -497,7 +497,7 @@ export default async function Home({
                       You&apos;ve completed all {TOTAL_TESTS} mock tests! 🎉
                     </p>
                     <Link
-                      href="/practice/mock-tests"
+                      href="/mock-tests"
                       className="shrink-0 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
                     >
                       Review Mock Tests

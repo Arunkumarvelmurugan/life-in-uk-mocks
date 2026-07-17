@@ -7,9 +7,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // /practice and /account sit entirely behind sign-in (src/proxy.ts) -
+      // /mock-tests and /account sit entirely behind sign-in (src/proxy.ts) -
       // an anonymous crawler only ever gets redirected to /?signin=required.
-      disallow: ["/practice", "/account", "/api/"],
+      disallow: ["/mock-tests", "/account", "/api/"],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };

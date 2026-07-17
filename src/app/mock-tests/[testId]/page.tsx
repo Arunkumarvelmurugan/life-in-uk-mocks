@@ -18,7 +18,7 @@ export default async function TestPage({
     return (
       <div className="mx-auto w-full max-w-3xl px-6 py-10">
         <p>Test not found.</p>
-        <Link href="/practice/mock-tests" className="text-primary underline">
+        <Link href="/mock-tests" className="text-primary underline">
           Back to Mock Tests
         </Link>
       </div>

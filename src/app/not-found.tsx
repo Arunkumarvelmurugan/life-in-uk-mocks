@@ -20,7 +20,7 @@ export default function NotFound() {
           Back to home
         </Link>
         <Link
-          href="/practice/mock-tests"
+          href="/mock-tests"
           className="flex items-center gap-1.5 rounded-lg border border-card-border px-5 py-2.5 text-sm font-medium hover:bg-muted"
         >
           <ClipboardList size={16} />

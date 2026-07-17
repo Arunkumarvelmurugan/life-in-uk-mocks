@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
 
-// Only public, crawlable pages - /practice and /account sit entirely behind
+// Only public, crawlable pages - /mock-tests and /account sit entirely behind
 // sign-in (src/proxy.ts), so listing them would just send crawlers into a
 // sign-in redirect.
 export default function sitemap(): MetadataRoute.Sitemap {

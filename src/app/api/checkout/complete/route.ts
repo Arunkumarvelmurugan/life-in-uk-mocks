@@ -26,5 +26,5 @@ export async function GET(req: Request) {
     await fulfillCheckoutSession(checkoutSession);
   }
 
-  return NextResponse.redirect(new URL("/practice/mock-tests?purchase=success", origin));
+  return NextResponse.redirect(new URL("/mock-tests?purchase=success", origin));
 }

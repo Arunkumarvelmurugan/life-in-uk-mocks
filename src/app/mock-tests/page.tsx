@@ -207,7 +207,7 @@ export default async function MockTestsPage({
           return (
             <Link
               key={test.id}
-              href={`/practice/mock-tests/${test.id}`}
+              href={`/mock-tests/${test.id}`}
               className={cn(
                 "group rounded-2xl border border-card-border bg-card p-6 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md",
                 isLocked && "opacity-70"

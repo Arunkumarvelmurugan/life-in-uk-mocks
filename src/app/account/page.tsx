@@ -233,7 +233,7 @@ export default async function AccountPage({
           <ProgressBar value={completedTests} max={TOTAL_TESTS} variant="primary" className="mt-2" />
 
           <Link
-            href="/practice/mock-tests"
+            href="/mock-tests"
             className="mt-5 flex items-center justify-between rounded-xl bg-muted px-4 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
           >
             View Mock Tests &amp; progress

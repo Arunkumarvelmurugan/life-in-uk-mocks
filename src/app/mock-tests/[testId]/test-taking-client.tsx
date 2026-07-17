@@ -172,7 +172,7 @@ export function TestTakingClient({
         <span className="rounded-lg bg-muted px-3 py-1.5 text-sm font-semibold">Test {test.id}</span>
         <div className="flex shrink-0 items-center gap-2">
           <Link
-            href="/practice/mock-tests"
+            href="/mock-tests"
             className="flex items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
           >
             <LogOut size={14} />
@@ -451,7 +451,7 @@ function ResultsPanel({
           Retake test
         </button>
         <Link
-          href="/practice/mock-tests"
+          href="/mock-tests"
           className="rounded-xl bg-primary px-5 py-2.5 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
         >
           Back to Mock Tests

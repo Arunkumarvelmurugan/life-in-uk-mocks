@@ -75,7 +75,7 @@ function fallbackLink(href: string) {
 
 export async function sendWelcomeEmail({ email, name }: { email: string; name?: string | null }) {
   const firstName = name?.split(" ")[0] ? escapeHtml(name.split(" ")[0]) : undefined;
-  const mockTestsUrl = siteUrl("/practice/mock-tests");
+  const mockTestsUrl = siteUrl("/mock-tests");
   try {
     await resend.emails.send({
       from: FROM,
@@ -183,7 +183,7 @@ export async function sendPaymentConfirmationEmail({
           <p style="margin:0 0 16px;">
             All ${TOTAL_TESTS} mock tests are unlocked and ready whenever you are.
           </p>
-          ${button("Go to Mock Tests", siteUrl("/practice/mock-tests"))}
+          ${button("Go to Mock Tests", siteUrl("/mock-tests"))}
           <p style="margin:24px 0 16px;">
             Need help? Simply reply to this email or contact us at
             <a href="mailto:support@lifeinukmocks.co.uk" style="color:${BRAND_COLOR};">support@lifeinukmocks.co.uk</a>.

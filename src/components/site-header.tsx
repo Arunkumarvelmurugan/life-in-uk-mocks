@@ -27,7 +27,7 @@ export async function SiteHeader() {
           />
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium sm:flex">
-          <Link href="/practice/mock-tests" className="text-muted-foreground hover:text-foreground">
+          <Link href="/mock-tests" className="text-muted-foreground hover:text-foreground">
             Mock Tests
           </Link>
           <Link href="/#pricing" className="text-muted-foreground hover:text-foreground">
