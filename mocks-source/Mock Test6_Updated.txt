@@ -1,225 +1,19 @@
-Q1. As a British citizen what are your responsibilities (choose two answers)?
+Q1. Is St Helena part of the UK?
 
-❌ To walk your dog only during the day
+❌ Yes
 
-✅ To respect and obey the law
+✅ No
 
-❌ To go to church on Sunday
-
-✅ To look after yourself and your family
-
-Explanation: If you wish to be a permanent resident or citizen of the UK, you should: respect and obey the law, look after yourself and your family, respect the rights of others, treat others with fairness and look after the area in which you live and the environment.
+Explanation: British overseas territories, such as St Helena and the Falkland Islands are linked to the UK but are not part of it.
 
 🧠 Memory Tip
 
-This is a SELECT TWO question.
+Know the difference between the UK and British Overseas Territories:
 
-Know why each option is right or wrong:
+❌ Yes → Incorrect. St Helena is not part of the UK.
+✅ No → Correct. St Helena is a British Overseas Territory.
 
-❌ To walk your dog only during the day → There is no UK law requiring dogs to be walked only during daylight hours. The legal requirement is that dogs wear a collar showing the owner's name and address in public.
-✅ To respect and obey the law → One of the key responsibilities of every British citizen and permanent resident.
-❌ To go to church on Sunday → The UK has freedom of religion. Nobody is required to attend church or follow any religion.
-✅ To look after yourself and your family → Another important responsibility expected of citizens and permanent residents.
-
-Remember the main responsibilities from the handbook:
-
-⚖ Respect and obey the law
-👨‍👩‍👧 Look after yourself and your family
-🤝 Respect the rights of others
-🌳 Look after your local area and the environment
-⚖ Treat others fairly
-Quick Memory Rule
-
-🇬🇧 Good Citizen =
-
-⚖ Obey the Law
-
-❤️ Look After Family
-
-🌳 Care for Community
-
-🤝 Respect Others
-
-Q2. Who made the first coins to be minted in Britain?
-
-❌ The people of the Stone Age
-
-❌ The Anglo-Saxons
-
-✅ The people of the Iron Age
-
-❌ The Romans
-
-Explanation: The people of the Iron Age made the first coins to be minted in Britain, some inscribed with the names of Iron Age kings. This marks the beginnings of British history.
-
-🧠 Memory Tip
-
-Know the historical periods:
-
-❌ Stone Age → People used stone tools. No coins existed.
-❌ Anglo-Saxons → Arrived centuries later after the Romans left Britain.
-✅ Iron Age → The first people in Britain to mint coins, marking the beginning of recorded British history.
-❌ Romans → Introduced many developments to Britain but were not the first to mint coins here.
-
-Timeline to remember:
-
-🪨 Stone Age
-
-↓
-
-🔩 Bronze Age
-
-↓
-
-⚔ Iron Age ✅ First Coins
-
-↓
-
-🏛 Roman Britain
-
-↓
-
-🛶 Anglo-Saxons
-
-Quick Memory Rule
-
-⚔ Iron Age
-
-↓
-
-🪙 First British Coins
-
-Q3. Who built the Tower of London?
-
-✅ William the Conqueror
-
-❌ Queen Victoria
-
-❌ Queen Elizabeth I
-
-❌ Oliver Cromwell
-
-Explanation: The correct answer is William the Conqueror.
-
-🧠 Memory Tip
-
-Know what each person is famous for:
-
-✅ William the Conqueror → Built the Tower of London after winning the Battle of Hastings in 1066.
-❌ Queen Victoria → Queen during the British Empire's greatest expansion in the 19th century.
-❌ Queen Elizabeth I → Tudor queen who defeated the Spanish Armada in 1588.
-❌ Oliver Cromwell → Lord Protector after the English Civil War.
-
-Connect this with another London landmark question:
-
-🏰 Tower of London → William the Conqueror & Crown Jewels
-🔔 Houses of Parliament → Big Ben
-👑 Buckingham Palace → King's official London residence
-Quick Memory Rule
-
-🏰 1066
-
-↓
-
-👑 William the Conqueror
-
-↓
-
-Tower of London
-
-Q4. There are 15 national parks in England, Wales and Scotland. What are national parks?
-
-❌ Giant greenhouses
-
-❌ Land formations of columns made from volcanic lava
-
-✅ Areas of protected countryside
-
-❌ Medieval buildings
-
-Explanation: National Parks are areas of protected countryside that everyone can visit, and where people live, work and look after the landscape.
-
-🧠 Memory Tip
-
-Know what each option describes:
-
-❌ Giant greenhouses → This describes the Eden Project in Cornwall.
-❌ Land formations of columns made from volcanic lava → This describes the Giant's Causeway in Northern Ireland.
-✅ Areas of protected countryside → National Parks protect natural landscapes while allowing people to live, work and visit.
-❌ Medieval buildings → Historic buildings are protected by organisations like the National Trust, but they are not National Parks.
-
-Examples of National Parks:
-
-🏞 Lake District → England
-🏔 Snowdonia (Eryri) → Wales
-🏔 Cairngorms → Scotland
-Quick Memory Rule
-
-🌳 National Park = 🏞 Protected Countryside
-
-Not Buildings
-
-Not Greenhouses
-
-Q5. Northern Ireland has its own established church.
-
-❌ True
-
-✅ False
-
-Explanation: False. There is no established Church in Wales or Northern Ireland.
-
-🧠 Memory Tip
-
-Know which UK nations have established churches:
-
-❌ True → Incorrect.
-✅ False → Correct.
-
-Remember:
-
-⛪ England → Church of England is the established church.
-🏴 Scotland → Church of Scotland is the national Presbyterian Church.
-🐉 Wales → No established church.
-☘ Northern Ireland → No established church.
-Quick Memory Rule
-
-⛪ England → Established Church
-
-🏴 Scotland → Presbyterian Church
-
-🐉 Wales → No Established Church
-
-☘ Northern Ireland → No Established Church
-
-Q6. Which three territories form Great Britain?
-
-✅ Wales
-
-❌ Northern Ireland
-
-✅ England
-
-✅ Scotland
-
-Explanation: 'Great Britain' refers only to England, Scotland and Wales, not to Northern Ireland.
-
-🧠 Memory Tip
-
-Know the difference between Great Britain and the United Kingdom:
-
-✅ Wales → Part of Great Britain.
-❌ Northern Ireland → Part of the United Kingdom, not Great Britain.
-✅ England → Part of Great Britain.
-✅ Scotland → Part of Great Britain.
-
-Compare the terms:
-
-🏝 Great Britain
-
-England
-Scotland
-Wales
+Compare these terms:
 
 🇬🇧 United Kingdom
 
@@ -227,688 +21,626 @@ England
 Scotland
 Wales
 Northern Ireland
+
+🌍 British Overseas Territories
+
+🇸🇭 St Helena
+🇫🇰 Falkland Islands
+🇬🇮 Gibraltar
+🇧🇲 Bermuda
+
+These territories are linked to the UK but are not part of the UK.
+
 Quick Memory Rule
 
-🏝 Great Britain = 3 Countries
+🇸🇭 St Helena
 
-🇬🇧 United Kingdom = 4 Countries
+↓
+
+🌍 British Overseas Territory
+
+↓
+
+❌ Not Part of the UK
+
+Q2. Where is Theatreland?
+
+❌ Docklands
+
+❌ London's East End
+
+✅ London's West End
+
+❌ London's South End
+
+Explanation: London's West End, also known as 'Theatreland', is particularly well known for its theatres.
+
+🧠 Memory Tip
+
+Know what each area of London is famous for:
+
+❌ Docklands → Modern business district, including Canary Wharf.
+❌ London's East End → Traditionally associated with London's docks, markets and immigrant communities.
+✅ London's West End → Home to famous theatres, musicals and entertainment. It is known as Theatreland.
+❌ London's South End → Not a recognised area of London.
+
+Connect with other London landmarks:
+
+🎭 West End → Theatreland
+👑 Buckingham Palace → King's official residence
+🔔 Houses of Parliament → Big Ben
+🌉 Tower of London → Crown Jewels
+Quick Memory Rule
+
+🎭 Theatreland
+
+↓
+
+📍 West End
+
+↓
+
+London
+
+Q3. What is the name of the UK currency?
+
+❌ Euro
+
+✅ Pound Sterling
+
+❌ Peso
+
+❌ Dollar
+
+Explanation: The currency in the UK is the pound sterling (symbol £).
+
+🧠 Memory Tip
+
+Know each currency:
+
+❌ Euro (€) → Used by many European countries, but not the UK.
+✅ Pound Sterling (£) → Official currency of the United Kingdom.
+❌ Peso → Used in countries such as Mexico and the Philippines.
+❌ Dollar ($) → Used in countries such as the USA, Canada and Australia.
 
 Remember:
 
-GB = England + Scotland + Wales ⭐
+💷 £ = Pound Sterling
 
-Q7. How often are 'Prime Minister's Questions' held in the parliament?
+🪙 UK Coins:
 
-❌ Every day
-
-✅ Every week
-
-❌ Every two weeks
-
-❌ Once a month
-
-Explanation: Prime Minister's Questions takes place every week while Parliament is sitting.
-
-🧠 Memory Tip
-
-Know why each option is incorrect or correct:
-
-❌ Every day → Parliament sits regularly, but Prime Minister's Questions (PMQs) are not held daily.
-✅ Every week → Correct. PMQs are held once every week when Parliament is sitting.
-❌ Every two weeks → There is no fortnightly schedule for PMQs.
-❌ Once a month → Too infrequent. The Prime Minister answers MPs' questions every week.
-
-Connect with other Parliament facts:
-
-🏛 House of Commons → PMQs take place here.
-🗣 Speaker → Chairs the debates.
-👤 Prime Minister → Answers questions from MPs.
-Quick Memory Rule
-
-🏛 Parliament
-
-↓
-
-❓ Prime Minister's Questions
-
-↓
-
-📅 Every Week
-
-Q8. Which king was executed in 1649?
-
-❌ James I
-
-❌ Charles II
-
-❌ James VII
-
-✅ Charles I
-
-Explanation: The correct answer is Charles I.
-
-🧠 Memory Tip
-
-Know who each monarch was:
-
-❌ James I → United the crowns of England and Scotland in 1603.
-❌ Charles II → Son of Charles I. Returned to the throne during the Restoration (1660) after Oliver Cromwell's rule.
-❌ James VII (James II of England) → Removed during the Glorious Revolution (1688).
-✅ Charles I → Executed in 1649 after losing the English Civil War against Parliament.
-
-Remember the timeline:
-
-👑 Charles I
-
-↓
-
-⚔ Civil War
-
-↓
-
-⚖ Executed (1649)
-
-↓
-
-🛡 Oliver Cromwell
-
-↓
-
-👑 Charles II (1660)
+1p • 2p • 5p • 10p • 20p • 50p • £1 • £2
 
 Quick Memory Rule
 
-👑 Charles I
+🇬🇧 UK
 
 ↓
 
-1649
+💷 Pound Sterling (£)
 
-↓
+Q4. What other name is given to Diwali?
 
-⚖ Executed
+✅ The Festival of Lights
 
-Q9. Where was William Shakespeare born?
+❌ Ash Wednesday
 
-❌ Manchester
+❌ Good Friday
 
-❌ Oldham
+❌ Easter Monday
 
-✅ Stratford-upon-Avon
-
-❌ Lincolnshire
-
-Explanation: Shakespeare was born in Stratford-upon-Avon, England.
+Explanation: Diwali is often called the Festival of Lights.
 
 🧠 Memory Tip
 
-Know what each place is known for:
+Know what each festival represents:
 
-❌ Manchester → Famous industrial city and home to Manchester United and Manchester City football clubs.
-❌ Oldham → Town in Greater Manchester, not Shakespeare's birthplace.
-✅ Stratford-upon-Avon → Birthplace of William Shakespeare.
-❌ Lincolnshire → English county, but not connected with Shakespeare's birth.
+✅ The Festival of Lights → Correct. Diwali is the Hindu Festival of Lights.
+❌ Ash Wednesday → Marks the beginning of Lent in Christianity.
+❌ Good Friday → Commemorates the death of Jesus Christ.
+❌ Easter Monday → Public holiday after Easter Sunday.
 
-Connect with another literature question:
+Connect with other religious festivals:
 
-🎭 William Shakespeare → Hamlet, Macbeth, A Midsummer Night's Dream
-📖 Geoffrey Chaucer → The Canterbury Tales
-🌼 William Wordsworth → The Daffodils
-Quick Memory Rule
-
-🎭 Shakespeare
-
-↓
-
-🏡 Stratford-upon-Avon
-
-Q10. Which two of the following are famous British Paralympians?
-
-❌ Dame Kelly Holmes
-
-✅ Baroness Tanni Grey-Thompson
-
-❌ Jayne Torvill
-
-✅ Ellie Simmonds
-
-Explanation: Baroness Tanni Grey-Thompson and Ellie Simmonds are the correct answers.
-
-🧠 Memory Tip
-
-This is a SELECT TWO question.
-
-Know each sporting personality:
-
-❌ Dame Kelly Holmes → Olympic gold medallist in middle-distance running (Olympics, not Paralympics).
-✅ Baroness Tanni Grey-Thompson → One of Britain's greatest Paralympic wheelchair racers.
-❌ Jayne Torvill → Olympic ice dancer, famous with Christopher Dean.
-✅ Ellie Simmonds → Multiple Paralympic swimming champion.
-
-Compare famous British athletes:
-
-♿ Tanni Grey-Thompson → Paralympic Athletics
-🏊 Ellie Simmonds → Paralympic Swimming
-🏃 Kelly Holmes → Olympic Athletics
-⛸ Jayne Torvill → Ice Dancing
-Quick Memory Rule
-
-♿ Paralympics
-
-↓
-
-🏃 Tanni Grey-Thompson
-
-🏊 Ellie Simmonds
-
-Q11. Who was reigning in England when English settlers first began to colonise the eastern coast of America?
-
-❌ Queen Victoria
-
-❌ Henry VIII
-
-✅ Elizabeth I
-
-❌ Charles II
-
-Explanation: In Elizabeth I's time, English settlers first began to colonise the eastern coast of America.
-
-🧠 Memory Tip
-
-Know each monarch's achievements:
-
-❌ Queen Victoria → Ruled during the height of the British Empire in the 19th century.
-❌ Henry VIII → Established the Church of England.
-✅ Elizabeth I → English exploration expanded, and the first English settlements were established in North America.
-❌ Charles II → Restored the monarchy after Oliver Cromwell's rule.
-
-Connect with other Elizabeth I facts:
-
-⚓ 1588 → Spanish Armada defeated.
-🌎 American Colonies → Began during Elizabeth I's reign.
-⛪ Religious Settlement → Balanced Catholics and Protestants.
-Quick Memory Rule
-
-👸 Elizabeth I
-
-↓
-
-⚓ Spanish Armada
-
-🌎 American Colonies
-
-Q12. Scotland and Wales use a system called 'individual registration' where all those entitled to vote must complete their own registration form.
-
-❌ True
-
-✅ False
-
-Explanation: False. Northern Ireland uses a system called 'individual registration' and all those entitled to vote must complete their own registration form.
-
-🧠 Memory Tip
-
-Don't confuse the countries:
-
-❌ True → Incorrect.
-✅ False → Correct.
-
-Remember:
-
-☘ Northern Ireland → Uses Individual Electoral Registration.
-🏴 England
-🏴 Scotland
-🐉 Wales
-
-These parts of the UK do not use the system described in this question.
-
-Connect with another voting fact:
-
-🗳 Electoral Register → Required for voting and jury service.
-📬 Poll Card → Sent before elections.
-Quick Memory Rule
-
-☘ Northern Ireland
-
-↓
-
-📝 Individual Registration
-
-↓
-
-🗳 Vote
-
-Q13. On what day is the birth of Jesus Christ celebrated?
-
-❌ Father's Day
-
-✅ Christmas Day
-
-❌ New Year
-
-❌ Boxing Day
-
-Explanation: Christmas Day, 25th of December, celebrates the birth of Jesus Christ.
-
-🧠 Memory Tip
-
-Know what each day celebrates:
-
-❌ Father's Day → Celebrates fathers and father figures. It is not a Christian religious festival.
-✅ Christmas Day → Celebrated on 25 December, marking the birth of Jesus Christ.
-❌ New Year → Celebrated on 1 January, marking the beginning of a new calendar year.
-❌ Boxing Day → Celebrated on 26 December, a public holiday following Christmas Day.
-
-Connect this with other Christian festivals:
-
-🎄 25 December → Christmas Day (Birth of Jesus)
+🪔 Diwali → Festival of Lights
+✡ Hanukkah → Jewish Festival of Lights
 ✝ Good Friday → Death of Jesus
 🌅 Easter Sunday → Resurrection of Jesus
-⏳ Lent → 40 days before Easter
 Quick Memory Rule
 
-🎄 25 Dec → Birth of Jesus
+🪔 Diwali
 
-📦 26 Dec → Boxing Day
+↓
 
-🌅 Easter → Resurrection
+✨ Festival of Lights
 
-Q14. What sort of battle was the 'Battle of Britain', fought between Germany and Britain in the summer of 1940?
+Q5. What is the Enlightenment?
 
-❌ A battle in the sea
+❌ A period of total peace in England
 
-✅ An aerial battle
+✅ A period when new ideas about politics, philosophy and science were developed
 
-❌ A battle in the mountains
+❌ A period when England became the largest empire the world had ever seen
 
-❌ A battle without rifles
+❌ A period of economic recovery after the Second World War
 
-Explanation: 'The Battle of Britain' was a crucial aerial battle fought between Germany and Britain in the summer of 1940.
+Explanation: The Enlightenment was a period during the 18th century when new ideas about politics, philosophy and science were developed.
+
+🧠 Memory Tip
+
+Know what each period refers to:
+
+❌ A period of total peace in England → England experienced many wars during its history.
+✅ A period when new ideas about politics, philosophy and science were developed → Correct. The Enlightenment encouraged reason, scientific thinking and new political ideas.
+❌ A period when England became the largest empire → Refers to the growth of the British Empire, not the Enlightenment.
+❌ A period of economic recovery after WWII → Refers to post-war Britain, not the 18th century.
+
+Connect with other movements:
+
+💡 Enlightenment → Science & Philosophy
+⛪ Reformation → Religion
+👩 Suffragette Movement → Women's votes
+🎵 Swinging Sixties → Culture & music
+Quick Memory Rule
+
+💡 Enlightenment
+
+↓
+
+🧠 New Ideas
+
+↓
+
+⚖ Politics + 🔬 Science + 📚 Philosophy
+
+Q6. Which of the following charities helps the environment?
+
+❌ NSPCC
+
+❌ Shelter
+
+✅ Friends of the Earth
+
+❌ Crisis
+
+Explanation: Friends of the Earth is an environmental charity.
+
+🧠 Memory Tip
+
+Know what each charity does:
+
+❌ NSPCC → Protects children from abuse and neglect.
+❌ Shelter → Helps people facing homelessness and housing problems.
+✅ Friends of the Earth → Environmental charity working to protect nature, wildlife and tackle climate change.
+❌ Crisis → Supports people experiencing homelessness.
+
+Connect with other UK charities:
+
+👶 NSPCC → Children
+🏠 Shelter → Housing
+🌍 Friends of the Earth → Environment
+🛏 Crisis → Homelessness
+Quick Memory Rule
+
+🌍 Friends of the Earth
+
+↓
+
+🌳 Environment
+
+👶 NSPCC
+
+↓
+
+Children
+
+🏠 Shelter
+
+↓
+
+Housing
+
+Q7. Which of the following was a crucial aerial battle fought between Germany and Britain during WWII?
+
+✅ The Battle of Britain
+
+❌ The Battle of Worcester
+
+❌ The Battle of Dunbar
+
+❌ The Battle of Marston Moor
+
+Explanation: The correct answer is the Battle of Britain.
+
+🧠 Memory Tip
+
+Know what each battle was:
+
+✅ The Battle of Britain → Correct. Fought in 1940, this was an air battle between the Royal Air Force (RAF) and the German Luftwaffe during the Second World War.
+❌ The Battle of Worcester → Final battle of the English Civil War in 1651.
+❌ The Battle of Dunbar → Battle fought in 1650 between Oliver Cromwell's forces and the Scots.
+❌ The Battle of Marston Moor → Major English Civil War battle in 1644.
+
+Connect with other WWII facts:
+
+🌍 1939 → Germany invaded Poland
+✈️ 1940 → Battle of Britain
+🎉 1945 → WWII ended
+Quick Memory Rule
+
+✈️ Battle of Britain
+
+↓
+
+1940
+
+↓
+
+RAF Defends Britain
+
+Q8. What was Margaret Thatcher famous for?
+
+❌ She fought for the right to vote for women
+
+✅ She was the first woman Prime Minister of the UK
+
+❌ She set up the Women's Franchise League
+
+❌ She was the founder of modern nursing
+
+Explanation: Margaret Thatcher was the first woman Prime Minister of the UK.
 
 🧠 Memory Tip
 
 Know why each option is right or wrong:
 
-❌ A battle in the sea → This describes naval battles such as the Battle of Trafalgar.
-✅ An aerial battle → Correct. The Battle of Britain was fought mainly between the Royal Air Force (RAF) and the German Luftwaffe.
-❌ A battle in the mountains → Britain has no mountain battlefield associated with this event.
-❌ A battle without rifles → Incorrect. Although aircraft were the main weapons, the conflict was still an armed military battle.
+❌ She fought for the right to vote for women → This was Emmeline Pankhurst and the Suffragettes.
+✅ She was the first woman Prime Minister of the UK → Correct. Margaret Thatcher served from 1979 to 1990.
+❌ She set up the Women's Franchise League → Founded by Emmeline Pankhurst in 1889.
+❌ She was the founder of modern nursing → This was Florence Nightingale.
 
-Build a simple WWII timeline:
+Connect with other famous women:
 
-🇵🇱 1939 → Germany invaded Poland
-✈ 1940 → Battle of Britain
-❄ 1941 → Germany invaded the Soviet Union
+👩 Margaret Thatcher → First female Prime Minister
+👩 Emmeline Pankhurst → Suffragettes
+🏥 Florence Nightingale → Modern Nursing
 Quick Memory Rule
 
-✈ 1940
+👩 Margaret Thatcher
 
 ↓
 
-🇬🇧 Battle of Britain
+🏛 First Woman Prime Minister
 
-↓
+Q9. Which two languages combined to become one English language?
 
-RAF vs Luftwaffe
+❌ Latin
 
-Q15. Where is Swansea located?
+✅ Anglo-Saxon
 
-❌ England
+❌ Proto-Celtic
 
-❌ Northern Ireland
+✅ Norman French
 
-❌ Scotland
-
-✅ Wales
-
-Explanation: Swansea is located in Wales.
-
-🧠 Memory Tip
-
-Know the major cities of each UK nation:
-
-❌ England → London, Manchester, Birmingham, Liverpool.
-❌ Northern Ireland → Belfast is the capital.
-❌ Scotland → Edinburgh and Glasgow are major cities.
-✅ Wales → Swansea is one of Wales' largest cities. Cardiff is the capital.
-
-Connect this with other geography questions:
-
-🐉 Cardiff → Capital of Wales
-🌊 Swansea → Wales
-🏔 Snowdonia (Eryri) → Wales
-🌼 Daffodil → National flower of Wales
-Quick Memory Rule
-
-🐉 Wales
-
-↓
-
-🏙 Cardiff (Capital)
-
-🌊 Swansea (City)
-
-🏔 Snowdonia
-
-Q16. Which two political parties formed a coalition in 2010?
-
-✅ The Conservative Party
-
-❌ The Green Party
-
-❌ The Labour Party
-
-✅ The Liberal Democrats Party
-
-Explanation: In May 2010 the Conservative and Liberal Democrat parties formed a coalition and the leader of the Conservative Party, David Cameron, became Prime Minister.
+Explanation: After the Norman Conquest, the king and his noblemen had spoken Norman French and the peasants had continued to speak Anglo-Saxon. Gradually these two languages combined to become one English language.
 
 🧠 Memory Tip
 
 This is a SELECT TWO question.
 
-Know the parties:
+Know each language:
 
-✅ The Conservative Party → Formed the coalition government in 2010.
-❌ The Green Party → Did not form part of the coalition government.
-❌ The Labour Party → Was not part of the 2010 coalition.
-✅ The Liberal Democrats Party → Formed the coalition with the Conservatives.
+❌ Latin → Used by the Romans and the Church, but did not combine directly to form English.
+✅ Anglo-Saxon → Spoken by ordinary people in England before the Norman Conquest.
+❌ Proto-Celtic → Ancient Celtic language, not the answer here.
+✅ Norman French → Spoken by William the Conqueror and the Norman nobles after 1066.
 
-Remember the key people:
+Build the timeline:
 
-👤 David Cameron → Conservative Prime Minister (2010).
-🤝 Coalition → Conservatives + Liberal Democrats.
+⚔️ 1066 → Norman Conquest
+🗣 Anglo-Saxon + Norman French
+📖 Modern English develops
 Quick Memory Rule
 
-2010
+⚔️ 1066
 
 ↓
 
-🤝 Coalition
+Anglo-Saxon
+
+Norman French
 
 ↓
 
-🔵 Conservatives
+English
 
-➕
+Q10. By law, radio and television coverage of the political parties must be balanced and so equal time has to be given to rival viewpoints.
 
-🟡 Liberal Democrats
+✅ True
 
-Q17. Who established the Church of England?
+❌ False
 
-✅ Henry VIII
-
-❌ Oliver Cromwell
-
-❌ Winston Churchill
-
-❌ William of Orange
-
-Explanation: The correct answer is Henry VIII.
+Explanation: This statement is true.
 
 🧠 Memory Tip
 
-Know what each person is famous for:
+Know why this rule exists:
 
-✅ Henry VIII → Established the Church of England after the Pope refused to allow him to divorce Catherine of Aragon.
-❌ Oliver Cromwell → Lord Protector after the English Civil War.
-❌ Winston Churchill → Prime Minister during most of the Second World War.
-❌ William of Orange → Became king after the Glorious Revolution (1688).
+✅ True → Correct. UK broadcasters must present political coverage fairly and give balanced coverage during elections.
+❌ False → Incorrect.
 
-Connect related questions:
+This helps ensure:
 
-👑 Henry VIII → Church of England
-👸 Elizabeth I → Daughter of Henry VIII
-📜 Bill of Rights → 1689
-👑 William of Orange → Glorious Revolution
+🗳 Fair Elections
+⚖ Balanced Reporting
+📰 Impartial News Coverage
+
+Remember:
+
+Newspapers are generally free to support political parties, but television and radio broadcasters must remain impartial.
+
 Quick Memory Rule
 
-👑 Henry VIII
+📺 TV
+
+📻 Radio
 
 ↓
 
-❌ Pope refused divorce
+⚖ Balanced Coverage
 
-↓
+Q11. Where did the Spanish Armada come from?
 
-⛪ Church of England
+❌ France
 
-Q18. In 1348, one third of the population in England, Wales and Scotland died as a result of which disease?
+✅ Spain
 
-❌ Measles
+❌ Italy
 
-❌ Leprosy
+❌ South America
 
-❌ Smallpox
-
-✅ The Black Death
-
-Explanation: In 1348, a disease, probably a form of plague, came to Britain. This was known as the Black Death. One third of the population of England died and a similar proportion in Scotland and Wales.
+Explanation: In 1588 the English defeated the Spanish Armada (a large fleet of ships), which had been sent by Spain to conquer England and restore Catholicism.
 
 🧠 Memory Tip
 
-Know each disease:
+Know each option:
 
-❌ Measles → Infectious viral disease, but not responsible for the massive population loss in 1348.
-❌ Leprosy → Present in medieval Britain but did not kill one-third of the population.
-❌ Smallpox → Serious disease that affected later generations, but not the event described here.
-✅ The Black Death → A plague that reached Britain in 1348, killing about one-third of the population.
+❌ France → England fought France many times in history, but France did not send the Armada.
+✅ Spain → Correct. King Philip II of Spain sent the Armada in 1588.
+❌ Italy → Not involved in the Armada.
+❌ South America → A continent, not the country responsible.
 
-Connect with another historical event:
-
-📜 1215 → Magna Carta
-☠ 1348 → Black Death
-⚔ 1415 → Battle of Agincourt
-🚢 1588 → Spanish Armada
-Quick Memory Rule
-
-📜 1215 → Magna Carta
-
-☠ 1348 → Black Death
-
-⚔ 1415 → Agincourt
-
-🚢 1588 → Spanish Armada
-
-Q19. Haggis is a traditional food from which area?
-
-❌ Wales
-
-❌ England
-
-❌ Northern Ireland
-
-✅ Scotland
-
-Explanation: Haggis is a traditional food from Scotland.
-
-🧠 Memory Tip
-
-Know what each nation is famous for:
-
-❌ Wales → Famous for Welsh cakes, leeks, daffodils and Snowdonia (Eryri).
-❌ England → Known for dishes such as roast beef, Yorkshire pudding and fish & chips.
-❌ Northern Ireland → Famous for dishes like the Ulster Fry and soda bread.
-✅ Scotland → Haggis is Scotland's national dish and is traditionally eaten on Burns Night (25 January) to celebrate the poet Robert Burns.
-
-Connect this with other Scottish questions:
-
-✍ Robert Burns → Auld Lang Syne
-🎆 Hogmanay → Scottish New Year's Eve
-⛳ Golf → Originated in Scotland
-🌿 Thistle → National flower of Scotland
-Quick Memory Rule
-
-🏴 Scotland
-
-↓
-
-🥘 Haggis
-
-↓
-
-✍ Robert Burns
-
-Q20. Which court deals with minor criminal offences in Scotland?
-
-❌ The Sheriff Court
-
-❌ The Magistrates' Court
-
-❌ The Crown Court
-
-✅ The Justice of the Peace Court
-
-Explanation: In Scotland, minor criminal offences go to a Justice of the Peace Court.
-
-🧠 Memory Tip
-
-Know what each court does:
-
-❌ The Sheriff Court → Deals with more serious civil and criminal cases in Scotland.
-❌ The Magistrates' Court → Handles most minor criminal cases in England, Wales and Northern Ireland, not Scotland.
-❌ The Crown Court → Deals with serious criminal cases in England, Wales and Northern Ireland.
-✅ The Justice of the Peace Court → Deals with minor criminal offences in Scotland.
-
-Compare the UK court systems:
-
-🏴 Scotland → Justice of the Peace Court
-🏴 England, Wales & Northern Ireland → Magistrates' Court
-Quick Memory Rule
-
-🏴 Scotland
-
-↓
-
-⚖ Justice of the Peace Court
-
-🏴 England/Wales/NI
-
-↓
-
-⚖ Magistrates' Court
-
-Q21. Which two of the following records give us information about England during the reign of William I?
-
-❌ The Magna Carta
-
-✅ The Domesday Book
-
-✅ The Bayeux Tapestry
-
-❌ The Canterbury Tales
-
-Explanation: The Domesday Book and the Bayeux Tapestry.
-
-🧠 Memory Tip
-
-This is a SELECT TWO question.
-
-Know what each record is:
-
-❌ The Magna Carta → Signed in 1215 by King John, over 100 years after William I.
-✅ The Domesday Book → Ordered by William the Conqueror in 1086 to record land ownership and taxation.
-✅ The Bayeux Tapestry → Embroidered cloth showing the story of the Battle of Hastings (1066) and William's conquest of England.
-❌ The Canterbury Tales → A collection of poems written by Geoffrey Chaucer in the 14th century.
-
-Connect these important historical records:
-
-🏰 1066 → Battle of Hastings → Bayeux Tapestry
-📖 1086 → Domesday Book
-📜 1215 → Magna Carta
-✍ Canterbury Tales → Geoffrey Chaucer
-Quick Memory Rule
-
-👑 William I
-
-↓
-
-📖 Domesday Book
-
-🧵 Bayeux Tapestry
-
-Q22. In 1913, the British government promised 'Home Rule' for Ireland, why were changes in Ireland delayed until 1921?
-
-✅ Due to the outbreak of the First World War
-
-❌ Due to the outbreak of the Second World War
-
-❌ Because there was not a king on the British throne
-
-❌ Due to the outbreak of the Black Death
-
-Explanation: The outbreak of the First World War led the British government to postpone any changes in Ireland.
-
-🧠 Memory Tip
-
-Know why each option is incorrect or correct:
-
-✅ Due to the outbreak of the First World War → Correct. The war began in 1914, delaying political changes in Ireland.
-❌ Due to the outbreak of the Second World War → WWII began in 1939, much later.
-❌ Because there was not a king on the British throne → Incorrect. Britain had a reigning monarch throughout this period.
-❌ Due to the outbreak of the Black Death → The Black Death occurred in 1348, nearly 600 years earlier.
-
-Build a simple timeline:
-
-📜 1913 → Home Rule proposed
-🌍 1914 → First World War begins
-☘ 1921 → Ireland divided
-Quick Memory Rule
-
-1913 → Home Rule
-
-↓
-
-🌍 WWI
-
-↓
-
-1921 → Ireland
-
-Q23. Which of the following statements is true:
-
-✅ Elizabeth I was a Protestant and she succeeded in finding a balance between the views of the Catholics and the more extreme Protestants.
-
-❌ Elizabeth I was a Catholic and she succeeded in finding a balance between the views of the Catholics and the more extreme Protestants.
-
-Explanation: Elizabeth I was a Protestant and she succeeded in finding a balance between the views of the Catholics and the more extreme Protestants.
-
-🧠 Memory Tip
-
-Know why each statement is right or wrong:
-
-✅ Elizabeth I was a Protestant... → Correct. She established a religious settlement that helped reduce conflict between Catholics and Protestants.
-❌ Elizabeth I was a Catholic... → Incorrect. Elizabeth I was Protestant. Her cousin Mary, Queen of Scots, was Catholic.
-
-Compare the two queens:
-
-👸 Elizabeth I → Protestant
-👸 Mary, Queen of Scots → Catholic
-
-Remember another Elizabeth I achievement:
-
-🚢 1588 → Defeat of the Spanish Armada
-Quick Memory Rule
+Connect with another history question:
 
 👸 Elizabeth I
+🚢 Spanish Armada
+📅 1588
+🇬🇧 England's victory
+Quick Memory Rule
+
+🚢 Armada
 
 ↓
 
-✝ Protestant
+🇪🇸 Spain
 
 ↓
 
-⚖ Religious Balance
+1588
 
-Q24. Which two documents do you need to apply for a National Insurance number?
+↓
 
-❌ A document with your address on it, such as a tenancy agreement
+Elizabeth I
 
-✅ Documents that prove that you have permission to work in the UK
+Q12. What is the name of the War Memorial located in Whitehall?
 
-❌ A contract from your employer
+❌ Dumfries
 
-✅ Documents that prove your identity
+✅ Cenotaph
 
-Explanation: To apply for a National Insurance number you need documents that prove your identity and that you have permission to work in the UK.
+❌ Royal Crescent
+
+❌ The White Tower
+
+Explanation: The Cenotaph is a war memorial located in Whitehall.
+
+🧠 Memory Tip
+
+Know each landmark:
+
+❌ Dumfries → A town in southwest Scotland.
+✅ Cenotaph → Correct. Britain's national war memorial located in Whitehall, London.
+❌ Royal Crescent → Famous Georgian terrace in Bath.
+❌ The White Tower → Central keep of the Tower of London.
+
+Connect with another remembrance question:
+
+🌺 Remembrance Sunday
+🌺 11 November (Armistice Day)
+🏛 The Cenotaph
+🔴 Red Poppies
+Quick Memory Rule
+
+🌺 Remembrance
+
+↓
+
+🏛 Cenotaph
+
+↓
+
+Whitehall
+
+↓
+
+London
+
+Q13. The UK government has never suspended the Northern Ireland Assembly.
+
+❌ True
+
+✅ False
+
+Explanation: False. The Northern Ireland Assembly has been suspended on a few occasions.
+
+🧠 Memory Tip
+
+Know why each option is correct or incorrect:
+
+❌ True → Incorrect. The Northern Ireland Assembly has been suspended several times due to political disagreements.
+✅ False → Correct. Although devolution is an important part of UK government, the Assembly has occasionally been suspended and direct rule from Westminster has been introduced.
+
+Connect with other devolution questions:
+
+🏛 Scottish Parliament → Edinburgh
+🏛 Senedd (Welsh Parliament) → Cardiff
+🏛 Northern Ireland Assembly → Belfast
+
+Remember:
+
+Devolved governments manage areas such as health and education, but some matters remain reserved to the UK Parliament.
+
+Quick Memory Rule
+
+🏛 Northern Ireland Assembly
+
+↓
+
+Sometimes Suspended
+
+↓
+
+✅ Statement is False
+
+Q14. What kind of church did Scotland establish in 1560?
+
+❌ A Catholic church
+
+✅ A Protestant church
+
+Explanation: In 1560, the predominantly Protestant Scottish Parliament abolished the authority of the Pope in Scotland and Roman Catholic religious services became illegal. A Protestant Church of Scotland with an elected leadership was established but, unlike in England, this was not a state Church.
+
+🧠 Memory Tip
+
+Know each option:
+
+❌ A Catholic church → Scotland rejected the authority of the Pope during the Reformation.
+✅ A Protestant church → Correct. In 1560, Scotland established a Protestant Church of Scotland.
+
+Connect with another religion question:
+
+⛪ Church of England → Anglican Church
+⛪ Church of Scotland → Presbyterian and Protestant
+👑 Monarch → Supreme Governor of the Church of England (not the Church of Scotland)
+Quick Memory Rule
+
+📅 1560
+
+↓
+
+🏴 Scotland
+
+↓
+
+⛪ Protestant Church
+
+Q15. When was the Domesday Book written?
+
+❌ After the Viking invasion
+
+✅ After the Norman conquest
+
+❌ After the last Roman invasion
+
+❌ After the Anglo-Saxon invasion
+
+Explanation: William the Conqueror sent people all over England to draw up lists of all the towns and villages. The people who lived there, who owned the land and what animals they owned were also listed. This was called the Domesday Book, which gives a picture of society in England just after the Norman Conquest.
+
+🧠 Memory Tip
+
+Know why each option is right or wrong:
+
+❌ After the Viking invasion → Vikings settled parts of Britain, but the Domesday Book came later.
+✅ After the Norman conquest → Correct. Following 1066, William the Conqueror ordered the Domesday survey in 1086.
+❌ After the last Roman invasion → The Romans left Britain centuries earlier.
+❌ After the Anglo-Saxon invasion → Anglo-Saxons arrived long before the Norman Conquest.
+
+Connect with another question:
+
+⚔️ 1066 → Norman Conquest
+👑 William the Conqueror
+📖 1086 → Domesday Book
+Quick Memory Rule
+
+⚔️ 1066
+
+↓
+
+👑 William the Conqueror
+
+↓
+
+📖 Domesday Book (1086)
+
+Q16. The Northern Ireland Assembly cannot make decisions on which two of the following issues?
+
+✅ Immigration
+
+❌ Education
+
+❌ Agriculture
+
+✅ Defence
+
+Explanation: The Northern Ireland Assembly can make decisions on issues such as: education, agriculture, the environment, health and social services, but it cannot make decisions on immigration or defence issues.
+
+🧠 Memory Tip
+
+This is a SELECT TWO question.
+
+Know which powers are reserved:
+
+✅ Immigration → Reserved to the UK Government.
+❌ Education → Devolved to the Northern Ireland Assembly.
+❌ Agriculture → Devolved matter.
+✅ Defence → Reserved to the UK Government.
+
+Other reserved matters include:
+
+🌍 Foreign Affairs
+💷 Most Taxation
+🛡 National Security
+Quick Memory Rule
+
+✅ Immigration
+
+✅ Defence
+
+↓
+
+UK Government
+
+🏛
+
+❌ Education
+
+❌ Agriculture
+
+↓
+
+Northern Ireland Assembly
+
+Q17. What should you do to make a complaint about the police? (Choose two answers)
+
+❌ Write a complaint letter to the House of Commons
+
+✅ Go to the Police station directly
+
+✅ Write to the Chief Constable of the police force involved
+
+❌ Write to your MP
+
+Explanation: Anyone can make a complaint about the police by going to a police station and writing to the Chief Constable of the police force involved. Complaints can also be made to an independent body: the Independent Police Complaints Commission in England and Wales, the Police Complaints Commissioner for Scotland, or the Police Ombudsman for Northern Ireland.
 
 🧠 Memory Tip
 
@@ -916,27 +648,312 @@ This is a SELECT TWO question.
 
 Know why each option is correct or incorrect:
 
-❌ A document with your address → Helpful in many situations, but not one of the required documents for this question.
-✅ Documents proving permission to work in the UK → Required.
-❌ A contract from your employer → Having a job offer or contract alone is not sufficient.
-✅ Documents proving your identity → Required.
+❌ Write a complaint letter to the House of Commons → Parliament does not investigate police complaints.
+✅ Go to the Police station directly → Correct. You can make a complaint at a police station.
+✅ Write to the Chief Constable of the police force involved → Correct. This is an official way to submit a complaint.
+❌ Write to your MP → Your MP can raise concerns, but this is not the official complaints process.
 
-Remember:
+Also remember:
 
-A National Insurance (NI) number is used for:
+Independent organisations deal with complaints in different parts of the UK.
 
-💼 Working legally
-💰 Paying Income Tax
-🏦 Paying National Insurance contributions
-👴 Accessing certain state benefits and pensions
 Quick Memory Rule
 
-🆔 Identity
+👮 Police Complaint
 
-➕
+↓
 
-💼 Right to Work
+🏢 Police Station
 
-=
+OR
 
-✅ National Insurance Number
+✉️ Chief Constable
+
+Q18. What flower did William Wordsworth write about?
+
+❌ Rose
+
+✅ Daffodil
+
+❌ Thistle
+
+❌ Shamrock
+
+Explanation: William Wordsworth wrote The Daffodils.
+
+🧠 Memory Tip
+
+Know what each flower represents:
+
+❌ Rose → National flower of England.
+✅ Daffodil → Correct. William Wordsworth's famous poem is "The Daffodils."
+❌ Thistle → National flower of Scotland.
+❌ Shamrock → National symbol of Ireland/Northern Ireland, associated with St Patrick.
+
+Connect with national symbols:
+
+🌹 England → Rose
+🌼 Wales → Daffodil
+🌿 Scotland → Thistle
+☘ Northern Ireland → Shamrock
+Quick Memory Rule
+
+📖 William Wordsworth
+
+↓
+
+🌼 Daffodils
+
+↓
+
+Famous Poem
+
+Q19. When is St Andrew's Day celebrated?
+
+❌ 17th April
+
+❌ 31st December
+
+❌ 1st March
+
+✅ 30th November
+
+Explanation: St Andrew's Day, patron of Scotland, is celebrated on the 30th of November.
+
+🧠 Memory Tip
+
+Know what each date represents:
+
+❌ 17th April → Not associated with a UK patron saint.
+❌ 31st December → New Year's Eve (Hogmanay in Scotland), not St Andrew's Day.
+❌ 1st March → St David's Day, the patron saint of Wales.
+✅ 30th November → Correct. St Andrew's Day, the patron saint of Scotland.
+
+Connect with the UK's patron saints:
+
+🌹 England → St George → 23 April
+🌼 Wales → St David → 1 March
+☘ Northern Ireland → St Patrick → 17 March
+🌿 Scotland → St Andrew → 30 November
+Quick Memory Rule
+
+🌿 Scotland
+
+↓
+
+👤 St Andrew
+
+↓
+
+📅 30 November
+
+Q20. Who was the architect that rebuilt Saint Paul's Cathedral after the Great Fire in 1666?
+
+❌ Robert Adam
+
+✅ Sir Christopher Wren
+
+❌ Sir Norman Foster
+
+❌ Dame Zaha Hadid
+
+Explanation: In 1666, a great fire destroyed much of the city, including many churches and St Paul's Cathedral. London was rebuilt with a new St Paul's, which was designed by a famous architect, Sir Christopher Wren.
+
+🧠 Memory Tip
+
+Know each architect:
+
+❌ Robert Adam → Famous 18th-century Scottish architect, but not responsible for St Paul's Cathedral.
+✅ Sir Christopher Wren → Correct. Designed the new St Paul's Cathedral after the Great Fire of London (1666).
+❌ Sir Norman Foster → Modern architect known for buildings such as The Gherkin in London.
+❌ Dame Zaha Hadid → World-famous modern architect known for innovative contemporary designs.
+
+Connect with another history question:
+
+🔥 1666 → Great Fire of London
+⛪ St Paul's Cathedral
+👨‍🎨 Sir Christopher Wren
+Quick Memory Rule
+
+🔥 1666
+
+↓
+
+Sir Christopher Wren
+
+↓
+
+⛪ St Paul's Cathedral
+
+Q21. When were the first coins in Britain made?
+
+❌ The Stone Age
+
+❌ The Bronze Age
+
+✅ The Iron Age
+
+❌ The Middle Ages
+
+Explanation: The people of the Iron Age made the first coins to be minted in Britain.
+
+🧠 Memory Tip
+
+Know each historical period:
+
+❌ Stone Age → Hunter-gatherers and the first farmers; no coins.
+❌ Bronze Age → Metal tools and farming developed, but coins were not yet used.
+✅ Iron Age → Correct. The first coins were minted in Britain during the Iron Age.
+❌ The Middle Ages → Coins already existed long before this period.
+
+Build the timeline:
+
+🪨 Stone Age
+🛠 Bronze Age
+⚔ Iron Age → 🪙 First Coins
+🏰 Middle Ages
+Quick Memory Rule
+
+🪨 Stone Age
+
+↓
+
+🛠 Bronze Age
+
+↓
+
+⚔ Iron Age
+
+↓
+
+🪙 First Coins
+
+Q22. Who was Emmeline Pankhurst?
+
+✅ A suffragette
+
+❌ A nurse
+
+❌ A doctor
+
+❌ A scientist
+
+Explanation: Emmeline Pankhurst was born in Manchester in 1858. She set up the Women's Franchise League in 1889, which fought to get the vote in local elections for married women. In 1903 she helped found the Women's Social and Political Union (WSPU). This was the first group whose members were called 'suffragettes'.
+
+🧠 Memory Tip
+
+Know who each person or profession relates to:
+
+✅ A suffragette → Correct. Emmeline Pankhurst led the campaign for women's voting rights.
+❌ A nurse → This describes Florence Nightingale, founder of modern nursing.
+❌ A doctor → Emmeline Pankhurst was not a medical doctor.
+❌ A scientist → She was a political activist, not a scientist.
+
+Remember the timeline:
+
+👩 1889 → Women's Franchise League
+👩 1903 → WSPU founded
+🗳 1918 → Some women gained the vote
+⚖ 1928 → Equal voting rights with men
+Quick Memory Rule
+
+👩 Emmeline Pankhurst
+
+↓
+
+👩 Suffragette
+
+↓
+
+🗳 Votes for Women
+
+Q23. Who did Britain fight against in the Crimean War?
+
+❌ Turkey
+
+✅ Russia
+
+❌ France
+
+❌ Germany
+
+Explanation: From 1853 to 1856, Britain fought with Turkey and France against Russia in the Crimean War.
+
+🧠 Memory Tip
+
+Know which countries were allies and opponents:
+
+❌ Turkey → Britain fought alongside Turkey.
+✅ Russia → Correct. Russia was Britain's main opponent in the Crimean War.
+❌ France → France fought with Britain, not against it.
+❌ Germany → Germany was not involved as Britain's opponent in this war.
+
+Build the timeline:
+
+⚔ 1853–1856 → Crimean War
+🇬🇧 + 🇫🇷 + 🇹🇷
+🆚
+🇷🇺 Russia
+
+Connect with another famous person:
+
+🏥 Florence Nightingale became famous for her work caring for wounded soldiers during the Crimean War.
+Quick Memory Rule
+
+🇬🇧 Britain
+
+🇫🇷 France
+
+🇹🇷 Turkey
+
+🆚
+
+🇷🇺 Russia
+
+Q24. How old do you have to be to buy alcohol in the UK?
+
+❌ 17
+
+✅ 18
+
+❌ 19
+
+❌ 20
+
+Explanation: It is a criminal offence to sell alcohol to anyone who is under 18 or to buy alcohol for people who are under the age of 18. (There is one exception: people aged 16 or over can drink alcohol with a meal in a hotel or restaurant).
+
+🧠 Memory Tip
+
+Know why each option is correct or incorrect:
+
+❌ 17 → Too young to legally buy alcohol.
+✅ 18 → Correct. The legal age to buy alcohol in the UK is 18.
+❌ 19 → There is no minimum age of 19 for purchasing alcohol.
+❌ 20 → Also incorrect.
+
+Remember the important exception:
+
+🍽 16 or 17-year-olds may drink beer, wine or cider with a meal in a restaurant or hotel if accompanied by an adult.
+🛒 They cannot buy alcohol themselves.
+
+Connect with another law question:
+
+🚬 Tobacco products → Must also follow age restrictions.
+🍺 Buying alcohol for someone under 18 is generally a criminal offence.
+Quick Memory Rule
+
+🛒 Buy Alcohol
+
+↓
+
+🔞 18+
+
+🍽 Exception
+
+↓
+
+16–17
+
+Meal
+
+Adult Present
