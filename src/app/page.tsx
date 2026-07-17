@@ -4,7 +4,6 @@ import {
   CheckCircle2,
   BarChart3,
   BookOpenCheck,
-  LogIn,
   Lock,
   Brain,
   Star,
@@ -202,32 +201,58 @@ export default async function Home({
         <CleanSearchParams params={["signin", "upgrade", "checkout_failed"]} />
       )}
       {signin === "required" && !isSignedIn && (
-        <div className="mx-auto max-w-md px-6 pt-8">
-          <div className="rounded-xl border border-primary/30 bg-card p-4 text-center shadow-sm">
-            <p className="flex items-center justify-center gap-1.5 font-semibold">
-              <LogIn size={16} className="text-primary" />
-              Sign in with Google
-            </p>
-            <ul className="mt-3 flex flex-col items-center gap-1 text-sm text-muted-foreground">
-              <li className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                Save your progress
-              </li>
-              <li className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                Track your scores
-              </li>
-              <li className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                Unlock all mock tests
-              </li>
-            </ul>
-            <form action={signInWithGoogle} className="mt-4">
+        <div className="border-b border-primary/10 bg-primary/5 px-6 py-4">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <Lock size={18} />
+              </span>
+              <div>
+                <p className="font-semibold">Sign in with Google</p>
+                <p className="text-sm text-muted-foreground">
+                  Unlock all features and get the best experience.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <CheckCircle2 size={16} />
+                </span>
+                <div>
+                  <p className="text-sm font-medium">Save your progress</p>
+                  <p className="text-xs text-muted-foreground">Pick up where you left off</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <BarChart3 size={16} />
+                </span>
+                <div>
+                  <p className="text-sm font-medium">Track your scores</p>
+                  <p className="text-xs text-muted-foreground">See how you improve</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Lock size={16} />
+                </span>
+                <div>
+                  <p className="text-sm font-medium">Unlock all mock tests</p>
+                  <p className="text-xs text-muted-foreground">Access all {TOTAL_TESTS} mock tests</p>
+                </div>
+              </div>
+            </div>
+
+            <form action={signInWithGoogle}>
               <button
                 type="submit"
-                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-card-border bg-card px-4 py-2.5 text-sm font-medium shadow-sm transition-colors hover:border-primary/40"
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90"
               >
-                <GoogleIcon />
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white">
+                  <GoogleIcon />
+                </span>
                 Continue with Google
               </button>
             </form>
