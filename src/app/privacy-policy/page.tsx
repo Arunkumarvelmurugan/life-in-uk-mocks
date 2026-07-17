@@ -58,7 +58,7 @@ const sections: Section[] = [
     blocks: [
       p(`We use a small number of strictly necessary cookies to operate the Service - primarily to keep you signed in securely (via our authentication provider, Auth.js) and to protect against cross-site request forgery. These cookies are essential to the Service and cannot be switched off.`),
       p(`Your light/dark theme preference is stored in your browser's local storage, not a cookie, and never leaves your device.`),
-      p(`We do not currently use any analytics, advertising, or tracking cookies.`),
+      p(`With your consent, we use Google Analytics to understand how the Service is used and to improve it. Google Analytics sets analytics cookies (such as _ga and _ga_*) that are not strictly necessary and are only set after you accept them via the cookie banner shown on your first visit. You can withdraw or change your consent at any time using the "Cookie preferences" link in the footer, which removes these cookies and stops further analytics collection. We do not use any advertising or cross-site tracking cookies.`),
     ],
   },
   {
@@ -70,6 +70,7 @@ const sections: Section[] = [
         "Stripe - to process payments and manage subscriptions. See Stripe's Privacy Policy.",
         "Supabase - to host our database and authentication infrastructure.",
         "Resend - to deliver transactional emails (welcome emails, payment confirmations, and contact form notifications).",
+        "Google Analytics - to understand how the Service is used, only if you have accepted analytics cookies. See Google's Privacy Policy.",
       ]),
       p(`We do not share your personal data with any other third party for their own marketing purposes. We may disclose personal data if required to do so by law, regulation, or a valid request from a public authority.`),
     ],

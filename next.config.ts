@@ -6,11 +6,14 @@ import type { NextConfig } from "next";
 // for next-themes' anti-flash inline script, which we haven't set up yet.
 const cspReportOnly = [
   "default-src 'self'",
-  "script-src 'self'",
+  // Google Analytics (only ever loaded after cookie-consent acceptance -
+  // see src/components/analytics.tsx) fetches gtag.js from googletagmanager
+  // and sends collection beacons to google-analytics.com.
+  "script-src 'self' https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://*.googleusercontent.com",
   "font-src 'self'",
-  "connect-src 'self'",
+  "connect-src 'self' https://www.google-analytics.com https://analytics.google.com",
   "form-action 'self'",
   "base-uri 'self'",
   "object-src 'none'",

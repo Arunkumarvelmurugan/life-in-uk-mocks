@@ -174,7 +174,7 @@ const sections: Section[] = [
   {
     heading: "13. Third-Party Services",
     blocks: [
-      p(`Our website uses third-party services, including payment processing (Stripe), authentication (Google Sign-In), and transactional email delivery (Resend). We are not responsible for the availability, security, or policies of these third-party services. Your use of them is subject to their own terms and privacy policies.`),
+      p(`Our website uses third-party services, including payment processing (Stripe), authentication (Google Sign-In), transactional email delivery (Resend), and, only if you consent via our cookie banner, analytics (Google Analytics). We are not responsible for the availability, security, or policies of these third-party services. Your use of them is subject to their own terms and privacy policies.`),
     ],
   },
   {

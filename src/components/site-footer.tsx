@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookiePreferencesButton } from "@/components/cookie-consent";
 
 export function SiteFooter() {
   return (
@@ -23,6 +24,7 @@ export function SiteFooter() {
           <Link href="/privacy-policy" className="font-medium text-primary hover:underline">
             Privacy Policy
           </Link>
+          <CookiePreferencesButton />
         </div>
         <p>
           © {new Date().getFullYear()} Life in UK Mocks. Independent practice resource - not
