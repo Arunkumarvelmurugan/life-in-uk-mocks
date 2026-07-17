@@ -67,6 +67,32 @@ const categories: FAQCategory[] = [
         "What is the pass mark?",
         "To pass the official Life in the UK Test, you need to answer 18 out of 24 questions correctly (75%)."
       ),
+      {
+        question: "What is the Pass Guarantee, and how do I qualify?",
+        answer: (
+          <>
+            <p>
+              If you complete our full study plan and still don&apos;t pass, we&apos;ll refund
+              your Lifetime Access payment in full. To qualify, you must:
+            </p>
+            <ul className="mt-2 flex list-disc flex-col gap-1 pl-5">
+              <li>Have Lifetime Access (the Pass Guarantee isn&apos;t included with Premium).</li>
+              <li>Complete all 17 mock tests.</li>
+              <li>Achieve a score of 75% or higher on each mock test.</li>
+              <li>Take your official Life in the UK Test within 60 days of completing the mock tests.</li>
+            </ul>
+            <p className="mt-2">
+              See the full{" "}
+              <Link href="/#guarantee" className="font-medium text-primary hover:underline">
+                Pass Guarantee details
+              </Link>{" "}
+              for how to claim it.
+            </p>
+          </>
+        ),
+        plainAnswer:
+          "If you complete our full study plan and still don't pass, we'll refund your Lifetime Access payment in full. To qualify, you must: have Lifetime Access (the Pass Guarantee isn't included with Premium), complete all 17 mock tests, achieve a score of 75% or higher on each mock test, and take your official Life in the UK Test within 60 days of completing the mock tests.",
+      },
       faq(
         "Are the questions similar to the official test?",
         "Our mock tests are designed to reflect the style, structure, and topics of the official Life in the UK Test to help you prepare effectively. While no practice platform can reproduce the exact official exam questions, our aim is to provide realistic and comprehensive practice."
@@ -113,6 +139,10 @@ const categories: FAQCategory[] = [
       faq(
         "Is there a free version?",
         "Yes. You can access selected features and sample content for free before deciding whether to upgrade."
+      ),
+      faq(
+        "How long does my access last?",
+        "It depends on the plan. Premium is a subscription that renews automatically every 30 days, so access continues for as long as your subscription is active. Lifetime Access is a one-time payment - once purchased, you keep full access permanently, with no renewals."
       ),
       faq(
         "Can I cancel my subscription?",
