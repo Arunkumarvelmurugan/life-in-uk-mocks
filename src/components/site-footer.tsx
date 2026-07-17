@@ -11,6 +11,9 @@ export function SiteFooter() {
           <Link href="/faq" className="font-medium text-primary hover:underline">
             FAQ
           </Link>
+          <Link href="/memory-tips" className="font-medium text-primary hover:underline">
+            Memory Tips
+          </Link>
           <Link href="/terms" className="font-medium text-primary hover:underline">
             Terms and Conditions
           </Link>

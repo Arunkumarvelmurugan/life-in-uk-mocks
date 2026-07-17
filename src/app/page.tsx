@@ -61,6 +61,7 @@ const features = [
     icon: Brain,
     title: "Memory Tips & Quick Memory Rules",
     description: "Reusable memory techniques for facts that come up again and again across different mock tests.",
+    href: "/memory-tips",
   },
 ];
 
@@ -325,15 +326,29 @@ export default async function Home({
       <section className="mx-auto max-w-6xl px-6 pb-12 pt-4">
         <h2 className="sr-only">Key features</h2>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {features.map((f) => (
-            <div key={f.title} className="rounded-xl border border-card-border bg-card p-6 shadow-sm">
-              <div className="mb-1.5 flex items-center gap-2">
-                <f.icon className="shrink-0 text-primary" size={22} />
-                <h3 className="font-semibold">{f.title}</h3>
+          {features.map((f) => {
+            const cardClassName =
+              "rounded-xl border border-card-border bg-card p-6 shadow-sm" +
+              (f.href ? " transition-colors hover:border-primary/50" : "");
+            const content = (
+              <>
+                <div className="mb-1.5 flex items-center gap-2">
+                  <f.icon className="shrink-0 text-primary" size={22} />
+                  <h3 className="font-semibold">{f.title}</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">{f.description}</p>
+              </>
+            );
+            return f.href ? (
+              <Link key={f.title} href={f.href} className={cardClassName}>
+                {content}
+              </Link>
+            ) : (
+              <div key={f.title} className={cardClassName}>
+                {content}
               </div>
-              <p className="text-sm text-muted-foreground">{f.description}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
