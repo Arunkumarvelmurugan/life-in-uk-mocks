@@ -26,10 +26,12 @@ import {
 } from "lucide-react";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST, FREE_TEST_ID } from "@/lib/tests";
 import { auth } from "@/auth";
+import { signInWithGoogle } from "@/lib/auth-actions";
 import { getUserAccess, getUserDisplayName } from "@/lib/supabase-users";
 import { createPremiumCheckoutSession, createLifetimeCheckoutSession } from "@/lib/checkout-actions";
 import { createBillingPortalSession } from "@/lib/billing-portal-actions";
 import { getPaymentHistory } from "@/lib/payments-actions";
+import { GoogleIcon } from "@/components/google-icon";
 import { getAllProgress } from "@/lib/progress-actions";
 import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
@@ -200,9 +202,36 @@ export default async function Home({
         <CleanSearchParams params={["signin", "upgrade", "checkout_failed"]} />
       )}
       {signin === "required" && !isSignedIn && (
-        <div className="flex items-center justify-center gap-2 bg-primary px-6 py-2.5 text-center text-sm font-medium text-primary-foreground">
-          <LogIn size={15} />
-          Sign in with Google to access Mock Tests.
+        <div className="mx-auto max-w-md px-6 pt-8">
+          <div className="rounded-xl border border-primary/30 bg-card p-4 text-center shadow-sm">
+            <p className="flex items-center justify-center gap-1.5 font-semibold">
+              <LogIn size={16} className="text-primary" />
+              Sign in with Google
+            </p>
+            <ul className="mt-3 flex flex-col items-center gap-1 text-sm text-muted-foreground">
+              <li className="flex items-center gap-1.5">
+                <CheckCircle2 size={14} className="text-success" />
+                Save your progress
+              </li>
+              <li className="flex items-center gap-1.5">
+                <CheckCircle2 size={14} className="text-success" />
+                Track your scores
+              </li>
+              <li className="flex items-center gap-1.5">
+                <CheckCircle2 size={14} className="text-success" />
+                Unlock all mock tests
+              </li>
+            </ul>
+            <form action={signInWithGoogle} className="mt-4">
+              <button
+                type="submit"
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-card-border bg-card px-4 py-2.5 text-sm font-medium shadow-sm transition-colors hover:border-primary/40"
+              >
+                <GoogleIcon />
+                Continue with Google
+              </button>
+            </form>
+          </div>
         </div>
       )}
       {upgrade === "required" && !hasFullAccess && (
@@ -233,12 +262,24 @@ export default async function Home({
           No study guides. No lesson plans. Just mock tests until you&apos;re ready to pass.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href={freeTestHref}
-            className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-          >
-            {heroCtaLabel}
-          </Link>
+          {isSignedIn ? (
+            <Link
+              href={freeTestHref}
+              className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+            >
+              {heroCtaLabel}
+            </Link>
+          ) : (
+            <form action={signInWithGoogle}>
+              <button
+                type="submit"
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+              >
+                <GoogleIcon />
+                Continue with Google
+              </button>
+            </form>
+          )}
           {!hasFullAccess && (
             <Link
               href="#pricing"
