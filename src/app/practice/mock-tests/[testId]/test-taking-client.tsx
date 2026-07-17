@@ -290,8 +290,8 @@ export function TestTakingClient({
                 key={`memory-${currentIndex}`}
                 icon={Brain}
                 title="Memory Tip"
-                accentClass="text-amber-600 dark:text-amber-400"
-                containerClass="mt-6 border-amber-500/20 bg-amber-500/5"
+                accentClass="text-warning"
+                containerClass="mt-6 border-warning-border bg-warning-bg"
               >
                 <p className="whitespace-pre-line">{question.memoryTip}</p>
               </CollapsibleTip>

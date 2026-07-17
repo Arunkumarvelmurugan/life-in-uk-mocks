@@ -51,7 +51,7 @@ const UNLOCKS = [
 
 const UNLOCK_COLOR_CLASSES: Record<string, string> = {
   success: "border-success-border bg-success-bg text-success",
-  amber: "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+  amber: "border-warning-border bg-warning-bg text-warning",
   violet: "border-violet-500/20 bg-violet-500/5 text-violet-600 dark:text-violet-400",
 };
 
@@ -147,7 +147,7 @@ export function DemoQuestionCard() {
             </span>
             <div>
               <p className="font-semibold text-primary">Don&apos;t guess! Pick the answer you think is correct.</p>
-              <p className="text-sm text-muted-foreground">You&apos;ll get a full explanation with memory tips.</p>
+              <p className="text-sm text-foreground/70">You&apos;ll get a full explanation with memory tips.</p>
             </div>
           </div>
         )}
@@ -172,10 +172,10 @@ export function DemoQuestionCard() {
       <div>
         {isAnswered ? (
           <div className="flex flex-col gap-3">
-            <div className="flex gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
-              <Brain size={18} className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
+            <div className="flex gap-3 rounded-xl border border-warning-border bg-warning-bg p-4">
+              <Brain size={18} className="mt-0.5 shrink-0 text-warning" />
               <div>
-                <p className="mb-1 font-semibold text-amber-600 dark:text-amber-400">Memory Tip</p>
+                <p className="mb-1 font-semibold text-warning">Memory Tip</p>
                 <p className="whitespace-pre-line text-sm leading-relaxed text-foreground/80">
                   {DEMO_QUESTION.memoryTip}
                 </p>

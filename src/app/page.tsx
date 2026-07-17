@@ -323,6 +323,7 @@ export default async function Home({
 
       {/* Features */}
       <section className="mx-auto max-w-6xl px-6 pb-12 pt-4">
+        <h2 className="sr-only">Key features</h2>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {features.map((f) => (
             <div key={f.title} className="rounded-xl border border-card-border bg-card p-6 shadow-sm">
