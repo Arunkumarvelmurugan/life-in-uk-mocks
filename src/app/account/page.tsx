@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -24,6 +25,14 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { EditNameForm } from "@/components/edit-name-form";
 import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
+
+// Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
+// is a page-level belt-and-braces signal in case either of those is ever
+// bypassed. This page also shows real names/emails/payment history, so it's
+// the last place we'd want a stray indexing accident.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 function formatAmount(amountPence: number, currency: string) {
   return new Intl.NumberFormat("en-GB", {
