@@ -8,6 +8,9 @@ export function SiteFooter() {
           <Link href="/contact" className="font-medium text-primary hover:underline">
             Contact us
           </Link>
+          <Link href="/faq" className="font-medium text-primary hover:underline">
+            FAQ
+          </Link>
           <Link href="/terms" className="font-medium text-primary hover:underline">
             Terms and Conditions
           </Link>
