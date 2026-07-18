@@ -3,6 +3,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
   CheckCircle2,
+  XCircle,
+  RotateCcw,
   LogOut,
   Receipt,
   ShieldCheck,
@@ -54,6 +56,17 @@ const PLAN_LABELS = {
 const PAYMENT_PLAN_LABELS: Record<string, string> = {
   premium: "Premium",
   lifetime: "Lifetime Access",
+};
+
+const PAYMENT_STATUS_STYLES: Record<string, { label: string; icon: typeof CheckCircle2; className: string }> = {
+  paid: { label: "paid", icon: CheckCircle2, className: "bg-success-bg text-success" },
+  failed: { label: "failed", icon: XCircle, className: "bg-danger-bg text-danger" },
+  refunded: { label: "refunded", icon: RotateCcw, className: "bg-warning-bg text-warning" },
+  partially_refunded: {
+    label: "partially refunded",
+    icon: RotateCcw,
+    className: "bg-warning-bg text-warning",
+  },
 };
 
 export default async function AccountPage({
@@ -273,7 +286,14 @@ export default async function AccountPage({
                 </tr>
               </thead>
               <tbody>
-                {payments.map((payment) => (
+                {payments.map((payment) => {
+                  const statusStyle = PAYMENT_STATUS_STYLES[payment.status] ?? {
+                    label: payment.status,
+                    icon: CheckCircle2,
+                    className: "bg-muted text-muted-foreground",
+                  };
+                  const StatusIcon = statusStyle.icon;
+                  return (
                   <tr key={payment.id} className="border-b border-card-border last:border-0">
                     <td className="py-3 pr-4 font-medium">
                       {payment.plan ? PAYMENT_PLAN_LABELS[payment.plan] : "Payment"}
@@ -281,9 +301,11 @@ export default async function AccountPage({
                     <td className="py-3 pr-4 text-muted-foreground">{formatDate(payment.createdAt)}</td>
                     <td className="py-3 pr-4 font-semibold">{formatAmount(payment.amount, payment.currency)}</td>
                     <td className="py-3 pr-4">
-                      <span className="flex w-fit items-center gap-1 rounded-full bg-success-bg px-2 py-0.5 text-xs font-medium text-success">
-                        <CheckCircle2 size={12} />
-                        {payment.status}
+                      <span
+                        className={`flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${statusStyle.className}`}
+                      >
+                        <StatusIcon size={12} />
+                        {statusStyle.label}
                       </span>
                     </td>
                     <td className="py-3">
@@ -300,7 +322,8 @@ export default async function AccountPage({
                       )}
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>

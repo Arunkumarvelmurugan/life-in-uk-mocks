@@ -7,6 +7,7 @@ import {
   handleInvoicePaymentFailed,
   syncSubscriptionState,
   handleSubscriptionDeleted,
+  handleChargeRefunded,
 } from "@/lib/stripe-fulfillment";
 
 export async function POST(req: Request) {
@@ -40,6 +41,9 @@ export async function POST(req: Request) {
       break;
     case "customer.subscription.deleted":
       await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
+      break;
+    case "charge.refunded":
+      await handleChargeRefunded(event.data.object as Stripe.Charge);
       break;
   }
 

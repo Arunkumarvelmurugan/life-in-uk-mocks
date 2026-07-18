@@ -24,19 +24,24 @@ async function findUserIdBySubscriptionId(subscriptionId: string): Promise<strin
 }
 
 /**
- * Upserts a payments row and reports whether it was newly created. Both the
- * webhook and the fast-path redirect route can call the same fulfillment
- * function for the same payment, so this is what lets the caller send a
- * confirmation email exactly once instead of on every duplicate call.
+ * Upserts a payments row and reports whether it was newly created and what
+ * its previous status was. Both the webhook and the fast-path redirect route
+ * can call the same fulfillment function for the same payment, so this is
+ * what lets the caller send a confirmation email exactly once instead of on
+ * every duplicate call - and, since a failed renewal attempt and its
+ * eventual successful retry share the same invoice id (Stripe reuses the
+ * invoice across retries), also lets a "failed" row that later turns into
+ * "paid" still trigger a confirmation, instead of being treated as a
+ * not-actually-new duplicate.
  */
 async function recordPayment(
   conflictColumn: "stripe_checkout_session_id" | "stripe_invoice_id",
   row: Record<string, unknown>
-): Promise<{ isNew: boolean }> {
+): Promise<{ isNew: boolean; previousStatus: string | null }> {
   const conflictValue = row[conflictColumn];
   const { data: existing } = await supabaseAdmin
     .from("payments")
-    .select("id")
+    .select("status")
     .eq(conflictColumn, conflictValue as string)
     .maybeSingle();
 
@@ -45,7 +50,7 @@ async function recordPayment(
     .upsert(row, { onConflict: conflictColumn, ignoreDuplicates: false });
   if (error) throw new Error(`Failed to record payment: ${error.message}`);
 
-  return { isNew: !existing };
+  return { isNew: !existing, previousStatus: existing?.status ?? null };
 }
 
 /** Best-effort confirmation email - looks up the user's email/name by id. */
@@ -85,6 +90,22 @@ function getInvoiceSubscriptionId(invoice: Stripe.Invoice): string | undefined {
   const subscriptionDetails = invoice.parent?.subscription_details;
   const subscription = subscriptionDetails?.subscription;
   return typeof subscription === "string" ? subscription : subscription?.id;
+}
+
+/**
+ * Invoices no longer carry a direct charge/payment_intent reference in this
+ * API version - that link now only exists via the separate Invoice Payments
+ * resource. Recorded on the payments row at write time so refunds
+ * (charge.refunded only gives us a payment_intent, never an invoice) can be
+ * matched back to the right row without having to reverse this lookup later.
+ */
+async function getInvoicePaymentIntentId(invoiceId: string): Promise<string | null> {
+  const list = await stripe.invoicePayments.list({ invoice: invoiceId, limit: 1 });
+  const payment = list.data[0]?.payment;
+  if (!payment || payment.type !== "payment_intent") return null;
+  return typeof payment.payment_intent === "string"
+    ? payment.payment_intent
+    : (payment.payment_intent?.id ?? null);
 }
 
 /**
@@ -149,7 +170,7 @@ export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Se
 
     const amountTotal = checkoutSession.amount_total ?? 0;
     const currency = checkoutSession.currency ?? "gbp";
-    const { isNew } = await recordPayment("stripe_checkout_session_id", {
+    const { isNew, previousStatus } = await recordPayment("stripe_checkout_session_id", {
       user_id: userId,
       plan: "lifetime",
       stripe_checkout_session_id: checkoutSession.id,
@@ -160,7 +181,7 @@ export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Se
       currency,
       status: "paid",
     });
-    if (isNew) {
+    if (isNew || previousStatus !== "paid") {
       await sendPaymentConfirmationForUser(userId, "lifetime", amountTotal, currency);
     }
 
@@ -205,19 +226,24 @@ export async function fulfillCheckoutSession(checkoutSession: Stripe.Checkout.Se
 
   const invoiceField = checkoutSession.invoice;
   const invoiceId = typeof invoiceField === "string" ? invoiceField : (invoiceField?.id ?? null);
+  const subPaymentIntentId = invoiceId ? await getInvoicePaymentIntentId(invoiceId) : null;
 
   const subAmountTotal = checkoutSession.amount_total ?? 0;
   const subCurrency = checkoutSession.currency ?? "gbp";
-  const { isNew: isNewSubPayment } = await recordPayment("stripe_invoice_id", {
-    user_id: userId,
-    plan: "premium",
-    stripe_invoice_id: invoiceId,
-    stripe_subscription_id: subscription.id,
-    amount: subAmountTotal,
-    currency: subCurrency,
-    status: "paid",
-  });
-  if (isNewSubPayment) {
+  const { isNew: isNewSubPayment, previousStatus: prevSubStatus } = await recordPayment(
+    "stripe_invoice_id",
+    {
+      user_id: userId,
+      plan: "premium",
+      stripe_invoice_id: invoiceId,
+      stripe_payment_intent_id: subPaymentIntentId,
+      stripe_subscription_id: subscription.id,
+      amount: subAmountTotal,
+      currency: subCurrency,
+      status: "paid",
+    }
+  );
+  if (isNewSubPayment || prevSubStatus !== "paid") {
     await sendPaymentConfirmationForUser(userId, "premium", subAmountTotal, subCurrency);
   }
 
@@ -234,16 +260,18 @@ export async function fulfillInvoicePayment(invoice: Stripe.Invoice) {
 
   const invoiceAmount = invoice.amount_paid ?? 0;
   const invoiceCurrency = invoice.currency ?? "gbp";
-  const { isNew } = await recordPayment("stripe_invoice_id", {
+  const paymentIntentId = await getInvoicePaymentIntentId(invoice.id);
+  const { isNew, previousStatus } = await recordPayment("stripe_invoice_id", {
     user_id: userId,
     plan: "premium",
     stripe_invoice_id: invoice.id,
+    stripe_payment_intent_id: paymentIntentId,
     stripe_subscription_id: subscriptionId,
     amount: invoiceAmount,
     currency: invoiceCurrency,
     status: "paid",
   });
-  if (isNew) {
+  if (isNew || previousStatus !== "paid") {
     await sendPaymentConfirmationForUser(userId, "premium", invoiceAmount, invoiceCurrency);
   }
 
@@ -259,8 +287,46 @@ export async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   const userId = await findUserIdBySubscriptionId(subscriptionId);
   if (!userId) return;
 
+  // Recorded so the failure shows up in the user's payment history, not just
+  // as a silent status change on their account. Stripe reuses the same
+  // invoice id across retries, so a later successful retry upserts this same
+  // row to "paid" (see recordPayment) rather than leaving a stale "failed"
+  // row next to a separate "paid" one.
+  await recordPayment("stripe_invoice_id", {
+    user_id: userId,
+    plan: "premium",
+    stripe_invoice_id: invoice.id,
+    stripe_subscription_id: subscriptionId,
+    amount: invoice.amount_due ?? 0,
+    currency: invoice.currency ?? "gbp",
+    status: "failed",
+  });
+
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
   await applySubscriptionToUser(userId, subscription);
+}
+
+/**
+ * `charge.refunded` - fires for both full and partial refunds. Charges in
+ * this API version carry a payment_intent but no direct invoice reference,
+ * so payment_intent is the only identifier available here - which is why
+ * every recordPayment call above stores stripe_payment_intent_id
+ * (fetched via Invoice Payments for invoice-based charges) even though the
+ * row is keyed on stripe_invoice_id for conflict resolution. Updates the
+ * existing row in place rather than creating a new one.
+ */
+export async function handleChargeRefunded(charge: Stripe.Charge) {
+  const paymentIntentId =
+    typeof charge.payment_intent === "string" ? charge.payment_intent : (charge.payment_intent?.id ?? null);
+  if (!paymentIntentId) return;
+
+  const status = charge.amount_refunded >= charge.amount ? "refunded" : "partially_refunded";
+
+  const { error } = await supabaseAdmin
+    .from("payments")
+    .update({ status })
+    .eq("stripe_payment_intent_id", paymentIntentId);
+  if (error) throw new Error(`Failed to record refund: ${error.message}`);
 }
 
 /** `customer.subscription.updated` - status/period-end/cancel-flag changes mid-lifecycle. */
