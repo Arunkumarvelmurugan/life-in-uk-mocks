@@ -27,6 +27,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { EditNameForm } from "@/components/edit-name-form";
 import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
+import { isLaunchOfferActive, REGULAR_PRICE_LIFETIME_GBP, LAUNCH_PRICE_LIFETIME_GBP } from "@/lib/pricing";
 
 // Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
 // is a page-level belt-and-braces signal in case either of those is ever
@@ -86,6 +87,10 @@ export default async function AccountPage({
     getAllProgress(),
     getUserDisplayName(session.user.id),
   ]);
+
+  const currentLifetimePrice = isLaunchOfferActive()
+    ? LAUNCH_PRICE_LIFETIME_GBP
+    : REGULAR_PRICE_LIFETIME_GBP;
 
   const completedTests = Object.values(allProgress).filter(
     (p) => Object.keys(p.answers).length === QUESTIONS_PER_TEST
@@ -241,7 +246,7 @@ export default async function AccountPage({
                 className="flex cursor-pointer items-center gap-1.5 text-sm font-medium text-primary hover:underline"
               >
                 <Crown size={14} />
-                Upgrade to Lifetime Access - £12.99 one-time, includes the Pass Guarantee
+                Upgrade to Lifetime Access - £{currentLifetimePrice.toFixed(2)} one-time, includes the Pass Guarantee
               </button>
             </form>
           )}
