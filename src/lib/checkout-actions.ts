@@ -3,8 +3,16 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/auth";
-import { stripe, STRIPE_PRICE_PREMIUM, STRIPE_PRICE_LIFETIME, type Plan } from "@/lib/stripe";
+import {
+  stripe,
+  STRIPE_PRICE_PREMIUM,
+  STRIPE_PRICE_LIFETIME,
+  STRIPE_PRICE_PREMIUM_LAUNCH,
+  STRIPE_PRICE_LIFETIME_LAUNCH,
+  type Plan,
+} from "@/lib/stripe";
 import { getUserAccess } from "@/lib/supabase-users";
+import { isLaunchOfferActive } from "@/lib/pricing";
 
 async function getOrigin() {
   const h = await headers();
@@ -32,6 +40,9 @@ async function createCheckoutSessionForTier(tier: Extract<Plan, "premium" | "lif
   }
 
   const origin = await getOrigin();
+  const launchOfferActive = isLaunchOfferActive();
+  const lifetimePrice = launchOfferActive ? STRIPE_PRICE_LIFETIME_LAUNCH : STRIPE_PRICE_LIFETIME;
+  const premiumPrice = launchOfferActive ? STRIPE_PRICE_PREMIUM_LAUNCH : STRIPE_PRICE_PREMIUM;
 
   let checkoutUrl: string;
   try {
@@ -42,7 +53,7 @@ async function createCheckoutSessionForTier(tier: Extract<Plan, "premium" | "lif
             client_reference_id: session.user.id,
             customer_email: session.user.email ?? undefined,
             metadata: { userId: session.user.id, plan: "lifetime" },
-            line_items: [{ price: STRIPE_PRICE_LIFETIME, quantity: 1 }],
+            line_items: [{ price: lifetimePrice, quantity: 1 }],
             // One-time "payment" mode sessions don't get an invoice unless
             // explicitly requested - without this, Lifetime purchases would
             // have no downloadable receipt to show in payment history.
@@ -60,7 +71,7 @@ async function createCheckoutSessionForTier(tier: Extract<Plan, "premium" | "lif
             customer_email: access.stripeCustomerId ? undefined : (session.user.email ?? undefined),
             metadata: { userId: session.user.id, plan: "premium" },
             subscription_data: { metadata: { userId: session.user.id } },
-            line_items: [{ price: STRIPE_PRICE_PREMIUM, quantity: 1 }],
+            line_items: [{ price: premiumPrice, quantity: 1 }],
             success_url: `${origin}/api/checkout/complete?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/#pricing`,
           }

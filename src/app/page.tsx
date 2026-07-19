@@ -35,6 +35,13 @@ import { getAllProgress } from "@/lib/progress-actions";
 import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
 import { DemoQuestionCard } from "@/components/demo-question-card";
+import {
+  isLaunchOfferActive,
+  REGULAR_PRICE_PREMIUM_GBP,
+  REGULAR_PRICE_LIFETIME_GBP,
+  LAUNCH_PRICE_PREMIUM_GBP,
+  LAUNCH_PRICE_LIFETIME_GBP,
+} from "@/lib/pricing";
 
 const features = [
   {
@@ -77,11 +84,17 @@ const eligibilityRules = [
   "The name on your learning account must exactly match the name on your official test result.",
 ];
 
-const plans = [
+function formatGbp(amount: number) {
+  return `£${amount.toFixed(2)}`;
+}
+
+function getPlans(launchOfferActive: boolean) {
+  return [
   {
     id: "free" as const,
     name: "Free",
     price: "£0",
+    originalPrice: null,
     period: "",
     description: "Try the format before you commit.",
     features: ["Test 1 unlocked", "Instant feedback", "Full explanations"],
@@ -91,7 +104,8 @@ const plans = [
     id: "premium" as const,
     name: "Premium",
     badge: "Most Popular",
-    price: "£7.99",
+    price: formatGbp(launchOfferActive ? LAUNCH_PRICE_PREMIUM_GBP : REGULAR_PRICE_PREMIUM_GBP),
+    originalPrice: launchOfferActive ? formatGbp(REGULAR_PRICE_PREMIUM_GBP) : null,
     period: "for 30 days",
     description: "Full access, renews automatically.",
     features: [
@@ -105,7 +119,8 @@ const plans = [
   {
     id: "lifetime" as const,
     name: "Lifetime Access",
-    price: "£12.99",
+    price: formatGbp(launchOfferActive ? LAUNCH_PRICE_LIFETIME_GBP : REGULAR_PRICE_LIFETIME_GBP),
+    originalPrice: launchOfferActive ? formatGbp(REGULAR_PRICE_LIFETIME_GBP) : null,
     period: "one-time",
     description: "Pay once, keep access forever.",
     features: [
@@ -116,7 +131,8 @@ const plans = [
     ],
     cta: "Get Lifetime Access",
   },
-];
+  ];
+}
 
 const PLAN_VISUALS = {
   free: {
@@ -151,6 +167,10 @@ export default async function Home({
   const hasFullAccess = access?.hasAccess ?? false;
   const freeTestHref = isSignedIn ? "/mock-tests" : `/mock-tests/${FREE_TEST_ID}`;
   const heroCtaLabel = hasFullAccess ? "Go to Mock Tests" : "Start practicing free";
+  const launchOfferActive = isLaunchOfferActive();
+  const plans = getPlans(launchOfferActive);
+  const currentPremiumPrice = launchOfferActive ? LAUNCH_PRICE_PREMIUM_GBP : REGULAR_PRICE_PREMIUM_GBP;
+  const currentLifetimePrice = launchOfferActive ? LAUNCH_PRICE_LIFETIME_GBP : REGULAR_PRICE_LIFETIME_GBP;
 
   let membership: {
     plan: "premium" | "lifetime";
@@ -394,7 +414,7 @@ export default async function Home({
                 </Link>
                 <p className="flex items-center gap-1 text-xs text-muted-foreground">
                   <ShieldCheck size={12} />
-                  From £7.99 · Pass Guarantee with Lifetime Access
+                  From {formatGbp(currentPremiumPrice)} · Pass Guarantee with Lifetime Access
                 </p>
               </div>
             </div>
@@ -550,7 +570,7 @@ export default async function Home({
                   <div>
                     <p className="font-semibold">Want the Pass Guarantee, and to stop worrying about renewals?</p>
                     <p className="text-sm text-muted-foreground">
-                      Upgrade to Lifetime Access for a one-time £12.99 - your Premium subscription
+                      Upgrade to Lifetime Access for a one-time {formatGbp(currentLifetimePrice)} - your Premium subscription
                       is cancelled automatically.
                     </p>
                   </div>
@@ -622,7 +642,16 @@ export default async function Home({
                       <p className="text-sm text-muted-foreground">{plan.description}</p>
                     </div>
                   </div>
-                  <p className="mt-5 flex items-baseline gap-1.5">
+                  {plan.originalPrice && (
+                    <span className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-success-bg px-2.5 py-1 text-xs font-semibold text-success">
+                      <Tag size={12} />
+                      Launch offer
+                    </span>
+                  )}
+                  <p className={`flex items-baseline gap-1.5 ${plan.originalPrice ? "mt-1.5" : "mt-5"}`}>
+                    {plan.originalPrice && (
+                      <span className="text-lg text-muted-foreground line-through">{plan.originalPrice}</span>
+                    )}
                     <span className="text-4xl font-extrabold">{plan.price}</span>
                     {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
                   </p>

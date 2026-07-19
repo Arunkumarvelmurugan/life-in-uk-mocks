@@ -7,3 +7,7 @@ export type Plan = "free" | "premium" | "lifetime";
 
 export const STRIPE_PRICE_PREMIUM = process.env.STRIPE_PRICE_PREMIUM!;
 export const STRIPE_PRICE_LIFETIME = process.env.STRIPE_PRICE_LIFETIME!;
+
+// Discounted launch-offer prices (see src/lib/pricing.ts for the window).
+export const STRIPE_PRICE_PREMIUM_LAUNCH = process.env.STRIPE_PRICE_PREMIUM_LAUNCH!;
+export const STRIPE_PRICE_LIFETIME_LAUNCH = process.env.STRIPE_PRICE_LIFETIME_LAUNCH!;
