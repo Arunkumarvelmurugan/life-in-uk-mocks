@@ -19,6 +19,7 @@ import {
   Mail,
 } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { MarketingContainer } from "@/components/marketing-container";
 
 export const metadata: Metadata = {
   title: "About Us - Life in UK Mocks",
@@ -99,7 +100,7 @@ const differentiators = [
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-16">
+    <MarketingContainer className="py-16">
       <Breadcrumb items={[{ label: "About" }]} />
 
       {/* Hero */}
@@ -292,6 +293,6 @@ export default function AboutPage() {
           </Link>
         </div>
       </div>
-    </div>
+    </MarketingContainer>
   );
 }

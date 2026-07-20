@@ -6,6 +6,7 @@ import { getTestById, FREE_TEST_ID } from "@/lib/tests";
 import { getProgressForTest } from "@/lib/progress-actions";
 import { getUserAccess } from "@/lib/supabase-users";
 import { TestTakingClient } from "./test-taking-client";
+import { AppContainer } from "@/components/app-container";
 
 // Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
 // is a page-level belt-and-braces signal in case either of those is ever
@@ -25,12 +26,14 @@ export default async function TestPage({
 
   if (!test) {
     return (
-      <div className="mx-auto w-full max-w-3xl px-6 py-10">
-        <p>Test not found.</p>
-        <Link href="/mock-tests" className="text-primary underline">
-          Back to Mock Tests
-        </Link>
-      </div>
+      <AppContainer className="py-10">
+        <div className="mx-auto max-w-3xl">
+          <p>Test not found.</p>
+          <Link href="/mock-tests" className="text-primary underline">
+            Back to Mock Tests
+          </Link>
+        </div>
+      </AppContainer>
     );
   }
 

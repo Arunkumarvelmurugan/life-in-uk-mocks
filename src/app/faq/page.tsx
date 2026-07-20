@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MarketingContainer } from "@/components/marketing-container";
 
 type FAQItem = {
   question: string;
@@ -311,12 +312,15 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-6 py-16">
+    <MarketingContainer className="py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
 
+      {/* Long-form Q&A content, so it keeps a narrower prose width even
+          inside the wider marketing container. */}
+      <div className="mx-auto max-w-3xl">
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
         Frequently Asked Questions
       </h1>
@@ -354,6 +358,7 @@ export default function FAQPage() {
           </section>
         ))}
       </div>
-    </div>
+      </div>
+    </MarketingContainer>
   );
 }

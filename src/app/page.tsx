@@ -38,6 +38,7 @@ import { getAllProgress } from "@/lib/progress-actions";
 import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
 import { DemoQuestionCard } from "@/components/demo-question-card";
+import { MarketingContainer } from "@/components/marketing-container";
 import {
   isLaunchOfferActive,
   REGULAR_PRICE_PREMIUM_GBP,
@@ -274,8 +275,8 @@ export default async function Home({
         <CleanSearchParams params={["signin", "upgrade", "checkout_failed"]} />
       )}
       {signin === "required" && !isSignedIn && (
-        <div className="border-b border-primary/10 bg-primary/5 px-6 py-4">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5">
+        <div className="border-b border-primary/10 bg-primary/5 py-4">
+          <MarketingContainer className="flex flex-wrap items-center justify-between gap-5">
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <Lock size={18} />
@@ -329,7 +330,7 @@ export default async function Home({
                 Continue with Google
               </button>
             </form>
-          </div>
+          </MarketingContainer>
         </div>
       )}
       {upgrade === "required" && !hasFullAccess && (
@@ -345,7 +346,8 @@ export default async function Home({
         </div>
       )}
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 pb-8 pt-10">
+      <section className="overflow-hidden">
+        <MarketingContainer className="pb-8 pt-10">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
@@ -403,18 +405,16 @@ export default async function Home({
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-md">
+          <div className="relative mx-auto w-full max-w-md lg:-mr-24 xl:-mr-32">
             <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
-            <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-xl sm:p-6">
-              <Image
-                src="/hero-illustration.png"
-                alt="An 85% mock test score next to a UK flag and Life in the UK Test study books"
-                width={1394}
-                height={1128}
-                priority
-                className="h-auto w-full"
-              />
-            </div>
+            <Image
+              src="/hero-illustration-transparent.png"
+              alt="An 85% mock test score next to a UK flag and Life in the UK Test study books"
+              width={1536}
+              height={1024}
+              priority
+              className="relative h-auto w-full"
+            />
           </div>
         </div>
 
@@ -436,10 +436,12 @@ export default async function Home({
             Independent UK practice resource
           </span>
         </div>
+        </MarketingContainer>
       </section>
 
       {/* Stats */}
-      <section className="mx-auto max-w-5xl px-6 pb-4">
+      <section>
+        <MarketingContainer className="pb-4">
         <div className="grid grid-cols-2 gap-x-6 gap-y-4 rounded-2xl bg-slate-900 px-6 py-5 sm:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="flex items-center gap-3">
@@ -453,10 +455,12 @@ export default async function Home({
             </div>
           ))}
         </div>
+        </MarketingContainer>
       </section>
 
       {/* Features */}
-      <section className="mx-auto max-w-6xl px-6 pb-12 pt-4">
+      <section>
+        <MarketingContainer className="pb-12 pt-4">
         <h2 className="sr-only">Key features</h2>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {features.map((f) => {
@@ -483,12 +487,13 @@ export default async function Home({
             );
           })}
         </div>
+        </MarketingContainer>
       </section>
 
       {/* Demo question - only for visitors who haven't bought Full Access yet */}
       {!hasFullAccess && (
         <section className="border-t border-card-border bg-muted">
-          <div className="mx-auto max-w-6xl px-6 pt-14 pb-8">
+          <MarketingContainer className="pt-14 pb-8">
             <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
               <div className="text-center lg:text-left">
                 <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
@@ -547,12 +552,13 @@ export default async function Home({
                 </p>
               </div>
             </div>
-          </div>
+          </MarketingContainer>
         </section>
       )}
 
       {/* Pricing / Membership */}
-      <section id="pricing" className={`mx-auto max-w-5xl px-6 ${hasFullAccess ? "py-10" : "pt-10 pb-10"}`}>
+      <section id="pricing">
+        <MarketingContainer className={hasFullAccess ? "py-10" : "pt-10 pb-10"}>
         {hasFullAccess && membership ? (
           <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-violet-500/10 to-primary/5 p-8 sm:p-10">
             <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr]">
@@ -830,11 +836,14 @@ export default async function Home({
             </div>
           </>
         ) : null}
+        </MarketingContainer>
       </section>
 
-      {/* Guarantee */}
+      {/* Guarantee - long-form text, so it keeps a narrower prose width
+          even inside the wider marketing container. */}
       <section id="guarantee" className="border-t border-card-border bg-muted">
-        <div className="mx-auto max-w-3xl px-6 pt-10 pb-20">
+        <MarketingContainer className="pt-10 pb-20">
+        <div className="mx-auto max-w-3xl">
           <div className="text-center">
             <ShieldCheck className="mx-auto mb-4 text-primary" size={36} />
             <h2 className="text-3xl font-extrabold tracking-tight">
@@ -883,6 +892,7 @@ export default async function Home({
             </ul>
           </div>
         </div>
+        </MarketingContainer>
       </section>
     </div>
   );

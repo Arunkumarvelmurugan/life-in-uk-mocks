@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Mail, Headset, ArrowRight, Clock, Shield, CheckCircle2 } from "lucide-react";
 import { auth } from "@/auth";
 import { ContactForm } from "@/components/contact-form";
+import { MarketingContainer } from "@/components/marketing-container";
 
 export const metadata = {
   title: "Contact us - Life in UK Mocks",
@@ -35,7 +36,7 @@ export default async function ContactPage() {
   const session = await auth();
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-16">
+    <MarketingContainer className="py-16">
       {/* Hero */}
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
         <div>
@@ -121,6 +122,6 @@ export default async function ContactPage() {
           </div>
         ))}
       </div>
-    </div>
+    </MarketingContainer>
   );
 }

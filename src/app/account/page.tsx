@@ -28,6 +28,7 @@ import { EditNameForm } from "@/components/edit-name-form";
 import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
 import { isLaunchOfferActive, REGULAR_PRICE_LIFETIME_GBP, LAUNCH_PRICE_LIFETIME_GBP } from "@/lib/pricing";
+import { AppContainer } from "@/components/app-container";
 
 // Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
 // is a page-level belt-and-braces signal in case either of those is ever
@@ -124,8 +125,12 @@ export default async function AccountPage({
           : "Only the free test is unlocked.";
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-6 py-10">
+    <AppContainer className="py-10">
       {portal_failed === "1" && <CleanSearchParams params={["portal_failed"]} />}
+      {/* Single-column profile/billing view - stays capped even inside the
+          full-width app container, since stretching a stacked card layout
+          to the viewport edge on wide screens would just be dead space. */}
+      <div className="mx-auto max-w-3xl">
       <Breadcrumb items={[{ label: "My Account" }]} />
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">My Account</h1>
       <p className="mt-2 mb-8 text-muted-foreground">Manage your profile, subscription and test progress.</p>
@@ -345,6 +350,7 @@ export default async function AccountPage({
           Sign out
         </button>
       </form>
-    </div>
+      </div>
+    </AppContainer>
   );
 }

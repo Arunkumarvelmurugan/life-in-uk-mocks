@@ -5,6 +5,7 @@ import { getUserDisplayName, getUserAccess } from "@/lib/supabase-users";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/user-menu";
 import { GoogleIcon } from "@/components/google-icon";
+import { AppContainer } from "@/components/app-container";
 
 export async function SiteHeader() {
   const session = await auth();
@@ -13,7 +14,7 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-card-border bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
+      <AppContainer className="flex h-16 items-center justify-between">
         <Link href="/" className="flex shrink-0 items-center whitespace-nowrap">
           {/* eslint-disable-next-line @next/next/no-img-element -- SVG logo, no
               benefit from Next's raster pipeline and this keeps it perfectly
@@ -64,7 +65,7 @@ export async function SiteHeader() {
             </form>
           )}
         </div>
-      </div>
+      </AppContainer>
     </header>
   );
 }

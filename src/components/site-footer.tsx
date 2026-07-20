@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { CookiePreferencesButton } from "@/components/cookie-consent";
+import { AppContainer } from "@/components/app-container";
 
 const linkClasses = "text-muted-foreground hover:text-foreground";
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-card-border bg-muted">
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <AppContainer className="py-12">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
           <div className="col-span-2 lg:col-span-2">
             <Link href="/" className="flex shrink-0 items-center whitespace-nowrap">
@@ -112,7 +113,7 @@ export function SiteFooter() {
           © {new Date().getFullYear()} Life in UK Mocks. Independent practice resource - not
           affiliated with the UK government.
         </p>
-      </div>
+      </AppContainer>
     </footer>
   );
 }

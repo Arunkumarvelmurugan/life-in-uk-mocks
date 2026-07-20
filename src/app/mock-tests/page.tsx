@@ -20,6 +20,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { ProgressBar } from "@/components/progress-bar";
 import { RadialProgress } from "@/components/radial-progress";
 import { cn } from "@/lib/utils";
+import { AppContainer } from "@/components/app-container";
 
 // Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
 // is a page-level belt-and-braces signal in case either of those is ever
@@ -91,7 +92,7 @@ export default async function MockTestsPage({
     filter === "all" ? testsWithStatus : testsWithStatus.filter((t) => t.status === filter);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 py-10">
+    <AppContainer className="py-10">
       <Breadcrumb items={[{ label: "Mock Tests" }]} />
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Mock Tests</h1>
       <p className="mt-2 mb-8 text-muted-foreground">
@@ -189,7 +190,7 @@ export default async function MockTestsPage({
         })}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {filteredTests.map(({ test, isLocked, p, done, isComplete }) => {
           const correct = p?.score ?? 0;
           const pct = isComplete ? Math.round((correct / QUESTIONS_PER_TEST) * 100) : 0;
@@ -277,6 +278,6 @@ export default async function MockTestsPage({
           No tests match this filter.
         </p>
       )}
-    </div>
+    </AppContainer>
   );
 }

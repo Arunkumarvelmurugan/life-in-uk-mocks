@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { memoryTipsCategories } from "@/lib/memory-tips-data";
 import { renderInlineMarkdown } from "@/lib/inline-markdown";
+import { MarketingContainer } from "@/components/marketing-container";
 
 export function generateStaticParams() {
   return memoryTipsCategories.map((c) => ({ category: c.slug }));
@@ -38,13 +39,13 @@ export default async function MemoryTipsCategoryPage({
   if (!category) notFound();
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-16">
+    <MarketingContainer className="py-16">
       <Breadcrumb items={[{ label: "Memory Tips", href: "/memory-tips" }, { label: category.name }]} />
 
       <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{category.name}</h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">{category.description}</p>
 
-      <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {category.facts.map((fact, i) => (
           <li
             key={i}
@@ -77,6 +78,6 @@ export default async function MemoryTipsCategoryPage({
           </Link>
         </div>
       </div>
-    </div>
+    </MarketingContainer>
   );
 }

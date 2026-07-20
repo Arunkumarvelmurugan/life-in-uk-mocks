@@ -21,6 +21,7 @@ import type { MockTest } from "@/lib/tests";
 import { submitAnswer, resetTestProgress, type TestProgressRow } from "@/lib/progress-actions";
 import { cn, sameIndexSet } from "@/lib/utils";
 import { renderInlineMarkdown } from "@/lib/inline-markdown";
+import { AppContainer } from "@/components/app-container";
 
 const OPTION_LABELS = ["A", "B", "C", "D"];
 
@@ -168,7 +169,12 @@ export function TestTakingClient({
   );
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 py-10">
+    <AppContainer className="py-10">
+      {/* Single-question reading/answering view - stays capped even inside
+          the full-width app container, since stretching it edge to edge on
+          wide screens would make the question text and answer grid awkward
+          to scan. */}
+      <div className="mx-auto max-w-6xl">
       <div className="mb-6 flex items-center justify-between">
         <span className="rounded-lg bg-muted px-3 py-1.5 text-sm font-semibold">Test {test.id}</span>
         <div className="flex shrink-0 items-center gap-2">
@@ -371,7 +377,8 @@ export function TestTakingClient({
       {showResults && test.whatYouLearned && test.whatYouLearned.length > 0 && (
         <WhatYouLearnedPanel facts={test.whatYouLearned} />
       )}
-    </div>
+      </div>
+    </AppContainer>
   );
 }
 

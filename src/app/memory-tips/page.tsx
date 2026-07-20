@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Brain } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { memoryTipsCategories } from "@/lib/memory-tips-data";
+import { MarketingContainer } from "@/components/marketing-container";
 
 export const metadata: Metadata = {
   title: "Memory Tips for the Life in the UK Test - Life in UK Mocks",
@@ -17,7 +18,7 @@ export default function MemoryTipsPage() {
   const totalFacts = memoryTipsCategories.reduce((acc, c) => acc + c.facts.length, 0);
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-16">
+    <MarketingContainer className="py-16">
       <Breadcrumb items={[{ label: "Memory Tips" }]} />
 
       <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
@@ -33,7 +34,7 @@ export default function MemoryTipsPage() {
         completing a mock test - free to browse, no account required.
       </p>
 
-      <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {memoryTipsCategories.map((category) => (
           <Link
             key={category.slug}
@@ -67,6 +68,6 @@ export default function MemoryTipsPage() {
           <ArrowRight size={16} />
         </Link>
       </div>
-    </div>
+    </MarketingContainer>
   );
 }
