@@ -73,6 +73,13 @@ const features = [
   },
 ];
 
+const stats = [
+  { value: `${TOTAL_TESTS}`, label: "Mock Tests" },
+  { value: `${TOTAL_TESTS * QUESTIONS_PER_TEST}+`, label: "Practice Questions" },
+  { value: "100%", label: "Pass Guarantee" },
+  { value: `${QUESTIONS_PER_TEST}`, label: "Questions Per Test" },
+];
+
 const guaranteeConditions = [
   "Have Lifetime Access (the Pass Guarantee isn't included with Premium).",
   `Complete all ${TOTAL_TESTS} mock tests.`,
@@ -364,6 +371,18 @@ export default async function Home({
             <CheckCircle2 size={14} className="text-success" />
             Independent UK practice resource
           </span>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="mx-auto max-w-4xl px-6 pb-4">
+        <div className="grid grid-cols-2 gap-6 rounded-2xl border border-card-border bg-card px-6 py-8 sm:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="text-center">
+              <p className="text-3xl font-extrabold text-primary">{stat.value}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </section>
 
