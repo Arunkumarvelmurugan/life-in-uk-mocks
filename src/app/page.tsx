@@ -84,7 +84,7 @@ const stats = [
     badgeClasses: "bg-violet-500/20 text-violet-300",
   },
   {
-    value: `${TOTAL_TESTS * QUESTIONS_PER_TEST}+`,
+    value: "400+",
     label: "Practice Questions",
     icon: FileText,
     badgeClasses: "bg-blue-500/20 text-blue-300",
