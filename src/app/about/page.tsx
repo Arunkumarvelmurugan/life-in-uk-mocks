@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   CheckCircle2,
@@ -18,7 +19,6 @@ import {
   Mail,
 } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { UkFlag } from "@/components/uk-flag";
 
 export const metadata: Metadata = {
   title: "About Us - Life in UK Mocks",
@@ -125,10 +125,17 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="relative mx-auto flex h-64 w-64 items-center justify-center sm:h-80 sm:w-80">
-          <div className="absolute inset-0 rounded-full bg-primary/10 blur-2xl" />
-          <div className="absolute inset-4 rounded-full bg-primary/5" />
-          <UkFlag className="relative h-auto w-40 rounded-lg shadow-lg sm:w-52" />
+        <div className="relative mx-auto w-full max-w-sm">
+          <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-xl sm:p-6">
+            <Image
+              src="/about-illustration.png"
+              alt="A UK flag, a checklist of completed steps, Big Ben, and a graduation cap on study books"
+              width={1372}
+              height={1146}
+              className="h-auto w-full"
+            />
+          </div>
         </div>
       </div>
 
