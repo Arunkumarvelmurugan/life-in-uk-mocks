@@ -347,6 +347,24 @@ export default async function Home({
             </p>
           )}
         </div>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Based on the official handbook
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Questions updated regularly
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Secure payments by Stripe
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Independent UK practice resource
+          </span>
+        </div>
       </section>
 
       {/* Features */}
