@@ -7,6 +7,8 @@ import {
   Clock,
   MessageCircleQuestion,
   Brain,
+  Zap,
+  Lightbulb,
 } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
 
@@ -47,7 +49,11 @@ const problems = [
     title: "Hard to remember facts",
     description:
       "Some questions involve dates, kings, laws, or historical events that are easy to forget. That's why I added:",
-    list: ["🧠 Memory Tips", "⚡ Quick Memory Rules", "💡 Easy ways to remember difficult facts"],
+    iconList: [
+      { icon: Brain, label: "Memory Tips" },
+      { icon: Zap, label: "Quick Memory Rules" },
+      { icon: Lightbulb, label: "Easy ways to remember difficult facts" },
+    ],
     footnote:
       "These are designed to help you remember information quickly instead of relying on rote memorisation.",
   },
@@ -97,6 +103,18 @@ export default function AboutPage() {
                   <ul className="mt-2 flex flex-col gap-1 text-sm text-muted-foreground">
                     {problem.list.map((item) => (
                       <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+                {problem.iconList && (
+                  <ul className="mt-3 flex flex-col gap-2">
+                    {problem.iconList.map((item) => (
+                      <li key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                          <item.icon size={14} />
+                        </span>
+                        {item.label}
+                      </li>
                     ))}
                   </ul>
                 )}
