@@ -47,27 +47,28 @@ const features = [
   {
     icon: BookOpenCheck,
     title: `${TOTAL_TESTS} full mock tests`,
-    description: `${TOTAL_TESTS} timed practice tests, ${QUESTIONS_PER_TEST} questions each, covering every handbook topic.`,
+    description: `${TOTAL_TESTS} exam-style mock tests covering every topic in the official handbook.`,
   },
   {
     icon: CheckCircle2,
     title: "Instant feedback",
-    description: "See straight away whether an answer is right or wrong as you go.",
+    description: "Know immediately why an answer is right or wrong.",
   },
   {
     icon: BarChart3,
     title: "Clear explanations",
-    description: "Every question comes with a plain-English explanation so mistakes actually stick.",
+    description:
+      "Simple explanations for every answer - including why the other options are incorrect.",
   },
   {
     icon: ShieldCheck,
     title: "Pass guarantee",
-    description: "Follow the study plan and still fail the real test? Get your money back.",
+    description: "Lifetime Access includes our 100% Pass Guarantee.",
   },
   {
     icon: Brain,
     title: "Memory Tips & Quick Memory Rules",
-    description: "Reusable memory techniques for facts that come up again and again across different mock tests.",
+    description: "Memory Tips and Quick Memory Rules that help difficult facts stick.",
     href: "/memory-tips",
   },
 ];
@@ -295,17 +296,18 @@ export default async function Home({
       {/* Hero */}
       <section className="mx-auto flex max-w-4xl flex-col items-center px-6 pb-8 pt-10 text-center">
         <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-          100% Money-Back Pass Guarantee
+          100% Pass Guarantee
         </span>
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
           Pass the Life in the UK test, <span className="text-primary">first time.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-          Practice with realistic mock tests, get instant feedback and clear explanations for
-          every question. If you follow the plan and still don&apos;t pass, we&apos;ll refund you.
+          Practice with realistic mock tests, detailed explanations, Memory Tips, and Quick
+          Memory Rules that help you remember the right answers - not just memorise them.
         </p>
         <p className="mt-3 text-sm font-medium text-primary">
-          No study guides. No lesson plans. Just mock tests until you&apos;re ready to pass.
+          No lengthy study guides. No unnecessary reading. Just realistic mock tests until
+          you&apos;re ready to pass.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           {isSignedIn ? (
@@ -338,6 +340,11 @@ export default async function Home({
             >
               See pricing
             </Link>
+          )}
+          {!isSignedIn && signin !== "required" && (
+            <p className="w-full text-center text-xs text-muted-foreground">
+              Free &bull; No credit card required
+            </p>
           )}
         </div>
       </section>
@@ -379,7 +386,7 @@ export default async function Home({
             <div className="mb-6 text-center">
               <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 <Star size={12} />
-                Demo experience
+                Try one question for free
               </span>
               <h2 className="text-3xl font-extrabold tracking-tight">
                 See How We Help You Remember, Not Just Memorise
@@ -397,10 +404,9 @@ export default async function Home({
                   <GraduationCap size={22} />
                 </span>
                 <div>
-                  <p className="font-semibold">This is just one example.</p>
+                  <p className="font-semibold">This is just one sample question.</p>
                   <p className="text-sm text-muted-foreground">
-                    Unlock all {TOTAL_TESTS} mocks with expert explanations, memory tips & quick
-                    rules.
+                    Unlock all {TOTAL_TESTS} mock tests, hundreds of explanations and Memory Tips.
                   </p>
                 </div>
               </div>
@@ -642,6 +648,12 @@ export default async function Home({
                       <p className="text-sm text-muted-foreground">{plan.description}</p>
                     </div>
                   </div>
+                  {plan.id === "lifetime" && (
+                    <span className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                      <ShieldCheck size={12} />
+                      Includes Pass Guarantee
+                    </span>
+                  )}
                   {plan.originalPrice && (
                     <span className="mt-5 inline-flex w-fit items-center gap-1.5 rounded-full bg-success-bg px-2.5 py-1 text-xs font-semibold text-success">
                       <Tag size={12} />
