@@ -440,14 +440,16 @@ export default async function Home({
 
       {/* Stats */}
       <section className="mx-auto max-w-5xl px-6 pb-4">
-        <div className="grid grid-cols-2 gap-6 rounded-2xl bg-slate-900 px-6 py-8 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-4 rounded-2xl bg-slate-900 px-6 py-5 sm:grid-cols-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center gap-2 text-center">
-              <span className={`flex h-10 w-10 items-center justify-center rounded-full ${stat.badgeClasses}`}>
+            <div key={stat.label} className="flex items-center gap-3">
+              <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${stat.badgeClasses}`}>
                 <stat.icon size={18} />
               </span>
-              <p className="text-2xl font-extrabold text-white">{stat.value}</p>
-              <p className="-mt-1.5 text-xs text-slate-300">{stat.label}</p>
+              <div>
+                <p className="text-xl font-extrabold leading-tight text-white">{stat.value}</p>
+                <p className="text-xs text-slate-300">{stat.label}</p>
+              </div>
             </div>
           ))}
         </div>
