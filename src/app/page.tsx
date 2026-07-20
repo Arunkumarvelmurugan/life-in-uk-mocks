@@ -306,7 +306,8 @@ export default async function Home({
           100% Pass Guarantee
         </span>
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Pass the Life in the UK test, <span className="text-primary">first time.</span>
+          Everything you need to pass the Life in the UK Test -{" "}
+          <span className="text-primary">without wasting hours reading the handbook.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
           Practice with realistic mock tests, detailed explanations, Memory Tips, and Quick
