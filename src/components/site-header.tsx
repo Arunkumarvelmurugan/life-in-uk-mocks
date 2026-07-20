@@ -36,6 +36,9 @@ export async function SiteHeader() {
           <Link href="/#guarantee" className="text-muted-foreground hover:text-foreground">
             Pass Guarantee
           </Link>
+          <Link href="/about" className="text-muted-foreground hover:text-foreground">
+            About
+          </Link>
           <Link href="/contact" className="text-muted-foreground hover:text-foreground">
             Contact
           </Link>

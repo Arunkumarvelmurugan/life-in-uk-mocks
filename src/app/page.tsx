@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -22,6 +23,8 @@ import {
   Gift,
   Gem,
   Crown,
+  FileText,
+  ListChecks,
 } from "lucide-react";
 import { TOTAL_TESTS, QUESTIONS_PER_TEST, FREE_TEST_ID } from "@/lib/tests";
 import { auth } from "@/auth";
@@ -74,10 +77,30 @@ const features = [
 ];
 
 const stats = [
-  { value: `${TOTAL_TESTS}`, label: "Mock Tests" },
-  { value: `${TOTAL_TESTS * QUESTIONS_PER_TEST}+`, label: "Practice Questions" },
-  { value: "100%", label: "Pass Guarantee" },
-  { value: `${QUESTIONS_PER_TEST}`, label: "Questions Per Test" },
+  {
+    value: `${TOTAL_TESTS}`,
+    label: "Mock Tests",
+    icon: BookOpenCheck,
+    badgeClasses: "bg-violet-500/20 text-violet-300",
+  },
+  {
+    value: `${TOTAL_TESTS * QUESTIONS_PER_TEST}+`,
+    label: "Practice Questions",
+    icon: FileText,
+    badgeClasses: "bg-blue-500/20 text-blue-300",
+  },
+  {
+    value: "100%",
+    label: "Pass Guarantee",
+    icon: ShieldCheck,
+    badgeClasses: "bg-emerald-500/20 text-emerald-300",
+  },
+  {
+    value: `${QUESTIONS_PER_TEST}`,
+    label: "Questions Per Test",
+    icon: ListChecks,
+    badgeClasses: "bg-amber-500/20 text-amber-300",
+  },
 ];
 
 const guaranteeConditions = [
@@ -85,6 +108,27 @@ const guaranteeConditions = [
   `Complete all ${TOTAL_TESTS} mock tests.`,
   "Achieve a score of 75% or higher on each mock test.",
   "Take your official Life in the UK Test within 60 days of completing the mock tests.",
+];
+
+const demoSteps = [
+  {
+    icon: CheckCircle2,
+    title: "Understand",
+    description: "Get a clear explanation for every answer.",
+    badgeClasses: "bg-success-bg text-success",
+  },
+  {
+    icon: Brain,
+    title: "Remember",
+    description: "Use Memory Tips and Quick Memory Rules to recall faster.",
+    badgeClasses: "bg-warning-bg text-warning",
+  },
+  {
+    icon: Zap,
+    title: "Succeed",
+    description: "Build confidence and pass your test.",
+    badgeClasses: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
+  },
 ];
 
 const eligibilityRules = [
@@ -301,87 +345,108 @@ export default async function Home({
         </div>
       )}
       {/* Hero */}
-      <section className="mx-auto flex max-w-4xl flex-col items-center px-6 pb-8 pt-10 text-center">
-        <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-          100% Pass Guarantee
-        </span>
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Everything you need to pass the Life in the UK Test -{" "}
-          <span className="text-primary">without wasting hours reading the handbook.</span>
-        </h1>
-        <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-          Practice with realistic mock tests, detailed explanations, Memory Tips, and Quick
-          Memory Rules that help you remember the right answers - not just memorise them.
-        </p>
-        <p className="mt-3 text-sm font-medium text-primary">
-          No lengthy study guides. No unnecessary reading. Just realistic mock tests until
-          you&apos;re ready to pass.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          {isSignedIn ? (
-            <Link
-              href={freeTestHref}
-              className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-            >
-              {heroCtaLabel}
-            </Link>
-          ) : (
-            // The feature banner above already has its own "Continue with
-            // Google" CTA when signin=required - a second identical button
-            // right below it would be a duplicate, not reinforcement.
-            signin !== "required" && (
-              <form action={signInWithGoogle}>
-                <button
-                  type="submit"
-                  className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-                >
-                  <GoogleIcon />
-                  Continue with Google
-                </button>
-              </form>
-            )
-          )}
-          {!hasFullAccess && (
-            <Link
-              href="#pricing"
-              className="rounded-lg border border-card-border px-6 py-3 font-medium hover:bg-muted"
-            >
-              See pricing
-            </Link>
-          )}
-          {!isSignedIn && signin !== "required" && (
-            <p className="w-full text-center text-xs text-muted-foreground">
-              Free &bull; No credit card required
+      <section className="mx-auto max-w-6xl px-6 pb-8 pt-10">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+            <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              100% Pass Guarantee
+            </span>
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+              Everything you need to pass the Life in the UK Test -{" "}
+              <span className="text-primary">without wasting hours reading the handbook.</span>
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+              Practice with realistic mock tests, detailed explanations, Memory Tips, and Quick
+              Memory Rules that help you remember the right answers - not just memorise them.
             </p>
-          )}
-        </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 size={14} className="text-success" />
-            Based on the official handbook
-          </span>
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 size={14} className="text-success" />
-            Questions updated regularly
-          </span>
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 size={14} className="text-success" />
-            Secure payments by Stripe
-          </span>
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 size={14} className="text-success" />
-            Independent UK practice resource
-          </span>
+            <p className="mt-3 text-sm font-medium text-primary">
+              No lengthy study guides. No unnecessary reading. Just realistic mock tests until
+              you&apos;re ready to pass.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              {isSignedIn ? (
+                <Link
+                  href={freeTestHref}
+                  className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                >
+                  {heroCtaLabel}
+                </Link>
+              ) : (
+                // The feature banner above already has its own "Continue with
+                // Google" CTA when signin=required - a second identical button
+                // right below it would be a duplicate, not reinforcement.
+                signin !== "required" && (
+                  <form action={signInWithGoogle}>
+                    <button
+                      type="submit"
+                      className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                    >
+                      <GoogleIcon />
+                      Continue with Google
+                    </button>
+                  </form>
+                )
+              )}
+              {!hasFullAccess && (
+                <Link
+                  href="#pricing"
+                  className="rounded-lg border border-card-border px-6 py-3 font-medium hover:bg-muted"
+                >
+                  See pricing
+                </Link>
+              )}
+              {!isSignedIn && signin !== "required" && (
+                <p className="w-full text-center text-xs text-muted-foreground lg:text-left">
+                  Free &bull; No credit card required
+                </p>
+              )}
+            </div>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-muted-foreground lg:justify-start">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 size={14} className="text-success" />
+                Based on the official handbook
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 size={14} className="text-success" />
+                Questions updated regularly
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 size={14} className="text-success" />
+                Secure payments by Stripe
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 size={14} className="text-success" />
+                Independent UK practice resource
+              </span>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
+            <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-xl sm:p-6">
+              <Image
+                src="/hero-illustration.png"
+                alt="An 85% mock test score next to a UK flag and Life in the UK Test study books"
+                width={1394}
+                height={1128}
+                priority
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="mx-auto max-w-4xl px-6 pb-4">
-        <div className="grid grid-cols-2 gap-6 rounded-2xl border border-card-border bg-card px-6 py-8 sm:grid-cols-4">
+      <section className="mx-auto max-w-5xl px-6 pb-4">
+        <div className="grid grid-cols-2 gap-6 rounded-2xl bg-slate-900 px-6 py-8 sm:grid-cols-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-3xl font-extrabold text-primary">{stat.value}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{stat.label}</p>
+            <div key={stat.label} className="flex flex-col items-center gap-2 text-center">
+              <span className={`flex h-10 w-10 items-center justify-center rounded-full ${stat.badgeClasses}`}>
+                <stat.icon size={18} />
+              </span>
+              <p className="text-2xl font-extrabold text-white">{stat.value}</p>
+              <p className="-mt-1.5 text-xs text-slate-300">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -397,11 +462,11 @@ export default async function Home({
               (f.href ? " transition-colors hover:border-primary/50" : "");
             const content = (
               <>
-                <div className="mb-1.5 flex items-center gap-2">
-                  <f.icon className="shrink-0 text-primary" size={22} />
-                  <h3 className="font-semibold">{f.title}</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">{f.description}</p>
+                <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <f.icon size={22} />
+                </span>
+                <h3 className="font-semibold">{f.title}</h3>
+                <p className="mt-1.5 text-sm text-muted-foreground">{f.description}</p>
               </>
             );
             return f.href ? (
@@ -420,21 +485,38 @@ export default async function Home({
       {/* Demo question - only for visitors who haven't bought Full Access yet */}
       {!hasFullAccess && (
         <section className="border-t border-card-border bg-muted">
-          <div className="mx-auto max-w-4xl px-6 pt-14 pb-8">
-            <div className="mb-6 text-center">
-              <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                <Star size={12} />
-                Try one question for free
-              </span>
-              <h2 className="text-3xl font-extrabold tracking-tight">
-                See How We Help You Remember, Not Just Memorise
-              </h2>
-              <p className="mt-3 text-muted-foreground">
-                Answer this real exam-style question to see our unique memory technique in action.
-              </p>
-            </div>
+          <div className="mx-auto max-w-6xl px-6 pt-14 pb-8">
+            <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
+              <div className="text-center lg:text-left">
+                <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                  <Star size={12} />
+                  Try one question for free
+                </span>
+                <h2 className="text-3xl font-extrabold tracking-tight">
+                  See How We Help You Remember, Not Just Memorise
+                </h2>
+                <p className="mt-3 text-muted-foreground">
+                  Answer this real exam-style question to see our unique memory technique in action.
+                </p>
+                <div className="mt-6 flex flex-col gap-4">
+                  {demoSteps.map((step) => (
+                    <div key={step.title} className="flex items-center gap-3 text-left">
+                      <span
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${step.badgeClasses}`}
+                      >
+                        <step.icon size={18} />
+                      </span>
+                      <div>
+                        <p className="font-semibold">{step.title}</p>
+                        <p className="text-sm text-muted-foreground">{step.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-            <DemoQuestionCard />
+              <DemoQuestionCard />
+            </div>
 
             <div className="mt-6 flex flex-col items-center justify-between gap-5 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:flex-row">
               <div className="flex items-center gap-3">
