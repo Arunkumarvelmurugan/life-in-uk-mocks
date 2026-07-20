@@ -15,13 +15,36 @@ import {
   FileText,
   User,
   Shield,
-  GraduationCap,
-  Landmark,
-  Flag,
-  ClipboardCheck,
   Mail,
 } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
+
+// Standard Union Jack construction (St George's + St Andrew's + St Patrick's
+// crosses), not a lucide icon - no flag icon set in this app covers it.
+function UkFlag({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 60 30" className={className} aria-hidden="true">
+      <clipPath id="about-uk-flag-frame">
+        <path d="M0,0 v30 h60 v-30 z" />
+      </clipPath>
+      <clipPath id="about-uk-flag-diagonal">
+        <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
+      </clipPath>
+      <g clipPath="url(#about-uk-flag-frame)">
+        <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
+        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6" />
+        <path
+          d="M0,0 L60,30 M60,0 L0,30"
+          clipPath="url(#about-uk-flag-diagonal)"
+          stroke="#C8102E"
+          strokeWidth="4"
+        />
+        <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10" />
+        <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6" />
+      </g>
+    </svg>
+  );
+}
 
 export const metadata: Metadata = {
   title: "About Us - Life in UK Mocks",
@@ -112,7 +135,7 @@ export default function AboutPage() {
             About Life in UK Mocks
           </span>
           <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Why I Built <span className="text-danger">Life in UK Mocks</span>
+            Why I Built Life in UK Mocks
           </h1>
           <div className="mt-5 flex flex-col gap-4 text-sm leading-relaxed text-foreground/80">
             <p>
@@ -131,17 +154,7 @@ export default function AboutPage() {
         <div className="relative mx-auto flex h-64 w-64 items-center justify-center sm:h-80 sm:w-80">
           <div className="absolute inset-0 rounded-full bg-primary/10 blur-2xl" />
           <div className="absolute inset-4 rounded-full bg-primary/5" />
-          <Landmark size={72} className="absolute left-8 top-6 text-primary/70 sm:left-10 sm:top-8" />
-          <Flag size={40} className="absolute left-2 top-24 text-danger/70 sm:left-4 sm:top-28" />
-          <ClipboardCheck
-            size={88}
-            className="absolute bottom-8 right-4 text-primary sm:bottom-10 sm:right-6"
-            strokeWidth={1.5}
-          />
-          <GraduationCap
-            size={56}
-            className="absolute bottom-2 left-14 text-foreground/70 sm:bottom-4 sm:left-16"
-          />
+          <UkFlag className="relative h-auto w-40 rounded-lg shadow-lg sm:w-52" />
         </div>
       </div>
 
