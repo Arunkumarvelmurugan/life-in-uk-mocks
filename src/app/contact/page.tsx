@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Headset, ArrowRight, Clock, Shield, CheckCircle2 } from "lucide-react";
 import { auth } from "@/auth";
 import { ContactForm } from "@/components/contact-form";
@@ -64,12 +65,17 @@ export default async function ContactPage() {
           </div>
         </div>
 
-        <div className="relative mx-auto flex h-64 w-64 items-center justify-center sm:h-80 sm:w-80">
+        <div className="relative mx-auto w-full max-w-sm">
           <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
-          <div className="absolute inset-6 rounded-full bg-primary/5" />
-          <span className="relative flex h-32 w-32 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-xl sm:h-40 sm:w-40">
-            <Mail size={56} />
-          </span>
+          <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-xl sm:p-6">
+            <Image
+              src="/contact-illustration.png"
+              alt="An open envelope with a letter, next to Big Ben and a potted plant"
+              width={1359}
+              height={1158}
+              className="h-auto w-full"
+            />
+          </div>
         </div>
       </div>
 
