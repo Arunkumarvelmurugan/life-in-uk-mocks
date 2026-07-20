@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useActionState } from "react";
-import { Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle, User, Mail, Tag, MessageSquare } from "lucide-react";
 import { submitContactMessage, type ContactFormState } from "@/lib/contact-actions";
 
 const TOPICS = [
@@ -15,7 +15,7 @@ const TOPICS = [
 const initialState: ContactFormState = { status: "idle" };
 
 const inputClasses =
-  "rounded-lg border border-card-border bg-card px-4 py-2.5 text-sm outline-none transition-colors focus:border-primary";
+  "w-full rounded-lg border border-card-border bg-card py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary";
 
 export function ContactForm({
   defaultName,
@@ -81,46 +81,58 @@ function ContactFormInner({
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5 text-sm font-medium">
           Name
-          <input name="name" defaultValue={defaultName} required className={inputClasses} />
+          <span className="relative">
+            <User size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input name="name" defaultValue={defaultName} required className={inputClasses} />
+          </span>
         </label>
         <label className="flex flex-col gap-1.5 text-sm font-medium">
           Email
-          <input
-            name="email"
-            type="email"
-            defaultValue={defaultEmail}
-            required
-            className={inputClasses}
-          />
+          <span className="relative">
+            <Mail size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              name="email"
+              type="email"
+              defaultValue={defaultEmail}
+              required
+              className={inputClasses}
+            />
+          </span>
         </label>
       </div>
 
       <label className="flex flex-col gap-1.5 text-sm font-medium">
         Topic
-        <select name="topic" defaultValue="general" className={inputClasses}>
-          {TOPICS.map((t) => (
-            <option key={t.value} value={t.value}>
-              {t.label}
-            </option>
-          ))}
-        </select>
+        <span className="relative">
+          <Tag size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <select name="topic" defaultValue="general" className={inputClasses}>
+            {TOPICS.map((t) => (
+              <option key={t.value} value={t.value}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+        </span>
       </label>
 
       <label className="flex flex-col gap-1.5 text-sm font-medium">
         Message
-        <textarea
-          name="message"
-          rows={6}
-          required
-          placeholder="How can we help?"
-          className={inputClasses}
-        />
+        <span className="relative">
+          <MessageSquare size={16} className="pointer-events-none absolute left-3 top-3.5 text-muted-foreground" />
+          <textarea
+            name="message"
+            rows={6}
+            required
+            placeholder="How can we help?"
+            className={inputClasses}
+          />
+        </span>
       </label>
 
       <button
         type="submit"
         disabled={pending}
-        className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary to-violet-500 px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
       >
         <Send size={16} />
         {pending ? "Sending..." : "Send message"}
