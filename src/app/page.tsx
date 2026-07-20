@@ -346,7 +346,7 @@ export default async function Home({
       )}
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 pb-8 pt-10">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               100% Pass Guarantee
@@ -401,24 +401,6 @@ export default async function Home({
                 </p>
               )}
             </div>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-muted-foreground lg:justify-start">
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                Based on the official handbook
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                Questions updated regularly
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                Secure payments by Stripe
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 size={14} className="text-success" />
-                Independent UK practice resource
-              </span>
-            </div>
           </div>
 
           <div className="relative mx-auto w-full max-w-md">
@@ -434,6 +416,25 @@ export default async function Home({
               />
             </div>
           </div>
+        </div>
+
+        <div className="mt-10 flex flex-nowrap items-center justify-center gap-x-6 gap-y-2 overflow-x-auto text-xs text-muted-foreground">
+          <span className="flex shrink-0 items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Based on the official handbook
+          </span>
+          <span className="flex shrink-0 items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Questions updated regularly
+          </span>
+          <span className="flex shrink-0 items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Secure payments by Stripe
+          </span>
+          <span className="flex shrink-0 items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-success" />
+            Independent UK practice resource
+          </span>
         </div>
       </section>
 
