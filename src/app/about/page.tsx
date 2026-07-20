@@ -1,36 +1,64 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BookOpenCheck, Brain, CheckCircle2, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Repeat,
+  Clock,
+  MessageCircleQuestion,
+  Brain,
+} from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { TOTAL_TESTS } from "@/lib/tests";
 
 export const metadata: Metadata = {
   title: "About Us - Life in UK Mocks",
   description:
-    "Life in UK Mocks is an independent practice platform for the Life in the UK Test - realistic mock tests, plain-English explanations, and a 100% Pass Guarantee.",
+    "Why I built Life in UK Mocks: the problems I ran into preparing for the Life in the UK Test, and how this platform solves them.",
   alternates: {
     canonical: "/about",
   },
 };
 
-const values = [
+const problems = [
   {
-    icon: BookOpenCheck,
-    title: "Realistic practice, not guesswork",
-    description: `${TOTAL_TESTS} full mock tests built to match the official test's format and difficulty, so there are no surprises on the day.`,
+    icon: Repeat,
+    title: "Too many repeated questions",
+    description:
+      "Many practice websites contain dozens of mock tests, but the same questions appear repeatedly. Instead of learning new topics, I found myself answering the same questions again and again.",
+  },
+  {
+    icon: Clock,
+    title: "Too much content for busy people",
+    description:
+      "Most people preparing for the Life in the UK Test have full-time jobs and family responsibilities. Spending hours reading lengthy study material isn't always practical. I wanted a platform that helps people focus on what matters most.",
+  },
+  {
+    icon: MessageCircleQuestion,
+    title: "Explanations weren't enough",
+    description: "Many questions simply tell you the correct answer. I wanted every question to explain:",
+    list: [
+      "Why the correct answer is right.",
+      "Why each incorrect option is wrong.",
+      "The historical context when it helps understanding.",
+    ],
   },
   {
     icon: Brain,
-    title: "Understanding over memorising",
+    title: "Hard to remember facts",
     description:
-      "Every question comes with a plain-English explanation, a Memory Tip, and a Quick Memory Rule - built to help facts actually stick, not just get answered once and forgotten.",
+      "Some questions involve dates, kings, laws, or historical events that are easy to forget. That's why I added:",
+    list: ["🧠 Memory Tips", "⚡ Quick Memory Rules", "💡 Easy ways to remember difficult facts"],
+    footnote:
+      "These are designed to help you remember information quickly instead of relying on rote memorisation.",
   },
-  {
-    icon: ShieldCheck,
-    title: "A guarantee we stand behind",
-    description:
-      "Complete the study plan and still don't pass? Lifetime Access members get a full refund. No small print.",
-  },
+];
+
+const differentiators = [
+  "Carefully selected questions without unnecessary repetition",
+  "Clear explanations for every answer - including why the other options are incorrect",
+  "Memory Tips and Quick Memory Rules to improve recall",
+  "Designed for busy professionals who want to study efficiently",
+  "Realistic mock tests that build confidence before the official exam",
 ];
 
 export default function AboutPage() {
@@ -38,39 +66,43 @@ export default function AboutPage() {
     <div className="mx-auto w-full max-w-3xl px-6 py-16">
       <Breadcrumb items={[{ label: "About" }]} />
 
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">About Life in UK Mocks</h1>
-      <p className="mt-3 text-muted-foreground">
-        An independent practice platform built to help you walk into the Life in the UK Test
-        prepared and confident.
-      </p>
+      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+        Why I Built Life in UK Mocks
+      </h1>
 
-      <div className="mt-10 flex flex-col gap-4 text-sm leading-relaxed text-foreground/80">
+      <div className="mt-6 flex flex-col gap-4 text-sm leading-relaxed text-foreground/80">
         <p>
-          Life in UK Mocks is an independent practice platform for the official Life in the UK
-          Test. We are not affiliated with, endorsed by, or connected to the Home Office, UK
-          Visas and Immigration, GOV.UK, or any other UK government department or agency - our
-          tests are built independently to reflect the style and difficulty of the real thing.
+          When I was preparing for the Life in the UK Test, I subscribed to an online preparation
+          platform. It helped me pass the test, but I also noticed several things that made
+          studying more difficult than it needed to be.
         </p>
         <p>
-          The test itself only gives you one chance to prove what you know in the moment. Our aim
-          is to make sure that moment isn&apos;t the first time you&apos;ve seen questions in that
-          format - so you go in having already practised {TOTAL_TESTS} full mock tests, worked
-          through the explanation for every question you got wrong, and picked up the memory
-          techniques that make the facts stick.
+          Later, when my wife started preparing for the same exam, I wanted to recommend the same
+          platform - but I couldn&apos;t. That experience inspired me to build Life in UK Mocks.
         </p>
       </div>
 
       <div className="mt-12">
-        <h2 className="text-lg font-semibold tracking-tight">What we stand for</h2>
-        <div className="mt-5 flex flex-col gap-5">
-          {values.map((value) => (
-            <div key={value.title} className="flex gap-4">
+        <h2 className="text-lg font-semibold tracking-tight">The problems I wanted to solve</h2>
+        <div className="mt-5 flex flex-col gap-6">
+          {problems.map((problem) => (
+            <div key={problem.title} className="flex gap-4">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <value.icon size={18} />
+                <problem.icon size={18} />
               </span>
               <div>
-                <p className="font-semibold">{value.title}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{value.description}</p>
+                <p className="font-semibold">{problem.title}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{problem.description}</p>
+                {problem.list && (
+                  <ul className="mt-2 flex flex-col gap-1 text-sm text-muted-foreground">
+                    {problem.list.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+                {problem.footnote && (
+                  <p className="mt-2 text-sm text-muted-foreground">{problem.footnote}</p>
+                )}
               </div>
             </div>
           ))}
@@ -78,10 +110,32 @@ export default function AboutPage() {
       </div>
 
       <div className="mt-12">
+        <h2 className="text-lg font-semibold tracking-tight">
+          What makes Life in UK Mocks different?
+        </h2>
+        <ul className="mt-5 flex flex-col gap-2.5">
+          {differentiators.map((item) => (
+            <li key={item} className="flex items-start gap-2 text-sm text-foreground/80">
+              <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-success" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8">
+        <h2 className="text-lg font-semibold tracking-tight">My goal</h2>
+        <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+          My goal isn&apos;t to create the website with the most questions. It&apos;s to create
+          the website that helps you pass faster, understand better, and remember longer.
+        </p>
+      </div>
+
+      <div className="mt-12">
         <h2 className="text-lg font-semibold tracking-tight">Who we are</h2>
         <p className="mt-3 text-sm leading-relaxed text-foreground/80">
           Life in UK Mocks is operated by Arunkumar Velmurugan, trading as Life in UK Mocks. If
-          you have any questions, we&apos;d genuinely like to hear from you - reach us via our{" "}
+          you have any questions, I&apos;d genuinely like to hear from you - reach me via our{" "}
           <Link href="/contact" className="font-medium text-primary hover:underline">
             Contact Us
           </Link>{" "}
