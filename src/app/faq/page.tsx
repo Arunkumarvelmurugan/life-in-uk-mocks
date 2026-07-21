@@ -288,7 +288,7 @@ const categories: FAQCategory[] = [
 ];
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions - Life in UK Mocks",
+  title: "Frequently Asked Questions",
   description:
     "Answers to common questions about Life in UK Mocks - practice tests, Premium membership, payments, accounts, and support.",
   alternates: {

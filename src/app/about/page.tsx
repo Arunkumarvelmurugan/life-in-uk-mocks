@@ -24,7 +24,7 @@ import { PageHeading } from "@/components/page-heading";
 import { buttonClass, cardClass } from "@/lib/ui";
 
 export const metadata: Metadata = {
-  title: "About Us - Life in UK Mocks",
+  title: "About Us",
   description:
     "Why I built Life in UK Mocks: the problems I ran into preparing for the Life in the UK Test, and how this platform solves them.",
   alternates: {

@@ -8,7 +8,7 @@ import { PageHeading } from "@/components/page-heading";
 import { buttonClass, cardClass } from "@/lib/ui";
 
 export const metadata: Metadata = {
-  title: "Memory Tips for the Life in the UK Test - Life in UK Mocks",
+  title: "Memory Tips for the Life in the UK Test",
   description:
     "Free Memory Tips and Quick Memory Rules covering British history, government, culture, and geography - the key facts examiners test again and again.",
   alternates: {

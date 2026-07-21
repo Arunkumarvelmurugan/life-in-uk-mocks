@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (!category) return {};
 
   return {
-    title: `${category.name} Memory Tips for the Life in the UK Test - Life in UK Mocks`,
+    title: `${category.name} Memory Tips for the Life in the UK Test`,
     description: category.description,
     alternates: {
       canonical: `/memory-tips/${category.slug}`,
