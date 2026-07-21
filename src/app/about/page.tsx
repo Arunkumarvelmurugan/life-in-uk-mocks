@@ -132,8 +132,8 @@ export default function AboutPage() {
             <Image
               src="/about-illustration.png"
               alt="A UK flag, a checklist of completed steps, Big Ben, and a graduation cap on study books"
-              width={1372}
-              height={1146}
+              width={494}
+              height={593}
               className="h-auto w-full"
             />
           </div>

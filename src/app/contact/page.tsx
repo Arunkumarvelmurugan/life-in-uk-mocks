@@ -72,8 +72,8 @@ export default async function ContactPage() {
             <Image
               src="/contact-illustration.png"
               alt="An open envelope with a letter, next to Big Ben and a potted plant"
-              width={1359}
-              height={1158}
+              width={514}
+              height={610}
               className="h-auto w-full"
             />
           </div>
