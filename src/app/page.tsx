@@ -346,9 +346,9 @@ export default async function Home({
         </div>
       )}
       {/* Hero */}
-      <section className="overflow-hidden">
+      <section>
         <MarketingContainer className="pb-8 pt-10">
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-10">
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               100% Pass Guarantee
@@ -405,12 +405,12 @@ export default async function Home({
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-md lg:-mr-24 xl:-mr-32">
+          <div className="relative mx-auto w-full max-w-xl lg:-ml-8 lg:mt-2 xl:-ml-12">
             <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
             <Image
               src="/hero-illustration-transparent.png"
               alt="An 85% mock test score next to a UK flag and Life in the UK Test study books"
-              width={1536}
+              width={1535}
               height={1024}
               priority
               className="relative h-auto w-full"
