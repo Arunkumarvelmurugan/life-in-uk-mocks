@@ -39,6 +39,8 @@ import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
 import { DemoQuestionCard } from "@/components/demo-question-card";
 import { MarketingContainer } from "@/components/marketing-container";
+import { buttonClass, cardClass } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import {
   isLaunchOfferActive,
   REGULAR_PRICE_PREMIUM_GBP,
@@ -78,30 +80,10 @@ const features = [
 ];
 
 const stats = [
-  {
-    value: `${TOTAL_TESTS}`,
-    label: "Mock Tests",
-    icon: BookOpenCheck,
-    badgeClasses: "bg-violet-500/20 text-violet-300",
-  },
-  {
-    value: "400+",
-    label: "Practice Questions",
-    icon: FileText,
-    badgeClasses: "bg-blue-500/20 text-blue-300",
-  },
-  {
-    value: "100%",
-    label: "Pass Guarantee",
-    icon: ShieldCheck,
-    badgeClasses: "bg-emerald-500/20 text-emerald-300",
-  },
-  {
-    value: `${QUESTIONS_PER_TEST}`,
-    label: "Questions Per Test",
-    icon: ListChecks,
-    badgeClasses: "bg-amber-500/20 text-amber-300",
-  },
+  { value: `${TOTAL_TESTS}`, label: "Mock Tests", icon: BookOpenCheck },
+  { value: "400+", label: "Practice Questions", icon: FileText },
+  { value: "100%", label: "Pass Guarantee", icon: ShieldCheck },
+  { value: `${QUESTIONS_PER_TEST}`, label: "Questions Per Test", icon: ListChecks },
 ];
 
 const guaranteeConditions = [
@@ -112,24 +94,13 @@ const guaranteeConditions = [
 ];
 
 const demoSteps = [
-  {
-    icon: CheckCircle2,
-    title: "Understand",
-    description: "Get a clear explanation for every answer.",
-    badgeClasses: "bg-success-bg text-success",
-  },
+  { icon: CheckCircle2, title: "Understand", description: "Get a clear explanation for every answer." },
   {
     icon: Brain,
     title: "Remember",
     description: "Use Memory Tips and Quick Memory Rules to recall faster.",
-    badgeClasses: "bg-warning-bg text-warning",
   },
-  {
-    icon: Zap,
-    title: "Succeed",
-    description: "Build confidence and pass your test.",
-    badgeClasses: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
-  },
+  { icon: Zap, title: "Succeed", description: "Build confidence and pass your test." },
 ];
 
 const eligibilityRules = [
@@ -188,18 +159,9 @@ function getPlans(launchOfferActive: boolean) {
 }
 
 const PLAN_VISUALS = {
-  free: {
-    Icon: Gift,
-    iconClasses: "bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400",
-  },
-  premium: {
-    Icon: Gem,
-    iconClasses: "bg-primary/10 text-primary",
-  },
-  lifetime: {
-    Icon: Crown,
-    iconClasses: "bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400",
-  },
+  free: { Icon: Gift },
+  premium: { Icon: Gem },
+  lifetime: { Icon: Crown },
 } as const;
 
 function formatPurchaseDate(iso: string) {
@@ -320,10 +282,7 @@ export default async function Home({
             </div>
 
             <form action={signInWithGoogle}>
-              <button
-                type="submit"
-                className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90"
-              >
+              <button type="submit" className={buttonClass("primary", "md")}>
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white">
                   <GoogleIcon />
                 </span>
@@ -353,7 +312,7 @@ export default async function Home({
             <span className="mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               100% Pass Guarantee
             </span>
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
               Everything you need to pass the Life in the UK Test -{" "}
               <span className="text-primary">without wasting hours reading the handbook.</span>
             </h1>
@@ -367,10 +326,7 @@ export default async function Home({
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
               {isSignedIn ? (
-                <Link
-                  href={freeTestHref}
-                  className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-                >
+                <Link href={freeTestHref} className={buttonClass("primary", "lg")}>
                   {heroCtaLabel}
                 </Link>
               ) : (
@@ -379,10 +335,7 @@ export default async function Home({
                 // right below it would be a duplicate, not reinforcement.
                 signin !== "required" && (
                   <form action={signInWithGoogle}>
-                    <button
-                      type="submit"
-                      className="flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-                    >
+                    <button type="submit" className={buttonClass("primary", "lg")}>
                       <GoogleIcon />
                       Continue with Google
                     </button>
@@ -390,10 +343,7 @@ export default async function Home({
                 )
               )}
               {!hasFullAccess && (
-                <Link
-                  href="#pricing"
-                  className="rounded-lg border border-card-border px-6 py-3 font-medium hover:bg-muted"
-                >
+                <Link href="#pricing" className={buttonClass("secondary", "lg")}>
                   See pricing
                 </Link>
               )}
@@ -405,15 +355,14 @@ export default async function Home({
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-xl lg:-ml-8 lg:mt-2 xl:-ml-12">
-            <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
+          <div className="mx-auto w-full max-w-xl lg:-ml-8 lg:mt-2 xl:-ml-12">
             <Image
               src="/hero-illustration-transparent.png"
               alt="An 85% mock test score next to a UK flag and Life in the UK Test study books"
               width={1416}
               height={958}
               priority
-              className="relative h-auto w-full"
+              className="h-auto w-full"
             />
           </div>
         </div>
@@ -439,37 +388,39 @@ export default async function Home({
         </MarketingContainer>
       </section>
 
-      {/* Stats */}
-      <section>
-        <MarketingContainer className="pb-4">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-4 rounded-2xl bg-slate-900 px-6 py-5 sm:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex items-center gap-3">
-              <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${stat.badgeClasses}`}>
-                <stat.icon size={18} />
-              </span>
-              <div>
-                <p className="text-xl font-extrabold leading-tight text-white">{stat.value}</p>
-                <p className="text-xs text-slate-300">{stat.label}</p>
+      {/* Stats + Features share one muted band, so the page alternates
+          plain/muted/plain/muted/plain instead of stacking three
+          undifferentiated sections on the bare background. */}
+      <section className="border-t border-card-border bg-muted">
+        <MarketingContainer className="py-10">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4">
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <stat.icon size={18} />
+                </span>
+                <div>
+                  <p className="text-xl font-semibold leading-tight">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         </MarketingContainer>
       </section>
 
       {/* Features */}
-      <section>
-        <MarketingContainer className="pb-12 pt-4">
+      <section className="bg-muted">
+        <MarketingContainer className="pb-16">
         <h2 className="sr-only">Key features</h2>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {features.map((f) => {
-            const cardClassName =
-              "rounded-xl border border-card-border bg-card p-6 shadow-sm" +
-              (f.href ? " transition-colors hover:border-primary/50" : "");
+            const cardClassName = cardClass({
+              className: f.href ? "transition-colors hover:border-primary/50" : undefined,
+            });
             const content = (
               <>
-                <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-btn bg-primary/10 text-primary">
                   <f.icon size={22} />
                 </span>
                 <h3 className="font-semibold">{f.title}</h3>
@@ -492,15 +443,15 @@ export default async function Home({
 
       {/* Demo question - only for visitors who haven't bought Full Access yet */}
       {!hasFullAccess && (
-        <section className="border-t border-card-border bg-muted">
-          <MarketingContainer className="pt-14 pb-8">
+        <section className="border-t border-card-border">
+          <MarketingContainer className="py-16">
             <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
               <div className="text-center lg:text-left">
                 <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                   <Star size={12} />
                   Try one question for free
                 </span>
-                <h2 className="text-3xl font-extrabold tracking-tight">
+                <h2 className="text-3xl font-semibold tracking-tight">
                   See How We Help You Remember, Not Just Memorise
                 </h2>
                 <p className="mt-3 text-muted-foreground">
@@ -509,9 +460,7 @@ export default async function Home({
                 <div className="mt-6 flex flex-col gap-4">
                   {demoSteps.map((step) => (
                     <div key={step.title} className="flex items-center gap-3 text-left">
-                      <span
-                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${step.badgeClasses}`}
-                      >
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                         <step.icon size={18} />
                       </span>
                       <div>
@@ -526,7 +475,7 @@ export default async function Home({
               <DemoQuestionCard />
             </div>
 
-            <div className="mt-6 flex flex-col items-center justify-between gap-5 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:flex-row">
+            <div className={cardClass({ className: "mt-6 flex flex-col items-center justify-between gap-5 sm:flex-row" })}>
               <div className="flex items-center gap-3">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <GraduationCap size={22} />
@@ -539,10 +488,7 @@ export default async function Home({
                 </div>
               </div>
               <div className="flex shrink-0 flex-col items-center gap-1.5">
-                <Link
-                  href={freeTestHref}
-                  className="flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-                >
+                <Link href={freeTestHref} className={buttonClass("primary", "lg")}>
                   Start Your First Mock Test
                   <ArrowRight size={16} />
                 </Link>
@@ -557,12 +503,12 @@ export default async function Home({
       )}
 
       {/* Pricing / Membership */}
-      <section id="pricing">
-        <MarketingContainer className={hasFullAccess ? "py-10" : "pt-10 pb-10"}>
+      <section id="pricing" className="border-t border-card-border bg-muted">
+        <MarketingContainer className="py-16">
         {hasFullAccess && membership ? (
-          <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-violet-500/10 to-primary/5 p-8 sm:p-10">
+          <div className="relative overflow-hidden rounded-panel border border-primary/20 bg-primary/5 p-8 sm:p-10">
             <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[auto_1fr]">
-              <div className="mx-auto flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-violet-500/20 lg:mx-0">
+              <div className="mx-auto flex h-32 w-32 shrink-0 items-center justify-center rounded-full bg-primary/10 lg:mx-0">
                 {membership.plan === "lifetime" ? (
                   <Trophy size={56} className="text-primary" />
                 ) : (
@@ -575,7 +521,7 @@ export default async function Home({
                   <CheckCircle2 size={14} />
                   {membership.plan === "lifetime" ? "Lifetime Member" : "Premium Member"}
                 </span>
-                <h2 className="mt-3 text-3xl font-extrabold tracking-tight">
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight">
                   Welcome back{membership.displayName ? `, ${membership.displayName.split(" ")[0]}` : ""}{" "}
                   👋
                 </h2>
@@ -613,10 +559,7 @@ export default async function Home({
                       </p>
                     )}
                     <form action={createBillingPortalSession}>
-                      <button
-                        type="submit"
-                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-card-border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-primary/40"
-                      >
+                      <button type="submit" className={buttonClass("secondary", "sm")}>
                         <Settings size={14} />
                         Manage subscription
                       </button>
@@ -624,7 +567,7 @@ export default async function Home({
                   </div>
                 )}
 
-                <div className="mt-6 rounded-xl bg-card p-4 text-left shadow-sm">
+                <div className="mt-6 rounded-card bg-card p-4 text-left">
                   <div className="mb-1.5 flex items-center justify-between text-sm">
                     <span className="font-medium">Overall Progress</span>
                     <span className="text-muted-foreground">
@@ -635,9 +578,9 @@ export default async function Home({
                 </div>
 
                 {membership.nextTestId ? (
-                  <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-xl bg-primary/10 p-5 sm:flex-row">
+                  <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-card bg-primary/10 p-5 sm:flex-row">
                     <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left">
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-card text-primary shadow-sm">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-card text-primary">
                         <Target size={22} />
                       </span>
                       <div>
@@ -655,21 +598,18 @@ export default async function Home({
                     </div>
                     <Link
                       href={`/mock-tests/${membership.nextTestId}`}
-                      className="flex shrink-0 items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
+                      className={buttonClass("primary", "lg", "shrink-0")}
                     >
                       Continue
                       <ArrowRight size={16} />
                     </Link>
                   </div>
                 ) : (
-                  <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-xl bg-primary/10 p-5 sm:flex-row">
+                  <div className="mt-4 flex flex-col items-center justify-between gap-4 rounded-card bg-primary/10 p-5 sm:flex-row">
                     <p className="text-sm font-medium text-success">
                       You&apos;ve completed all {TOTAL_TESTS} mock tests! 🎉
                     </p>
-                    <Link
-                      href="/mock-tests"
-                      className="shrink-0 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground hover:opacity-90"
-                    >
+                    <Link href="/mock-tests" className={buttonClass("primary", "lg", "shrink-0")}>
                       Review Mock Tests
                     </Link>
                   </div>
@@ -697,9 +637,9 @@ export default async function Home({
             </div>
 
             {membership.plan === "premium" && (
-              <div className="mt-6 flex flex-col items-center justify-between gap-4 rounded-2xl bg-card p-6 shadow-sm sm:flex-row">
+              <div className={cardClass({ className: "mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row" })}>
                 <div className="flex items-center gap-4 text-center sm:text-left">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-btn bg-primary/10 text-primary">
                     <Crown size={22} />
                   </span>
                   <div>
@@ -711,10 +651,7 @@ export default async function Home({
                   </div>
                 </div>
                 <form action={createLifetimeCheckoutSession}>
-                  <button
-                    type="submit"
-                    className="shrink-0 cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
-                  >
+                  <button type="submit" className={buttonClass("primary", "md", "shrink-0")}>
                     Get Lifetime Access
                   </button>
                 </form>
@@ -728,7 +665,7 @@ export default async function Home({
                 <Tag size={14} />
                 Find the plan that fits your journey
               </span>
-              <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
                 Choose{" "}
                 <span className="relative inline-block">
                   your plan
@@ -754,22 +691,24 @@ export default async function Home({
             </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {plans.map((plan) => {
-                const { Icon, iconClasses } = PLAN_VISUALS[plan.id];
+                const { Icon } = PLAN_VISUALS[plan.id];
                 return (
                 <div
                   key={plan.name}
-                  className={`relative rounded-2xl border p-8 shadow-sm ${
-                    plan.badge ? "border-primary shadow-md" : "border-card-border bg-card"
-                  }`}
+                  className={cardClass({
+                    padding: "lg",
+                    raised: !!plan.badge,
+                    className: cn("relative", plan.badge && "border-primary"),
+                  })}
                 >
                   {plan.badge && (
-                    <span className="absolute -top-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-gradient-to-r from-primary to-violet-500 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary-foreground shadow-sm">
+                    <span className="absolute -top-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-primary px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary-foreground">
                       <Star size={12} className="fill-current" />
                       {plan.badge}
                     </span>
                   )}
                   <div className="flex items-center gap-3">
-                    <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${iconClasses}`}>
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-btn bg-primary/10 text-primary">
                       <Icon size={22} />
                     </span>
                     <div>
@@ -806,27 +745,18 @@ export default async function Home({
                   </ul>
                   {plan.id === "premium" ? (
                     <form action={createPremiumCheckoutSession}>
-                      <button
-                        type="submit"
-                        className="mt-8 block w-full cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
-                      >
+                      <button type="submit" className={buttonClass("primary", "md", "mt-8 w-full")}>
                         {plan.cta}
                       </button>
                     </form>
                   ) : plan.id === "lifetime" ? (
                     <form action={createLifetimeCheckoutSession}>
-                      <button
-                        type="submit"
-                        className="mt-8 block w-full cursor-pointer rounded-lg bg-primary px-5 py-2.5 text-center font-medium text-primary-foreground hover:opacity-90"
-                      >
+                      <button type="submit" className={buttonClass("primary", "md", "mt-8 w-full")}>
                         {plan.cta}
                       </button>
                     </form>
                   ) : (
-                    <Link
-                      href={freeTestHref}
-                      className="mt-8 block rounded-lg border border-card-border px-5 py-2.5 text-center font-medium hover:bg-muted"
-                    >
+                    <Link href={freeTestHref} className={buttonClass("secondary", "md", "mt-8 w-full")}>
                       {plan.cta}
                     </Link>
                   )}
@@ -841,12 +771,12 @@ export default async function Home({
 
       {/* Guarantee - long-form text, so it keeps a narrower prose width
           even inside the wider marketing container. */}
-      <section id="guarantee" className="border-t border-card-border bg-muted">
+      <section id="guarantee" className="border-t border-card-border">
         <MarketingContainer className="pt-10 pb-20">
         <div className="mx-auto max-w-3xl">
           <div className="text-center">
             <ShieldCheck className="mx-auto mb-4 text-primary" size={36} />
-            <h2 className="text-3xl font-extrabold tracking-tight">
+            <h2 className="text-3xl font-semibold tracking-tight">
               Our <span className="text-primary">100%</span> Pass Guarantee
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
@@ -855,7 +785,7 @@ export default async function Home({
             </p>
           </div>
 
-          <div className="mt-10 rounded-2xl border border-card-border bg-card p-8 shadow-sm">
+          <div className={cardClass({ padding: "lg", className: "mt-10" })}>
             <p className="font-semibold">To qualify for our Pass Guarantee, you must:</p>
             <ul className="mt-4 flex flex-col gap-3">
               {guaranteeConditions.map((item) => (
@@ -876,7 +806,7 @@ export default async function Home({
             </p>
           </div>
 
-          <div className="mt-6 rounded-2xl border border-card-border bg-card p-8 shadow-sm">
+          <div className={cardClass({ padding: "lg", className: "mt-6" })}>
             <h3 className="font-semibold">Eligibility</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               To verify your eligibility for the Pass Guarantee, the details on your learning
