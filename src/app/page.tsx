@@ -410,8 +410,8 @@ export default async function Home({
             <Image
               src="/hero-illustration-transparent.png"
               alt="An 85% mock test score next to a UK flag and Life in the UK Test study books"
-              width={1535}
-              height={1024}
+              width={1416}
+              height={958}
               priority
               className="relative h-auto w-full"
             />

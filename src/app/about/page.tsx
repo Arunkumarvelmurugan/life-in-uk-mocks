@@ -126,17 +126,15 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-sm">
+        <div className="relative mx-auto w-full max-w-md">
           <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
-          <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-xl sm:p-6">
-            <Image
-              src="/about-illustration.png"
-              alt="A UK flag, a checklist of completed steps, Big Ben, and a graduation cap on study books"
-              width={494}
-              height={593}
-              className="h-auto w-full"
-            />
-          </div>
+          <Image
+            src="/about-illustration.png"
+            alt="A UK flag, a checklist of completed steps, Big Ben, and a graduation cap on study books"
+            width={731}
+            height={627}
+            className="relative h-auto w-full"
+          />
         </div>
       </div>
 

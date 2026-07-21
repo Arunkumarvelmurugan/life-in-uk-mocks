@@ -66,17 +66,15 @@ export default async function ContactPage() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-sm">
+        <div className="relative mx-auto w-full max-w-md">
           <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
-          <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-xl sm:p-6">
-            <Image
-              src="/contact-illustration.png"
-              alt="An open envelope with a letter, next to Big Ben and a potted plant"
-              width={514}
-              height={610}
-              className="h-auto w-full"
-            />
-          </div>
+          <Image
+            src="/contact-illustration.png"
+            alt="An open envelope with a letter, next to a UK flag, Big Ben, and a potted plant"
+            width={733}
+            height={613}
+            className="relative h-auto w-full"
+          />
         </div>
       </div>
 
