@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { MarketingContainer } from "@/components/marketing-container";
+import { PageHeading } from "@/components/page-heading";
 
 type Block = { type: "p"; text: ReactNode } | { type: "ul"; items: string[] };
 type Section = { heading: string; blocks: Block[] };
@@ -278,9 +279,10 @@ export default function TermsPage() {
       {/* Long-form legal text, so it keeps a narrower prose width even
           inside the wider marketing container. */}
       <div className="mx-auto max-w-3xl">
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Terms and Conditions</h1>
-      <p className="mt-2 text-muted-foreground">Life in UK Mocks</p>
-      <p className="mt-1 text-sm text-muted-foreground">Last updated: 7 July 2026</p>
+      <PageHeading title="Terms and Conditions">
+        <p>Life in UK Mocks</p>
+        <p className="mt-1 text-sm">Last updated: 7 July 2026</p>
+      </PageHeading>
 
       <div className="mt-10 flex flex-col gap-10">
         {sections.map((section) => (

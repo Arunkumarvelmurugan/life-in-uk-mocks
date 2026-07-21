@@ -21,6 +21,8 @@ import { ProgressBar } from "@/components/progress-bar";
 import { RadialProgress } from "@/components/radial-progress";
 import { cn } from "@/lib/utils";
 import { AppContainer } from "@/components/app-container";
+import { PageHeading } from "@/components/page-heading";
+import { buttonClass, cardClass } from "@/lib/ui";
 
 // Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
 // is a page-level belt-and-braces signal in case either of those is ever
@@ -94,34 +96,32 @@ export default async function MockTestsPage({
   return (
     <AppContainer className="py-10">
       <Breadcrumb items={[{ label: "Mock Tests" }]} />
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Mock Tests</h1>
-      <p className="mt-2 mb-8 text-muted-foreground">
-        {QUESTIONS_PER_TEST} questions each. Score 75% or higher to pass.
-      </p>
+      <div className="mb-8">
+        <PageHeading title="Mock Tests">
+          <p>{QUESTIONS_PER_TEST} questions each. Score 75% or higher to pass.</p>
+        </PageHeading>
+      </div>
 
       {purchase === "success" && (
-        <div className="mb-8 flex items-center gap-2 rounded-2xl border border-success-border bg-success-bg px-6 py-4 text-sm font-medium text-success">
+        <div className="mb-8 flex items-center gap-2 rounded-card border border-success-border bg-success-bg px-6 py-4 text-sm font-medium text-success">
           <PartyPopper size={18} className="shrink-0" />
           Payment successful - all mock tests unlocked. Good luck!
         </div>
       )}
 
       {!hasFullAccess && (
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-4 text-sm">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-panel border border-primary/20 bg-primary/5 px-6 py-4 text-sm">
           <span className="text-foreground/80">
             You have free access to Test {FREE_TEST_ID}. Upgrade to unlock all {TOTAL_TESTS} mock
             tests.
           </span>
-          <Link
-            href="/#pricing"
-            className="shrink-0 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground hover:opacity-90"
-          >
+          <Link href="/#pricing" className={buttonClass("primary", "sm", "shrink-0")}>
             See plans
           </Link>
         </div>
       )}
 
-      <div className="mb-8 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:p-8">
+      <div className={cardClass({ padding: "lg", className: "mb-8" })}>
         <div className="flex flex-col flex-wrap items-center gap-6 lg:flex-row">
           <RadialProgress value={passedTests} max={TOTAL_TESTS} />
           <div className="flex-1 text-center sm:text-left">
@@ -159,10 +159,7 @@ export default async function MockTestsPage({
             </div>
           </div>
 
-          <Link
-            href="/#guarantee"
-            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-card-border px-4 py-2 text-sm font-medium transition-colors hover:border-primary/40 hover:bg-muted"
-          >
+          <Link href="/#guarantee" className={buttonClass("secondary", "sm", "shrink-0")}>
             View Pass Guarantee
             <ChevronRight size={14} />
           </Link>
@@ -217,10 +214,9 @@ export default async function MockTestsPage({
             <Link
               key={test.id}
               href={`/mock-tests/${test.id}`}
-              className={cn(
-                "group rounded-2xl border border-card-border bg-card p-6 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md",
-                isLocked && "opacity-70"
-              )}
+              className={cardClass({
+                className: cn("group transition-colors hover:border-primary/50", isLocked && "opacity-70"),
+              })}
             >
               <div className="mb-3 flex items-start justify-between gap-2">
                 <h2 className="text-lg font-semibold">{test.title}</h2>

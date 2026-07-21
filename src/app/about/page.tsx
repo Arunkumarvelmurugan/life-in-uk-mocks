@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { MarketingContainer } from "@/components/marketing-container";
+import { PageHeading } from "@/components/page-heading";
+import { buttonClass, cardClass } from "@/lib/ui";
 
 export const metadata: Metadata = {
   title: "About Us - Life in UK Mocks",
@@ -59,13 +61,9 @@ const problems = [
     description:
       "Some questions involve dates, kings, laws, or historical events that are easy to forget. That's why I added:",
     iconList: [
-      { icon: Brain, label: "Memory Tips", color: "text-pink-600 bg-pink-500/10 dark:text-pink-400" },
-      { icon: Zap, label: "Quick Memory Rules", color: "text-amber-600 bg-amber-500/10 dark:text-amber-400" },
-      {
-        icon: Lightbulb,
-        label: "Easy ways to remember difficult facts",
-        color: "text-yellow-600 bg-yellow-500/10 dark:text-yellow-400",
-      },
+      { icon: Brain, label: "Memory Tips" },
+      { icon: Zap, label: "Quick Memory Rules" },
+      { icon: Lightbulb, label: "Easy ways to remember difficult facts" },
     ],
   },
 ];
@@ -105,14 +103,8 @@ export default function AboutPage() {
 
       {/* Hero */}
       <div className="mt-2 grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-        <div>
-          <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
-            About Life in UK Mocks
-          </span>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Why I Built Life in UK Mocks
-          </h1>
-          <div className="mt-5 flex flex-col gap-4 text-sm leading-relaxed text-foreground/80">
+        <PageHeading eyebrow="About Life in UK Mocks" title="Why I Built Life in UK Mocks">
+          <div className="flex flex-col gap-4 text-sm leading-relaxed">
             <p>
               When I was preparing for the Life in the UK Test, I subscribed to an online
               preparation platform. It helped me pass the test, but I also noticed several things
@@ -124,22 +116,21 @@ export default function AboutPage() {
               Mocks.
             </p>
           </div>
-        </div>
+        </PageHeading>
 
-        <div className="relative mx-auto w-full max-w-md">
-          <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
+        <div className="mx-auto w-full max-w-md">
           <Image
             src="/about-illustration.png"
             alt="A UK flag, a checklist of completed steps, Big Ben, and a graduation cap on study books"
             width={731}
             height={627}
-            className="relative h-auto w-full"
+            className="h-auto w-full"
           />
         </div>
       </div>
 
       {/* Problems */}
-      <div className="mt-16 rounded-3xl bg-primary/5 p-6 sm:p-10">
+      <div className="mt-16 rounded-panel bg-primary/5 p-6 sm:p-10">
         <div className="flex items-center gap-2.5">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
             <ThumbsDown size={16} />
@@ -151,10 +142,7 @@ export default function AboutPage() {
 
         <div className="mt-6 flex flex-col gap-4">
           {problems.map((problem) => (
-            <div
-              key={problem.title}
-              className="rounded-2xl border border-card-border bg-card p-5 shadow-sm sm:p-6"
-            >
+            <div key={problem.title} className={cardClass()}>
               <div className="flex gap-4">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <problem.icon size={20} />
@@ -179,9 +167,7 @@ export default function AboutPage() {
                           key={item.label}
                           className="flex items-center gap-2 text-sm text-muted-foreground"
                         >
-                          <span
-                            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${item.color}`}
-                          >
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                             <item.icon size={14} />
                           </span>
                           {item.label}
@@ -204,7 +190,7 @@ export default function AboutPage() {
       {/* Differentiators */}
       <div className="mt-16">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-success-bg text-success">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
             <Trophy size={16} />
           </span>
           <h2 className="text-lg font-semibold tracking-tight sm:text-xl">
@@ -214,11 +200,8 @@ export default function AboutPage() {
 
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {differentiators.map((item) => (
-            <div
-              key={item.title}
-              className="flex flex-col items-center gap-2 rounded-2xl border border-card-border bg-card p-5 text-center shadow-sm"
-            >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-success-bg text-success">
+            <div key={item.title} className={cardClass({ className: "flex flex-col items-center gap-2 text-center" })}>
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <item.icon size={20} />
               </span>
               <p className="font-semibold">{item.title}</p>
@@ -229,7 +212,7 @@ export default function AboutPage() {
       </div>
 
       {/* My goal */}
-      <div className="mt-16 flex flex-col items-center gap-6 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:flex-row sm:p-8">
+      <div className="mt-16 flex flex-col items-center gap-6 rounded-panel border border-primary/20 bg-primary/5 p-6 sm:flex-row sm:p-8">
         <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
           <Target size={26} />
         </span>
@@ -243,7 +226,7 @@ export default function AboutPage() {
       </div>
 
       {/* Who we are */}
-      <div className="mt-8 flex flex-col items-center gap-6 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:flex-row sm:p-8">
+      <div className={cardClass({ padding: "lg", className: "mt-8 flex flex-col items-center gap-6 sm:flex-row" })}>
         <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
           <Shield size={24} />
         </span>
@@ -269,23 +252,17 @@ export default function AboutPage() {
       </div>
 
       {/* CTA */}
-      <div className="mt-8 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8">
+      <div className="mt-8 rounded-panel border border-primary/20 bg-primary/5 p-6 sm:p-8">
         <p className="font-semibold">Ready to see how you&apos;d do?</p>
         <p className="mt-1 text-sm text-muted-foreground">
           Test 1 is free, no card required - see the real format for yourself.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          <Link
-            href="/mock-tests"
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
-          >
+          <Link href="/mock-tests" className={buttonClass("primary", "md")}>
             Try a free mock test
             <ArrowRight size={16} />
           </Link>
-          <Link
-            href="/memory-tips"
-            className="inline-flex items-center gap-2 rounded-lg border border-card-border px-5 py-2.5 text-sm font-medium hover:bg-muted"
-          >
+          <Link href="/memory-tips" className={buttonClass("secondary", "md")}>
             <CheckCircle2 size={16} />
             Browse free Memory Tips
           </Link>

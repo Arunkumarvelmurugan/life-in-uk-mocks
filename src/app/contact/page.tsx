@@ -4,6 +4,8 @@ import { Mail, Headset, ArrowRight, Clock, Shield, CheckCircle2 } from "lucide-r
 import { auth } from "@/auth";
 import { ContactForm } from "@/components/contact-form";
 import { MarketingContainer } from "@/components/marketing-container";
+import { PageHeading } from "@/components/page-heading";
+import { buttonClass, cardClass } from "@/lib/ui";
 
 export const metadata = {
   title: "Contact us - Life in UK Mocks",
@@ -39,18 +41,13 @@ export default async function ContactPage() {
     <MarketingContainer className="py-16">
       {/* Hero */}
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-        <div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
-            <Mail size={12} />
-            We&apos;re here to help
-          </span>
-          <h1 className="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">Contact us</h1>
-          <p className="mt-4 text-muted-foreground">
+        <PageHeading eyebrow="We're here to help" title="Contact us">
+          <p>
             Questions about a mock test, your Pass Guarantee claim, or billing? Send us a message
             and we&apos;ll get back to you as soon as possible.
           </p>
 
-          <div className="mt-6 flex items-center gap-3 rounded-xl border border-card-border bg-card px-4 py-3 text-sm shadow-sm">
+          <div className={cardClass({ padding: "sm", className: "mt-6 flex items-center gap-3 text-sm" })}>
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
               <Mail size={16} />
             </span>
@@ -64,27 +61,26 @@ export default async function ContactPage() {
               </a>
             </span>
           </div>
-        </div>
+        </PageHeading>
 
-        <div className="relative mx-auto w-full max-w-md">
-          <div className="absolute inset-0 rounded-full bg-primary/10 blur-3xl" />
+        <div className="mx-auto w-full max-w-md">
           <Image
             src="/contact-illustration.png"
             alt="An open envelope with a letter, next to a UK flag, Big Ben, and a potted plant"
             width={733}
             height={613}
-            className="relative h-auto w-full"
+            className="h-auto w-full"
           />
         </div>
       </div>
 
       {/* Form */}
-      <div className="mt-12 rounded-2xl border border-card-border bg-card p-8 shadow-sm">
+      <div className={cardClass({ padding: "lg", className: "mt-12 rounded-panel" })}>
         <ContactForm defaultName={session?.user?.name ?? ""} defaultEmail={session?.user?.email ?? ""} />
       </div>
 
       {/* Need immediate help */}
-      <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:flex-row">
+      <div className="mt-8 flex flex-col items-center justify-between gap-4 rounded-panel border border-primary/20 bg-primary/5 p-6 sm:flex-row">
         <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
             <Headset size={20} />
@@ -96,10 +92,7 @@ export default async function ContactPage() {
             </p>
           </div>
         </div>
-        <Link
-          href="/faq"
-          className="flex shrink-0 items-center gap-2 rounded-lg border border-card-border bg-card px-5 py-2.5 text-sm font-medium hover:bg-muted"
-        >
+        <Link href="/faq" className={buttonClass("secondary", "md", "shrink-0")}>
           View FAQ
           <ArrowRight size={16} />
         </Link>

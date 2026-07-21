@@ -22,6 +22,7 @@ import { submitAnswer, resetTestProgress, type TestProgressRow } from "@/lib/pro
 import { cn, sameIndexSet } from "@/lib/utils";
 import { renderInlineMarkdown } from "@/lib/inline-markdown";
 import { AppContainer } from "@/components/app-container";
+import { buttonClass, cardClass } from "@/lib/ui";
 
 const OPTION_LABELS = ["A", "B", "C", "D"];
 
@@ -211,10 +212,7 @@ export function TestTakingClient({
         onJump={setCurrentIndex}
       />
 
-      <div
-        ref={questionCardRef}
-        className="mt-6 scroll-mt-24 rounded-2xl border border-card-border bg-card p-6 shadow-sm sm:p-10"
-      >
+      <div ref={questionCardRef} className={cardClass({ padding: "lg", className: "mt-6 scroll-mt-24 rounded-panel sm:p-10" })}>
         {showResults ? (
           <ResultsPanel score={score} total={test.questions.length} onRetake={resetTest} />
         ) : (
@@ -233,8 +231,7 @@ export function TestTakingClient({
                   ? answeredIndexes!.includes(idx)
                   : pendingPicks.includes(idx);
 
-                let rowClasses =
-                  "border-card-border bg-card hover:-translate-y-0.5 hover:border-primary hover:shadow-md cursor-pointer";
+                let rowClasses = "border-card-border bg-card hover:border-primary cursor-pointer";
                 let badgeClasses = "bg-muted text-muted-foreground";
                 let icon: React.ReactNode = null;
 
@@ -261,7 +258,7 @@ export function TestTakingClient({
                     onClick={() => toggleOption(idx)}
                     disabled={isAnswered || isPending}
                     className={cn(
-                      "flex w-full items-center gap-4 rounded-xl border px-5 py-4 text-left text-base transition-all duration-150 disabled:cursor-default",
+                      "flex w-full items-center gap-4 rounded-card border px-5 py-4 text-left text-base transition-colors disabled:cursor-default",
                       rowClasses
                     )}
                   >
@@ -285,7 +282,7 @@ export function TestTakingClient({
                 <button
                   onClick={submitPendingPicks}
                   disabled={pendingPicks.length !== requiredPicks || isPending}
-                  className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md disabled:cursor-default disabled:opacity-50"
+                  className={buttonClass("primary", "lg")}
                 >
                   Submit answer
                 </button>
@@ -309,8 +306,8 @@ export function TestTakingClient({
                 key={`quick-${currentIndex}`}
                 icon={Sparkles}
                 title="Quick Memory Rule"
-                accentClass="text-violet-600 dark:text-violet-400"
-                containerClass="mt-4 border-violet-500/20 bg-violet-500/5"
+                accentClass="text-primary"
+                containerClass="mt-4 border-primary/20 bg-primary/5"
               >
                 <QuickMemoryRuleContent text={question.quickMemoryRule} />
               </CollapsibleTip>
@@ -332,7 +329,7 @@ export function TestTakingClient({
               <button
                 onClick={goPrevious}
                 disabled={currentIndex === 0}
-                className="flex cursor-pointer items-center gap-2 rounded-xl border border-card-border px-6 py-3 font-medium text-foreground/80 transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
+                className={buttonClass("secondary", "lg")}
               >
                 <ArrowLeft size={16} />
                 Previous
@@ -347,24 +344,18 @@ export function TestTakingClient({
                       );
                       if (firstUnanswered !== -1) setCurrentIndex(firstUnanswered);
                     }}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
+                    className={buttonClass("primary", "lg")}
                   >
                     Answer remaining questions
                     <ArrowRight size={16} />
                   </button>
                 ) : isLastQuestion && allAnswered ? (
-                  <button
-                    onClick={() => setWantsResults(true)}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
-                  >
+                  <button onClick={() => setWantsResults(true)} className={buttonClass("primary", "lg")}>
                     See Results
                     <ArrowRight size={16} />
                   </button>
                 ) : !isLastQuestion ? (
-                  <button
-                    onClick={goNext}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-6 py-3 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
-                  >
+                  <button onClick={goNext} className={buttonClass("primary", "lg")}>
                     Next
                     <ArrowRight size={16} />
                   </button>
@@ -384,7 +375,7 @@ export function TestTakingClient({
 
 function WhatYouLearnedPanel({ facts }: { facts: string[] }) {
   return (
-    <div className="mt-6 rounded-2xl border border-primary/20 bg-primary/5 p-6 shadow-sm sm:p-8">
+    <div className="mt-6 rounded-panel border border-primary/20 bg-primary/5 p-6 sm:p-8">
       <div className="flex items-center gap-2 text-lg font-semibold text-primary">
         <Brain size={20} className="shrink-0" />
         What You Learned
@@ -433,16 +424,10 @@ function ResultsPanel({
         {passed ? "Pass - above the 75% threshold" : "Below pass mark - try again"}
       </p>
       <div className="mt-9 flex gap-3">
-        <button
-          onClick={onRetake}
-          className="cursor-pointer rounded-xl border border-card-border px-5 py-2.5 font-medium transition-colors hover:bg-muted"
-        >
+        <button onClick={onRetake} className={buttonClass("secondary", "md")}>
           Retake test
         </button>
-        <Link
-          href="/mock-tests"
-          className="rounded-xl bg-primary px-5 py-2.5 font-medium text-primary-foreground shadow-sm transition-all hover:opacity-90 hover:shadow-md"
-        >
+        <Link href="/mock-tests" className={buttonClass("primary", "md")}>
           Back to Mock Tests
         </Link>
       </div>
@@ -465,7 +450,7 @@ function CollapsibleTip({
 }) {
   const [expanded, setExpanded] = useState(true);
   return (
-    <div className={cn("rounded-xl border p-5", containerClass)}>
+    <div className={cn("rounded-card border p-5", containerClass)}>
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
@@ -545,7 +530,7 @@ function ProgressBarPanel({
   const wrongCount = answeredCount - correctCount;
 
   return (
-    <div className="rounded-2xl border border-card-border bg-card p-4 shadow-sm">
+    <div className={cardClass({ padding: "sm" })}>
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex flex-wrap gap-1.5">
           {Array.from({ length: total }, (_, i) => {

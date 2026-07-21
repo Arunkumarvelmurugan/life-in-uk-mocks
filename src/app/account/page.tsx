@@ -29,6 +29,8 @@ import { ProgressBar } from "@/components/progress-bar";
 import { CleanSearchParams } from "@/components/clean-search-params";
 import { isLaunchOfferActive, REGULAR_PRICE_LIFETIME_GBP, LAUNCH_PRICE_LIFETIME_GBP } from "@/lib/pricing";
 import { AppContainer } from "@/components/app-container";
+import { PageHeading } from "@/components/page-heading";
+import { buttonClass, cardClass } from "@/lib/ui";
 
 // Gated behind sign-in (src/proxy.ts) and disallowed in robots.txt - noindex
 // is a page-level belt-and-braces signal in case either of those is ever
@@ -107,11 +109,11 @@ export default async function AccountPage({
   const lifetimePurchase = payments.find((p) => p.plan === "lifetime");
 
   const planVisual = access.plan === "lifetime"
-    ? { banner: "bg-gradient-to-r from-primary to-violet-500", iconColor: "text-primary", Icon: Trophy }
+    ? { banner: "bg-primary", iconColor: "text-primary", Icon: Trophy }
     : isActivePremium
-      ? { banner: "bg-gradient-to-r from-primary to-violet-500", iconColor: "text-primary", Icon: Crown }
+      ? { banner: "bg-primary", iconColor: "text-primary", Icon: Crown }
       : isLapsedPremium
-        ? { banner: "bg-amber-600", iconColor: "text-amber-600", Icon: AlertTriangle }
+        ? { banner: "bg-warning", iconColor: "text-warning", Icon: AlertTriangle }
         : { banner: "bg-slate-600 dark:bg-slate-700", iconColor: "text-slate-600", Icon: ShieldCheck };
 
   const planLabel = isLapsedPremium ? "Premium (expired)" : PLAN_LABELS[access.plan];
@@ -132,11 +134,14 @@ export default async function AccountPage({
           to the viewport edge on wide screens would just be dead space. */}
       <div className="mx-auto max-w-3xl">
       <Breadcrumb items={[{ label: "My Account" }]} />
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">My Account</h1>
-      <p className="mt-2 mb-8 text-muted-foreground">Manage your profile, subscription and test progress.</p>
+      <div className="mb-8">
+        <PageHeading title="My Account">
+          <p>Manage your profile, subscription and test progress.</p>
+        </PageHeading>
+      </div>
 
       {portal_failed === "1" && (
-        <div className="mb-6 flex items-center gap-2 rounded-xl bg-warning-bg px-4 py-3 text-sm font-medium text-warning">
+        <div className="mb-6 flex items-center gap-2 rounded-card bg-warning-bg px-4 py-3 text-sm font-medium text-warning">
           <AlertTriangle size={16} className="shrink-0" />
           We couldn&apos;t open subscription management - please try again, or contact us if it
           keeps happening.
@@ -144,7 +149,7 @@ export default async function AccountPage({
       )}
 
       {/* Profile */}
-      <div className="mb-6 flex items-center justify-between gap-4 rounded-2xl border border-card-border bg-card p-6 shadow-sm">
+      <div className={cardClass({ className: "mb-6 flex items-center justify-between gap-4" })}>
         <div className="flex min-w-0 items-center gap-4">
           {session.user.image ? (
             // eslint-disable-next-line @next/next/no-img-element -- external Google avatar
@@ -167,7 +172,7 @@ export default async function AccountPage({
       </div>
 
       {/* Plan status */}
-      <div className="mb-6 overflow-hidden rounded-2xl border border-card-border shadow-sm">
+      <div className="mb-6 overflow-hidden rounded-panel border border-card-border">
         <div className={`flex flex-wrap items-center justify-between gap-4 p-6 sm:p-8 ${planVisual.banner}`}>
           <div className="flex items-center gap-4">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white">
@@ -182,7 +187,7 @@ export default async function AccountPage({
             <form action={createBillingPortalSession}>
               <button
                 type="submit"
-                className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+                className="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-btn bg-white/15 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/25"
               >
                 <Settings size={14} />
                 Manage subscription
@@ -192,7 +197,7 @@ export default async function AccountPage({
           {(access.plan === "free" || isLapsedPremium) && (
             <Link
               href="/#pricing"
-              className="shrink-0 rounded-lg bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/25"
+              className="shrink-0 rounded-btn bg-white/15 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/25"
             >
               See plans
             </Link>
@@ -266,7 +271,7 @@ export default async function AccountPage({
 
           <Link
             href="/mock-tests"
-            className="mt-5 flex items-center justify-between rounded-xl bg-muted px-4 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+            className="mt-5 flex items-center justify-between rounded-card bg-muted px-4 py-3 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
           >
             View Mock Tests &amp; progress
             <span>→</span>
@@ -275,7 +280,7 @@ export default async function AccountPage({
       </div>
 
       {/* Payment history */}
-      <div className="mb-6 rounded-2xl border border-card-border bg-card p-6 shadow-sm">
+      <div className={cardClass({ className: "mb-6" })}>
         <div className="mb-4 flex items-center gap-2">
           <Receipt size={18} className="text-primary" />
           <h2 className="font-semibold">Payment history</h2>
@@ -322,7 +327,7 @@ export default async function AccountPage({
                       {payment.stripeInvoiceId ? (
                         <Link
                           href={`/api/invoices/${payment.id}`}
-                          className="flex w-fit items-center gap-1.5 rounded-lg border border-card-border px-3 py-1.5 text-xs font-medium transition-colors hover:border-primary/40"
+                          className="flex w-fit items-center gap-1.5 rounded-btn border border-card-border px-3 py-1.5 text-xs font-medium transition-colors hover:border-primary/40"
                         >
                           <Download size={12} />
                           Download
@@ -342,10 +347,7 @@ export default async function AccountPage({
 
       {/* Sign out */}
       <form action={signOutAction}>
-        <button
-          type="submit"
-          className="flex cursor-pointer items-center gap-2 rounded-lg border border-card-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
-        >
+        <button type="submit" className={buttonClass("secondary", "sm")}>
           <LogOut size={16} />
           Sign out
         </button>

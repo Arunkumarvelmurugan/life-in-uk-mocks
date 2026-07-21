@@ -3,6 +3,7 @@
 import { useState, useActionState } from "react";
 import { Send, CheckCircle2, AlertCircle, User, Mail, Tag, MessageSquare } from "lucide-react";
 import { submitContactMessage, type ContactFormState } from "@/lib/contact-actions";
+import { buttonClass } from "@/lib/ui";
 
 const TOPICS = [
   { value: "general", label: "General question" },
@@ -15,7 +16,7 @@ const TOPICS = [
 const initialState: ContactFormState = { status: "idle" };
 
 const inputClasses =
-  "w-full rounded-lg border border-card-border bg-card py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary";
+  "w-full rounded-btn border border-card-border bg-card py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary";
 
 export function ContactForm({
   defaultName,
@@ -129,11 +130,7 @@ function ContactFormInner({
         </span>
       </label>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary to-violet-500 px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
-      >
+      <button type="submit" disabled={pending} className={buttonClass("primary", "lg")}>
         <Send size={16} />
         {pending ? "Sending..." : "Send message"}
       </button>

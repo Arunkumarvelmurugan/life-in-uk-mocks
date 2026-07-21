@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketingContainer } from "@/components/marketing-container";
+import { PageHeading } from "@/components/page-heading";
 
 type FAQItem = {
   question: string;
@@ -321,12 +322,9 @@ export default function FAQPage() {
       {/* Long-form Q&A content, so it keeps a narrower prose width even
           inside the wider marketing container. */}
       <div className="mx-auto max-w-3xl">
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-        Frequently Asked Questions
-      </h1>
-      <p className="mt-2 text-muted-foreground">
-        Answers to common questions about Life in UK Mocks.
-      </p>
+      <PageHeading title="Frequently Asked Questions">
+        <p>Answers to common questions about Life in UK Mocks.</p>
+      </PageHeading>
 
       <div className="mt-10 flex flex-col gap-10">
         {categories.map((category) => (
@@ -336,7 +334,7 @@ export default function FAQPage() {
               {category.items.map((item) => (
                 <details
                   key={item.question}
-                  className="group rounded-xl border border-card-border bg-card p-4 open:pb-4"
+                  className="group rounded-card border border-card-border bg-card p-4 open:pb-4"
                 >
                   <summary className="cursor-pointer list-none font-medium marker:content-none">
                     <span className="flex items-center justify-between gap-3">

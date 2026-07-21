@@ -1,4 +1,5 @@
 import { MarketingContainer } from "@/components/marketing-container";
+import { PageHeading } from "@/components/page-heading";
 
 type Block = { type: "p"; text: string } | { type: "ul"; items: string[] };
 type Section = { heading: string; blocks: Block[] };
@@ -146,9 +147,10 @@ export default function PrivacyPolicyPage() {
       {/* Long-form legal text, so it keeps a narrower prose width even
           inside the wider marketing container. */}
       <div className="mx-auto max-w-3xl">
-      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Privacy Policy</h1>
-      <p className="mt-2 text-muted-foreground">Life in UK Mocks</p>
-      <p className="mt-1 text-sm text-muted-foreground">Last updated: 15 July 2026</p>
+      <PageHeading title="Privacy Policy">
+        <p>Life in UK Mocks</p>
+        <p className="mt-1 text-sm">Last updated: 15 July 2026</p>
+      </PageHeading>
 
       <div className="mt-10 flex flex-col gap-10">
         {sections.map((section) => (
